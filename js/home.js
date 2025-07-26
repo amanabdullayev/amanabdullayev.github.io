@@ -5,8 +5,8 @@ class HomePage {
     }
 
     async init() {
-        // Load intro text
-        this.loadIntroText();
+        // Load about content (moved from about page)
+        await this.loadAboutContent();
         
         // Load stats/what I'm working on
         this.loadHomeStats();
@@ -15,13 +15,28 @@ class HomePage {
         await this.loadLatestPosts();
     }
 
-    // Load introduction text
-    loadIntroText() {
-        if (typeof CONFIG === 'undefined') return;
-        
+    // Load home intro content from Notion or config
+    async loadAboutContent() {
         const introText = document.getElementById('intro-text');
-        if (introText && CONFIG.personal.intro) {
-            introText.innerHTML = `<p>${CONFIG.personal.intro}</p>`;
+        if (!introText) return;
+        
+        try {
+            // Try to load from Notion if page ID is provided
+            if (notionAPI && CONFIG.notion && CONFIG.notion.aboutPageId) {
+                const content = await notionAPI.getPageContent(CONFIG.notion.aboutPageId);
+                if (content) {
+                    introText.innerHTML = content;
+                    return;
+                }
+            }
+            
+            // Fallback to config - use homeIntro for home page
+            if (typeof CONFIG !== 'undefined' && CONFIG.personal.homeIntro) {
+                introText.innerHTML = CONFIG.personal.homeIntro;
+            }
+        } catch (error) {
+            console.error('Error loading home intro content:', error);
+            // Keep the fallback content
         }
     }
 

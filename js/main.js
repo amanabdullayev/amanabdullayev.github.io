@@ -20,9 +20,6 @@ class Portfolio {
         // Load blog posts from Notion
         await this.loadBlogPosts();
         
-        // Load about content
-        await this.loadAboutContent();
-        
         // Initialize navigation
         this.initNavigation();
         
@@ -37,21 +34,28 @@ class Portfolio {
         const { personal } = CONFIG;
         
         // Update hero section
-        document.getElementById('hero-title').textContent = `Welcome to My Digital Space`;
-        document.getElementById('hero-description').textContent = personal.description;
+        const heroTitle = document.getElementById('hero-title');
+        if (heroTitle) {
+            heroTitle.textContent = `Welcome to My Digital Space`;
+        }
         
         // Update footer
-        document.getElementById('footer-name').textContent = personal.name;
+        const footerName = document.getElementById('footer-name');
+        if (footerName) {
+            footerName.textContent = personal.name;
+        }
         
         // Update page title
         document.title = `${personal.name} - Portfolio & Blog`;
         
         // Update logo text only (preserve the image)
         const logoElement = document.querySelector('.logo');
-        const logoImage = logoElement.querySelector('.logo-image');
-        logoElement.innerHTML = '';
-        if (logoImage) logoElement.appendChild(logoImage);
-        logoElement.appendChild(document.createTextNode("Aman's Space"));
+        if (logoElement) {
+            const logoImage = logoElement.querySelector('.logo-image');
+            logoElement.innerHTML = '';
+            if (logoImage) logoElement.appendChild(logoImage);
+            logoElement.appendChild(document.createTextNode("Aman's Space"));
+        }
     }
 
     // Load page-specific content (titles, descriptions)
@@ -201,30 +205,6 @@ class Portfolio {
         postsGrid.parentNode.insertBefore(infoMessage, postsGrid);
     }
 
-    // Load about content from Notion or config
-    async loadAboutContent() {
-        const aboutContent = document.getElementById('about-content');
-        
-        try {
-            // Try to load from Notion if page ID is provided
-            if (notionAPI && CONFIG.notion.aboutPageId) {
-                const content = await notionAPI.getPageContent(CONFIG.notion.aboutPageId);
-                if (content) {
-                    aboutContent.innerHTML = content;
-                    return;
-                }
-            }
-            
-            // Fallback to config
-            if (typeof CONFIG !== 'undefined' && CONFIG.personal.aboutMe) {
-                aboutContent.innerHTML = CONFIG.personal.aboutMe;
-            }
-        } catch (error) {
-            console.error('Error loading about content:', error);
-            // Keep the fallback content
-        }
-    }
-
     // Initialize smooth scrolling navigation
     initNavigation() {
         // Smooth scrolling for navigation links
@@ -263,7 +243,7 @@ class Portfolio {
         });
     }
 
-    // Initialize scroll animations
+    // Initialize scroll animations (for general use, page-specific animations are handled separately)
     initAnimations() {
         const observerOptions = {
             threshold: 0.1,
@@ -279,8 +259,9 @@ class Portfolio {
             });
         }, observerOptions);
 
-        // Observe elements that should animate on scroll
-        document.querySelectorAll('.about-content, .contact-links').forEach(el => {
+        // Observe elements that should animate on scroll (only contact-links for now)
+        // Other page-specific animations are handled by their respective page scripts
+        document.querySelectorAll('.contact-links').forEach(el => {
             observer.observe(el);
         });
     }

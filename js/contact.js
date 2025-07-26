@@ -8,12 +8,6 @@ class ContactPage {
         // Load contact information
         this.loadContactInfo();
         
-        // Load contact details
-        this.loadContactDetails();
-        
-        // Load FAQ
-        this.loadFAQ();
-        
         // Initialize contact form
         this.initContactForm();
         
@@ -43,46 +37,6 @@ class ContactPage {
         });
     }
 
-    // Load contact details
-    loadContactDetails() {
-        if (typeof CONFIG === 'undefined' || !CONFIG.contactDetails) return;
-        
-        const { contactDetails } = CONFIG;
-        
-        // Location
-        const locationText = document.getElementById('location-text');
-        if (locationText && contactDetails.location) {
-            locationText.textContent = contactDetails.location;
-        }
-        
-        // Availability
-        const availabilityText = document.getElementById('availability-text');
-        if (availabilityText && contactDetails.availability) {
-            availabilityText.textContent = contactDetails.availability;
-        }
-        
-        // Response time
-        const responseText = document.getElementById('response-text');
-        if (responseText && contactDetails.responseTime) {
-            responseText.textContent = contactDetails.responseTime;
-        }
-    }
-
-    // Load FAQ section
-    loadFAQ() {
-        if (typeof CONFIG === 'undefined' || !CONFIG.faq) return;
-        
-        const faqList = document.getElementById('faq-list');
-        if (!faqList) return;
-        
-        faqList.innerHTML = CONFIG.faq.map(item => `
-            <div class="faq-item">
-                <div class="faq-question">${item.question}</div>
-                <div class="faq-answer">${item.answer}</div>
-            </div>
-        `).join('');
-    }
-
     // Initialize contact form
     initContactForm() {
         const form = document.getElementById('contact-form');
@@ -102,12 +56,6 @@ class ContactPage {
             try {
                 // Get form data
                 const formData = new FormData(form);
-                const data = {
-                    name: formData.get('name'),
-                    email: formData.get('email'),
-                    subject: formData.get('subject'),
-                    message: formData.get('message')
-                };
                 
                 // If contact form is disabled in config, show message
                 if (!CONFIG.settings.enableContactForm) {
@@ -121,13 +69,13 @@ class ContactPage {
                     return;
                 }
                 
-                // Submit to form service (e.g., Formspree, Netlify Forms, etc.)
+                // Submit to Formspree
                 const response = await fetch(CONFIG.settings.contactFormAction, {
                     method: 'POST',
+                    body: formData,
                     headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
+                        'Accept': 'application/json'
+                    }
                 });
                 
                 if (response.ok) {
@@ -229,7 +177,7 @@ class ContactPage {
 
         // Observe elements that should animate on scroll
         document.querySelectorAll(
-            '.contact-form, .contact-methods, .contact-detail, .faq-section, .cta-card'
+            '.contact-form, .contact-methods, .cta-card'
         ).forEach(el => {
             observer.observe(el);
         });

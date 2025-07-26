@@ -56,7 +56,6 @@ class AboutPage {
             <div class="skill-card">
                 <div class="skill-icon">${skill.icon}</div>
                 <h3 class="skill-name">${skill.name}</h3>
-                <p class="skill-level">${skill.level}</p>
             </div>
         `).join('');
     }
