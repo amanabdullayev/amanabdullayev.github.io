@@ -1,17 +1,18 @@
 // Configuration file for your portfolio/blog
 const CONFIG = {
     // Personal Information
-    personal: {
-        name: "Aman Myrat Abdullayev",
-        title: "Applied Scientist",
-        description: "I'm a [Your Profession] passionate about [Your Interests]. Here you'll find my thoughts, projects, and insights on [Your Topics].",
-        intro: "Brief introduction about what you do and your expertise. This appears on the home page to give visitors a quick overview of your work and interests.",
-        aboutMe: `
-            <p><strong>Replace this with your personal story.</strong> Write about your background, what drives you, and what makes you unique. This is your chance to connect with visitors on a personal level.</p>
-            <p>Talk about your professional journey, your interests, and what you hope to achieve through your blog and work. Be authentic and let your personality shine through.</p>
-            <p>You can also mention your current projects, goals, or what readers can expect to find on your site. Make it engaging and memorable.</p>
-        `
-    },
+personal: {
+    name: "Aman Abdullayev",
+    title: "Applied Scientist",
+    description: "I'm an Applied Scientist passionate about marketing analytics, machine learning, and mentoring young minds. Here you'll find my thoughts, projects, and insights on data science and personal growth.",
+    intro: "Applied Scientist working at the intersection of machine learning and marketing analytics. I enjoy building models that solve real-world problems and mentoring the next generation.",
+    aboutMe: `
+        <p><strong>I’m Aman, a data scientist and researcher based in Berlin.</strong> With a background spanning environmental science and machine learning, I love turning complex data into actionable insights—especially in the marketing world.</p>
+        <p>I currently work as an Applied Scientist at Zalando, focusing on performance marketing measurement and steering. My past roles include building attribution models, geo-experiments, and customer value predictions.</p>
+        <p>This site is where I share my work, ideas, and reflections on both data and life.</p>
+    `
+},
+
 
     // Home Page Stats/What I'm Working On
     homeStats: [
@@ -155,18 +156,6 @@ const CONFIG = {
 
     // FAQ for Contact Page
     faq: [
-        {
-            question: "What services do you offer?",
-            answer: "I specialize in web development, focusing on React/Next.js frontend development and Python backend services."
-        },
-        {
-            question: "What's your typical project timeline?",
-            answer: "Project timelines vary depending on scope, but most projects range from 2-8 weeks from start to completion."
-        },
-        {
-            question: "Do you work with international clients?",
-            answer: "Yes, I work with clients worldwide and am comfortable with remote collaboration across different time zones."
-        },
         {
             question: "What's your preferred way of communication?",
             answer: "I prefer email for initial contact, then we can move to video calls or other platforms as needed for the project."
