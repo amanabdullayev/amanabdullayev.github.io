@@ -174,4 +174,186 @@ class BlogPage {
     // Render posts for current page
     renderPosts() {
         const postsGrid = document.getElementById('posts-grid');
-        if (!
+        if (!postsGrid) return;
+        
+        // Calculate posts for current page
+        const startIndex = (this.currentPage - 1) * this.postsPerPage;
+        const endIndex = startIndex + this.postsPerPage;
+        const postsToShow = this.filteredPosts.slice(startIndex, endIndex);
+        
+        // Render posts
+        postsGrid.innerHTML = postsToShow.map(post => this.createPostCard(post)).join('');
+        
+        // Add animation classes with stagger
+        document.querySelectorAll('.post-card').forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('fade-in');
+            }, index * 100);
+        });
+    }
+
+    // Create HTML for a blog post card
+    createPostCard(post) {
+        const formattedDate = notionAPI ? notionAPI.formatDate(post.date) : post.date;
+        const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+        
+        return `
+            <article class="post-card">
+                <h3 class="post-title">
+                    <a href="${post.url}" target="_blank">${post.title}</a>
+                </h3>
+                <p class="post-excerpt">${post.excerpt}</p>
+                <div class="post-meta">
+                    <span class="post-date">${formattedDate}</span>
+                    <div class="post-tags">${tagsHtml}</div>
+                </div>
+            </article>
+        `;
+    }
+
+    // Setup pagination
+    setupPagination() {
+        const pagination = document.getElementById('pagination');
+        if (!pagination) return;
+        
+        const totalPages = Math.ceil(this.filteredPosts.length / this.postsPerPage);
+        
+        if (totalPages <= 1) {
+            pagination.innerHTML = '';
+            return;
+        }
+        
+        let paginationHTML = '';
+        
+        // Previous button
+        paginationHTML += `
+            <button class="pagination-btn" data-page="prev" ${this.currentPage === 1 ? 'disabled' : ''}>
+                ← Previous
+            </button>
+        `;
+        
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= this.currentPage - 2 && i <= this.currentPage + 2)) {
+                paginationHTML += `
+                    <button class="pagination-btn ${i === this.currentPage ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </button>
+                `;
+            } else if (i === this.currentPage - 3 || i === this.currentPage + 3) {
+                paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+            }
+        }
+        
+        // Next button
+        paginationHTML += `
+            <button class="pagination-btn" data-page="next" ${this.currentPage === totalPages ? 'disabled' : ''}>
+                Next →
+            </button>
+        `;
+        
+        pagination.innerHTML = paginationHTML;
+    }
+
+    // Initialize pagination event listeners
+    initPagination() {
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('pagination-btn') && !e.target.disabled) {
+                const page = e.target.dataset.page;
+                
+                if (page === 'prev') {
+                    this.currentPage = Math.max(1, this.currentPage - 1);
+                } else if (page === 'next') {
+                    const totalPages = Math.ceil(this.filteredPosts.length / this.postsPerPage);
+                    this.currentPage = Math.min(totalPages, this.currentPage + 1);
+                } else {
+                    this.currentPage = parseInt(page);
+                }
+                
+                this.renderPosts();
+                this.setupPagination();
+                
+                // Scroll to top of posts
+                document.getElementById('posts-grid').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }
+        });
+    }
+
+    // Show fallback posts when Notion API is not configured
+    showFallbackPosts() {
+        const loadingElement = document.getElementById('loading-posts');
+        const postsContainer = document.getElementById('posts-container');
+        
+        loadingElement.style.display = 'none';
+        postsContainer.style.display = 'block';
+        
+        const fallbackPosts = [
+            {
+                title: "Getting Started with Your Blog",
+                excerpt: "Configure your Notion database and API token to start displaying your blog posts automatically. This comprehensive guide will walk you through the entire setup process.",
+                date: "Dec 15, 2024",
+                tags: ["Setup", "Tutorial", "Notion"],
+                url: "#"
+            },
+            {
+                title: "Customizing Your Portfolio Design",
+                excerpt: "Learn how to customize the design, colors, and content of your portfolio to match your personal brand and style preferences. Make it truly yours.",
+                date: "Dec 10, 2024",
+                tags: ["Customization", "Design", "CSS"],
+                url: "#"
+            },
+            {
+                title: "Building with Notion API",
+                excerpt: "Discover how to integrate Notion as a content management system for your website. Perfect for bloggers and content creators.",
+                date: "Dec 5, 2024",
+                tags: ["API", "Integration", "Notion"],
+                url: "#"
+            },
+            {
+                title: "Modern Web Development Trends",
+                excerpt: "Exploring the latest trends and technologies in web development for 2024. Stay ahead of the curve with these insights.",
+                date: "Dec 1, 2024",
+                tags: ["Web Dev", "Trends", "Technology"],
+                url: "#"
+            },
+            {
+                title: "Responsive Design Best Practices",
+                excerpt: "Master the art of creating websites that look great on all devices. Learn the principles of mobile-first design.",
+                date: "Nov 28, 2024",
+                tags: ["Design", "Mobile", "Responsive"],
+                url: "#"
+            },
+            {
+                title: "JavaScript Performance Optimization",
+                excerpt: "Tips and techniques for writing faster, more efficient JavaScript code. Improve your website's performance.",
+                date: "Nov 25, 2024",
+                tags: ["JavaScript", "Performance", "Optimization"],
+                url: "#"
+            }
+        ];
+        
+        this.allPosts = fallbackPosts;
+        this.filteredPosts = fallbackPosts;
+        
+        // Generate tag filters for fallback posts
+        this.generateTagFilters();
+        
+        // Render posts
+        this.renderPosts();
+        this.setupPagination();
+        
+        // Add info message
+        const infoMessage = document.createElement('div');
+        infoMessage.className = 'error';
+        infoMessage.innerHTML = 'Configure your Notion API in <code>js/config.js</code> to display your actual blog posts.';
+        document.getElementById('posts-grid').parentNode.insertBefore(infoMessage, document.getElementById('posts-grid'));
+    }
+}
+
+// Initialize blog page when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new BlogPage();
+});
