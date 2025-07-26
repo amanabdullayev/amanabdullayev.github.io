@@ -32,13 +32,15 @@
             <nav>
                 <a href="index.html" class="logo">
                     <img src="images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman Abdullayev
+                    Aman's Space
                 </a>
                 <div class="nav-buttons">
-                    <a href="index.html" class="nav-btn">Home</a>
                     <a href="about.html" class="nav-btn active">About</a>
                     <a href="blog.html" class="nav-btn">Blog</a>
                     <a href="contact.html" class="nav-btn">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
                 </div>
             </nav>
         </div>
@@ -46,8 +48,8 @@
 
     <section class="page-hero">
         <div class="container">
-            <h1>About Me</h1>
-            <p>Get to know the person behind the work</p>
+            <h1 id="page-title">About Me</h1>
+            <p id="page-description">Get to know the person behind the work</p>
         </div>
     </section>
 
@@ -98,9 +100,12 @@
                     <p>&copy; 2024 <span id="footer-name">Aman Abdullayev</span>. All rights reserved.</p>
                 </div>
                 <div class="footer-links">
-                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
                     <a href="blog.html">Blog</a>
                     <a href="contact.html">Contact</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
                 </div>
             </div>
         </div>

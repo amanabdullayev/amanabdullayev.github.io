@@ -13,6 +13,22 @@ personal: {
     `
 },
 
+    // Page Metadata
+    pages: {
+        about: {
+            title: "About Me",
+            description: "Get to know the person behind the work"
+        },
+        blog: {
+            title: "Blog",
+            description: "Thoughts, insights, and stories from my journey"
+        },
+        contact: {
+            title: "Get In Touch",
+            description: "Let's start a conversation about your next project"
+        }
+    },
+
 
     // Home Page Stats/What I'm Working On
     homeStats: [
