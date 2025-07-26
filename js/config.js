@@ -175,7 +175,7 @@ personal: {
         // - Tags (Multi-select)
         // - Excerpt (Text)
         // - Content (Rich text)
-        databaseId: "Aman-s-Blog-52279fabee264ed7b5fa1681f9c7a1a9",
+        databaseId: "23c96d11fb0380cabc5fd4210c8075e5",
         
         // Page ID for your About page (optional)
         aboutPageId: "About-Me-d9bc4468ddb24c198df8c636ae5e22a0"
