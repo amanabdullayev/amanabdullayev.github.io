@@ -133,7 +133,7 @@ personal: {
         {
             name: "LinkedIn",
             icon: "💼",
-            url: "linkedin.com/in/amanmyrat-abdullayev"
+            url: "https://linkedin.com/in/amanmyrat-abdullayev"
         },
         // {
         //     name: "Twitter",
