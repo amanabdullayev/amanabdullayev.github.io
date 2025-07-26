@@ -5,8 +5,6 @@ class Portfolio {
     }
 
     async init() {
-        console.log('Portfolio: Initializing...');
-        
         // Initialize theme FIRST with a simple approach
         this.initSimpleTheme();
         
@@ -30,8 +28,6 @@ class Portfolio {
         
         // Initialize animations
         this.initAnimations();
-        
-        console.log('Portfolio: Initialization completed');
     }
 
     // Load personal information from config
@@ -291,11 +287,8 @@ class Portfolio {
 
     // Initialize theme with a simple, direct approach
     initSimpleTheme() {
-        console.log('=== initSimpleTheme() called ===');
-        
         // Set initial theme from localStorage
         const savedTheme = localStorage.getItem('theme') || 'light';
-        console.log('Setting initial theme to:', savedTheme);
         
         document.documentElement.setAttribute('data-theme', savedTheme);
         this.updateThemeIcons(savedTheme);
@@ -308,14 +301,9 @@ class Portfolio {
     }
     
     setupSimpleThemeListeners() {
-        console.log('Setting up simple theme listeners...');
-        
         const buttons = document.querySelectorAll('#theme-toggle, #footer-theme-toggle');
-        console.log('Found theme buttons:', buttons.length);
         
         buttons.forEach((button, index) => {
-            console.log(`Setting up listener for button ${index}:`, button.id);
-            
             // Remove existing listeners by cloning
             const newButton = button.cloneNode(true);
             button.parentNode.replaceChild(newButton, button);
@@ -323,21 +311,14 @@ class Portfolio {
             // Add the click listener
             newButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                console.log(`Simple theme button ${index} clicked!`);
                 this.simpleToggleTheme();
             });
         });
-        
-        console.log('Simple theme listeners setup completed');
     }
     
     simpleToggleTheme() {
-        console.log('=== simpleToggleTheme() called ===');
-        
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        console.log(`Switching theme from ${currentTheme} to ${newTheme}`);
         
         // Update DOM and localStorage
         document.documentElement.setAttribute('data-theme', newTheme);
@@ -348,15 +329,11 @@ class Portfolio {
         
         // Update manifest theme color
         this.updateManifestThemeColor(newTheme);
-        
-        console.log('Theme toggle completed');
     }
     
     updateThemeIcons(theme) {
         const themeIcons = document.querySelectorAll('.theme-icon');
         const icon = theme === 'light' ? '☀️' : '🌙';
-        
-        console.log(`Updating ${themeIcons.length} theme icons to: ${icon}`);
         
         themeIcons.forEach(iconElement => {
             iconElement.textContent = icon;
@@ -365,14 +342,11 @@ class Portfolio {
 
     // Toggle between light and dark themes (kept for backward compatibility)
     toggleTheme() {
-        console.log('toggleTheme() called - delegating to simpleToggleTheme()');
         this.simpleToggleTheme();
     }
 
     // Set theme and update UI (kept for backward compatibility)
     setTheme(theme) {
-        console.log('setTheme() called with:', theme);
-        
         // Set theme attribute on document
         document.documentElement.setAttribute('data-theme', theme);
         
@@ -442,105 +416,4 @@ const Utils = {
             timeout = setTimeout(later, wait);
         };
     }
-};
-
-// Add a global test function for theme switching
-window.testThemeToggle = function() {
-    console.log('=== Manual theme toggle test ===');
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    console.log('Switching from', currentTheme, 'to', newTheme);
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    // Update theme toggle button icons
-    const themeIcons = document.querySelectorAll('.theme-icon');
-    const icon = newTheme === 'light' ? '☀️' : '🌙';
-    
-    themeIcons.forEach(iconElement => {
-        iconElement.textContent = icon;
-    });
-    
-    console.log('Theme switched to:', newTheme);
-    console.log('Updated', themeIcons.length, 'theme icons');
-};
-
-// Add a global function to test Portfolio methods
-window.testPortfolioTheme = function() {
-    console.log('=== Testing Portfolio theme methods ===');
-    if (window.portfolio && typeof window.portfolio.toggleTheme === 'function') {
-        console.log('Calling portfolio.toggleTheme()...');
-        window.portfolio.toggleTheme();
-    } else {
-        console.log('Portfolio instance or toggleTheme method not available');
-        console.log('Window portfolio:', window.portfolio);
-    }
-};
-
-// Add function to debug button click events
-window.debugThemeButtons = function() {
-    console.log('=== Debugging theme buttons ===');
-    const buttons = document.querySelectorAll('#theme-toggle, #footer-theme-toggle');
-    console.log('Found buttons:', buttons.length);
-    
-    buttons.forEach((button, index) => {
-        console.log(`Button ${index}:`, button);
-        console.log(`  - ID: ${button.id}`);
-        console.log(`  - Classes: ${button.className}`);
-        console.log(`  - Parent: ${button.parentElement.tagName}`);
-        console.log(`  - Disabled: ${button.disabled}`);
-        console.log(`  - Style display: ${getComputedStyle(button).display}`);
-        console.log(`  - Style visibility: ${getComputedStyle(button).visibility}`);
-        
-        // Try to manually click it
-        button.addEventListener('click', () => {
-            console.log(`Manual test click on button ${index} detected!`);
-        }, { once: true });
-        
-        console.log(`  - Test click listener added`);
-    });
-    
-    // Test if we can trigger theme toggle directly
-    if (window.portfolio && typeof window.portfolio.simpleToggleTheme === 'function') {
-        console.log('Portfolio.simpleToggleTheme is available');
-        window.portfolio.simpleToggleTheme();
-    } else {
-        console.log('Portfolio.simpleToggleTheme is NOT available');
-    }
-};
-
-// Add a simple test to verify theme switching works
-window.verifyThemeToggle = function() {
-    console.log('=== Verifying theme toggle functionality ===');
-    
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    console.log('Current theme:', currentTheme);
-    
-    // Get current colors
-    const styles = getComputedStyle(document.documentElement);
-    const currentBg = styles.getPropertyValue('--bg-primary').trim();
-    const currentText = styles.getPropertyValue('--text-primary').trim();
-    
-    console.log('Current colors:', { bg: currentBg, text: currentText });
-    
-    // Toggle theme manually
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    
-    // Check new colors
-    const newStyles = getComputedStyle(document.documentElement);
-    const newBg = newStyles.getPropertyValue('--bg-primary').trim();
-    const newText = newStyles.getPropertyValue('--text-primary').trim();
-    
-    console.log('New colors:', { bg: newBg, text: newText });
-    
-    // Check if colors actually changed
-    const colorsChanged = currentBg !== newBg || currentText !== newText;
-    console.log('Colors changed:', colorsChanged);
-    
-    // Switch back
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    
-    return colorsChanged;
 };
