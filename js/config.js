@@ -101,7 +101,7 @@ personal: {
     ],
 
     // Education for About Page
-    eeducation: [
+    education: [
     {
         degree: "Ph.D. in Materials Science",
         school: "TU Berlin, Germany",
@@ -120,8 +120,7 @@ personal: {
         year: "2009 - 2014",
         description: "Studied environmental systems, sustainability, and ecological research methods."
     }
-]
-,
+],
 
     // Contact Information
     contact: [
@@ -175,7 +174,7 @@ personal: {
         // - Tags (Multi-select)
         // - Excerpt (Text)
         // - Content (Rich text)
-        databaseId: "23c96d11fb0380cabc5fd4210c8075e5",
+        databaseId: "3a86829dbab84364bafd46390180b730",
         
         // Page ID for your About page (optional)
         aboutPageId: "About-Me-d9bc4468ddb24c198df8c636ae5e22a0"
