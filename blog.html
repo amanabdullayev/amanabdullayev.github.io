@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Your Name</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Your Name</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Blog</h1>
+            <p>Thoughts, insights, and stories from my journey</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- Search and Filter -->
+        <section class="blog-controls section">
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search posts..." />
+                    <button id="search-btn">🔍</button>
+                </div>
+                <div class="filter-tags">
+                    <button class="tag-filter active" data-tag="all">All</button>
+                    <div id="tag-filters">
+                        <!-- Tag filters will be generated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Posts -->
+        <section class="blog-posts section">
+            <div id="loading-posts" class="loading">Loading blog posts...</div>
+            <div id="posts-container" style="display: none;">
+                <div id="posts-grid" class="posts-grid">
+                    <!-- All blog posts will be loaded here -->
+                </div>
+                
+                <!-- Pagination -->
+                <div id="pagination" class="pagination">
+                    <!-- Pagination controls will be added here -->
+                </div>
+            </div>
+            
+            <div id="no-posts" class="no-posts" style="display: none;">
+                <h3>No posts found</h3>
+                <p>Try adjusting your search or filter criteria.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 <span id="footer-name">Your Name</span>. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/notion-api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/blog.js"></script>
+</body>
+</html>
