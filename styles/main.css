@@ -447,7 +447,10 @@
 
 .contact-info-section h2 {
     margin-bottom: 2rem;
-    color:* {
+    color: #1f2937;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -489,22 +492,35 @@ nav {
     text-decoration: none;
 }
 
-.nav-links {
+.nav-buttons {
     display: flex;
-    list-style: none;
-    gap: 2rem;
+    gap: 1rem;
+    margin-left: auto;
 }
 
-.nav-links a {
-    text-decoration: none;
+.nav-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
     color: #666;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
+.nav-btn:hover {
+    background: #f3f4f6;
     color: #2563eb;
+    border-color: #2563eb;
+}
+
+.nav-btn.active {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
 }
 
 /* Hero Section */
@@ -916,8 +932,13 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .nav-links {
-        gap: 1rem;
+    .nav-buttons {
+        gap: 0.5rem;
+    }
+
+    .nav-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
     }
 
     .hero h1 {
