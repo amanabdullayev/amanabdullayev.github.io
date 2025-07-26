@@ -10,56 +10,78 @@
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">Your Name</a>
+                <a href="index.html" class="logo">Your Name</a>
                 <ul class="nav-links">
-                    <li><a href="#home" class="active">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#blog">Blog</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section id="home" class="hero">
+    <section class="hero">
         <div class="container">
             <h1 id="hero-title">Welcome to My Digital Space</h1>
             <p id="hero-description">Loading...</p>
+            <div class="hero-cta">
+                <a href="about.html" class="btn btn-primary">Learn More About Me</a>
+                <a href="blog.html" class="btn btn-secondary">Read My Blog</a>
+            </div>
         </div>
     </section>
 
     <main class="container">
-        <section id="blog" class="section">
-            <h2 class="section-title">Latest Blog Posts</h2>
-            <div id="loading-posts" class="loading">Loading blog posts...</div>
+        <!-- Introduction Section -->
+        <section class="intro-section section">
+            <div class="intro-content">
+                <h2>What I Do</h2>
+                <div id="intro-text">
+                    <p>Loading introduction...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Blog Posts -->
+        <section class="latest-posts section">
+            <div class="section-header">
+                <h2 class="section-title">Latest Blog Posts</h2>
+                <a href="blog.html" class="view-all-link">View All Posts →</a>
+            </div>
+            <div id="loading-posts" class="loading">Loading latest posts...</div>
             <div id="posts-grid" class="posts-grid" style="display: none;">
-                <!-- Blog posts will be dynamically loaded here -->
+                <!-- Latest 4 blog posts will be loaded here -->
             </div>
         </section>
 
-        <section id="about" class="section">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content fade-in">
-                <div id="about-content">Loading...</div>
-            </div>
-        </section>
-
-        <section id="contact" class="section">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-links fade-in" id="contact-links">
-                <!-- Contact links will be loaded from config -->
+        <!-- Quick Stats or Skills Section -->
+        <section class="stats-section section">
+            <h2 class="section-title">What I'm Working On</h2>
+            <div class="stats-grid" id="stats-grid">
+                <!-- Stats will be loaded from config -->
             </div>
         </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 <span id="footer-name">Your Name</span>. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 <span id="footer-name">Your Name</span>. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="about.html">About</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script src="js/config.js"></script>
     <script src="js/notion-api.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
 </body>
 </html>
