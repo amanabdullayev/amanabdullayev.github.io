@@ -1,0 +1,284 @@
+// Main JavaScript file for portfolio functionality
+class Portfolio {
+    constructor() {
+        this.init();
+    }
+
+    async init() {
+        // Load personal information
+        this.loadPersonalInfo();
+        
+        // Load contact links
+        this.loadContactLinks();
+        
+        // Load blog posts from Notion
+        await this.loadBlogPosts();
+        
+        // Load about content
+        await this.loadAboutContent();
+        
+        // Initialize navigation
+        this.initNavigation();
+        
+        // Initialize animations
+        this.initAnimations();
+    }
+
+    // Load personal information from config
+    loadPersonalInfo() {
+        if (typeof CONFIG === 'undefined') return;
+        
+        const { personal } = CONFIG;
+        
+        // Update hero section
+        document.getElementById('hero-title').textContent = `Welcome to ${personal.name}'s Digital Space`;
+        document.getElementById('hero-description').textContent = personal.description;
+        
+        // Update footer
+        document.getElementById('footer-name').textContent = personal.name;
+        
+        // Update page title
+        document.title = `${personal.name} - Portfolio & Blog`;
+        
+        // Update logo
+        document.querySelector('.logo').textContent = personal.name;
+    }
+
+    // Load contact links from config
+    loadContactLinks() {
+        if (typeof CONFIG === 'undefined') return;
+        
+        const contactLinksContainer = document.getElementById('contact-links');
+        contactLinksContainer.innerHTML = '';
+        
+        CONFIG.contact.forEach(contact => {
+            const link = document.createElement('a');
+            link.href = contact.url;
+            link.className = 'contact-link';
+            link.target = contact.url.startsWith('mailto:') ? '_self' : '_blank';
+            link.innerHTML = `
+                <span>${contact.icon}</span>
+                <span>${contact.name}</span>
+            `;
+            contactLinksContainer.appendChild(link);
+        });
+    }
+
+    // Load blog posts from Notion API
+    async loadBlogPosts() {
+        const loadingElement = document.getElementById('loading-posts');
+        const postsGrid = document.getElementById('posts-grid');
+        
+        try {
+            if (!notionAPI) {
+                this.showFallbackPosts();
+                return;
+            }
+
+            const posts = await notionAPI.getBlogPosts();
+            
+            if (posts.length === 0) {
+                loadingElement.innerHTML = '<p class="error">No blog posts found. Make sure your Notion database is set up correctly.</p>';
+                return;
+            }
+
+            // Hide loading, show posts
+            loadingElement.style.display = 'none';
+            postsGrid.style.display = 'grid';
+            
+            // Render posts
+            postsGrid.innerHTML = posts.map(post => this.createPostCard(post)).join('');
+            
+            // Add animation classes
+            document.querySelectorAll('.post-card').forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('fade-in');
+                }, index * 100);
+            });
+
+        } catch (error) {
+            console.error('Error loading blog posts:', error);
+            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your Notion configuration.</p>';
+        }
+    }
+
+    // Create HTML for a blog post card
+    createPostCard(post) {
+        const formattedDate = notionAPI ? notionAPI.formatDate(post.date) : post.date;
+        const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+        
+        return `
+            <article class="post-card">
+                <h3 class="post-title">
+                    <a href="${post.url}" target="_blank">${post.title}</a>
+                </h3>
+                <p class="post-excerpt">${post.excerpt}</p>
+                <div class="post-meta">
+                    <span class="post-date">${formattedDate}</span>
+                    <div class="post-tags">${tagsHtml}</div>
+                </div>
+            </article>
+        `;
+    }
+
+    // Show fallback posts when Notion API is not configured
+    showFallbackPosts() {
+        const loadingElement = document.getElementById('loading-posts');
+        const postsGrid = document.getElementById('posts-grid');
+        
+        loadingElement.style.display = 'none';
+        postsGrid.style.display = 'grid';
+        
+        const fallbackPosts = [
+            {
+                title: "Getting Started with Your Blog",
+                excerpt: "Configure your Notion database and API token to start displaying your blog posts automatically. This post will guide you through the setup process.",
+                date: "Dec 15, 2024",
+                tags: ["Setup", "Tutorial"],
+                url: "#"
+            },
+            {
+                title: "Customizing Your Portfolio",
+                excerpt: "Learn how to customize the design, colors, and content of your portfolio to match your personal brand and style preferences.",
+                date: "Dec 10, 2024",
+                tags: ["Customization", "Design"],
+                url: "#"
+            }
+        ];
+        
+        postsGrid.innerHTML = fallbackPosts.map(post => this.createPostCard(post)).join('');
+        
+        // Add info message
+        const infoMessage = document.createElement('div');
+        infoMessage.className = 'error';
+        infoMessage.innerHTML = 'Configure your Notion API in <code>js/config.js</code> to display your actual blog posts.';
+        postsGrid.parentNode.insertBefore(infoMessage, postsGrid);
+    }
+
+    // Load about content from Notion or config
+    async loadAboutContent() {
+        const aboutContent = document.getElementById('about-content');
+        
+        try {
+            // Try to load from Notion if page ID is provided
+            if (notionAPI && CONFIG.notion.aboutPageId) {
+                const content = await notionAPI.getPageContent(CONFIG.notion.aboutPageId);
+                if (content) {
+                    aboutContent.innerHTML = content;
+                    return;
+                }
+            }
+            
+            // Fallback to config
+            if (typeof CONFIG !== 'undefined' && CONFIG.personal.aboutMe) {
+                aboutContent.innerHTML = CONFIG.personal.aboutMe;
+            }
+        } catch (error) {
+            console.error('Error loading about content:', error);
+            // Keep the fallback content
+        }
+    }
+
+    // Initialize smooth scrolling navigation
+    initNavigation() {
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active navigation link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // Initialize scroll animations
+    initAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.1s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements that should animate on scroll
+        document.querySelectorAll('.about-content, .contact-links').forEach(el => {
+            observer.observe(el);
+        });
+    }
+}
+
+// Initialize portfolio when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new Portfolio();
+});
+
+// Handle errors gracefully
+window.addEventListener('error', (e) => {
+    console.error('Portfolio error:', e.error);
+});
+
+// Add some utility functions
+const Utils = {
+    // Format date consistently
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    },
+
+    // Sanitize HTML to prevent XSS
+    sanitizeHTML(html) {
+        const temp = document.createElement('div');
+        temp.textContent = html;
+        return temp.innerHTML;
+    },
+
+    // Debounce function for performance
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+};
