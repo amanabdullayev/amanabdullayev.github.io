@@ -2,8 +2,8 @@
 const CONFIG = {
     // Personal Information
     personal: {
-        name: "Your Name",
-        title: "Your Professional Title",
+        name: "Aman Myrat Abdullayev",
+        title: "Applied Scientist",
         description: "I'm a [Your Profession] passionate about [Your Interests]. Here you'll find my thoughts, projects, and insights on [Your Topics].",
         intro: "Brief introduction about what you do and your expertise. This appears on the home page to give visitors a quick overview of your work and interests.",
         aboutMe: `
@@ -109,28 +109,28 @@ const CONFIG = {
         {
             name: "Email",
             icon: "📧",
-            url: "mailto:your.email@example.com"
+            url: "mailto:amanmyrat.abdullayev@gmail.com"
         },
         {
             name: "LinkedIn",
             icon: "💼",
-            url: "https://linkedin.com/in/yourprofile"
+            url: "linkedin.com/in/amanmyrat-abdullayev"
         },
-        {
-            name: "Twitter",
-            icon: "🐦",
-            url: "https://twitter.com/yourhandle"
-        },
+        // {
+        //     name: "Twitter",
+        //     icon: "🐦",
+        //     url: "https://twitter.com/yourhandle"
+        // },
         {
             name: "GitHub",
             icon: "🔗",
-            url: "https://github.com/yourusername"
+            url: "https://github.com/amanabdullayev"
         }
     ],
 
     // Contact Page Details
     contactDetails: {
-        location: "Your City, Your Country",
+        location: "Berlin, Germany",
         availability: "Available for freelance projects and collaborations",
         responseTime: "I typically respond within 24 hours"
     },
@@ -158,7 +158,7 @@ const CONFIG = {
     // Notion API Configuration
     notion: {
         // Get your integration token from https://www.notion.so/my-integrations
-        token: "YOUR_NOTION_INTEGRATION_TOKEN",
+        token: "secret_h18M3wQutOZDi5INlEu8ACm9jZVlrKwNF3sg35zXyUp",
         
         // Database ID for your blog posts
         // Create a database in Notion with these properties:
@@ -168,7 +168,7 @@ const CONFIG = {
         // - Tags (Multi-select)
         // - Excerpt (Text)
         // - Content (Rich text)
-        databaseId: "YOUR_NOTION_DATABASE_ID",
+        databaseId: "Aman-s-Blog-52279fabee264ed7b5fa1681f9c7a1a9",
         
         // Page ID for your About page (optional)
         aboutPageId: "YOUR_NOTION_ABOUT_PAGE_ID"
