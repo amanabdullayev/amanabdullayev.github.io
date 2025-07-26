@@ -72,39 +72,39 @@ const CONFIG = {
     date: "06/2025 - Present",
     title: "Applied Scientist",
     company: "Zalando",
-    description: [
-        "Work in Performance Marketing department",
-        "Focus on measurement and steering topics"
-    ]
+    description: `
+        <p>Work in the Performance Marketing department.</p>
+        <p>Focus on measurement and steering topics.</p>
+    `
 },
 {
     date: "08/2023 - 05/2025",
     title: "Senior Data Scientist",
     company: "Haensel AMS GmbH",
-    description: [
-        "Built models: Attribution, CLV, MMM",
-        "Designed geo-experiments to test incrementality",
-        "Presented insights to stakeholders"
-    ]
+    description: `
+        <p>Built models for attribution, customer lifetime value, and mixed media modeling.</p>
+        <p>Designed geo-experiments to test uplift and incrementality.</p>
+        <p>Communicated findings and insights with stakeholders.</p>
+    `
 },
 {
     date: "12/2021 - 07/2023",
     title: "Data Science Support Engineer",
     company: "One Data GmbH",
-    description: [
-        "Maintained analytics projects for supply chain",
-        "Built dashboards and apps on One Data Platform",
-        "Automated monitoring via APIs and Slack"
-    ]
+    description: `
+        <p>Maintained analytics projects for supply chain and purchasing teams.</p>
+        <p>Built dashboards and web apps on the One Data Platform.</p>
+        <p>Automated pipeline monitoring with APIs and Slack notifications.</p>
+    `
 },
 {
     date: "08/2014 - 07/2017",
     title: "Research Assistant",
     company: "Centre of Technologies",
-    description: [
-        "Managed environmental lab equipment",
-        "Prepared reports on lab projects"
-    ]
+    description: `
+        <p>Managed equipment and logistics for the environmental lab.</p>
+        <p>Prepared interim reports on lab research projects.</p>
+    `
 }
 
     ],
