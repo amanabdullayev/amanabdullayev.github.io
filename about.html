@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Your Name</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Your Name</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>About Me</h1>
+            <p>Get to know the person behind the work</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="about-main section">
+            <div class="about-content">
+                <div id="about-content" class="fade-in">
+                    <p>Loading about content...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills-section section">
+            <h2 class="section-title">Skills & Expertise</h2>
+            <div class="skills-grid" id="skills-grid">
+                <!-- Skills will be loaded from config -->
+            </div>
+        </section>
+
+        <section class="experience-section section">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline" id="timeline">
+                <!-- Timeline will be loaded from config -->
+            </div>
+        </section>
+
+        <section class="education-section section">
+            <h2 class="section-title">Education</h2>
+            <div class="education-grid" id="education-grid">
+                <!-- Education will be loaded from config -->
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section section">
+            <div class="cta-card">
+                <h2>Let's Work Together</h2>
+                <p>Interested in collaborating or have a project in mind?</p>
+                <a href="contact.html" class="btn btn-primary">Get In Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 <span id="footer-name">Your Name</span>. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/notion-api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/about.js"></script>
+</body>
+</html>
