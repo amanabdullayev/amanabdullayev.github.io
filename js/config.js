@@ -69,23 +69,44 @@ const CONFIG = {
     // Experience Timeline for About Page
     experience: [
         {
-            date: "2023 - Present",
-            title: "Senior Software Engineer",
-            company: "Tech Company Name",
-            description: "Leading development of scalable web applications and mentoring junior developers. Responsible for architecture decisions and code reviews."
-        },
-        {
-            date: "2021 - 2023",
-            title: "Full Stack Developer",
-            company: "Previous Company",
-            description: "Developed and maintained multiple client projects using modern web technologies. Collaborated with design and product teams."
-        },
-        {
-            date: "2019 - 2021",
-            title: "Junior Developer",
-            company: "First Company",
-            description: "Started my professional journey, learning best practices and contributing to various projects while building foundational skills."
-        }
+    date: "06/2025 - Present",
+    title: "Applied Scientist",
+    company: "Zalando",
+    description: [
+        "Work in Performance Marketing department",
+        "Focus on measurement and steering topics"
+    ]
+},
+{
+    date: "08/2023 - 05/2025",
+    title: "Senior Data Scientist",
+    company: "Haensel AMS GmbH",
+    description: [
+        "Built models: Attribution, CLV, MMM",
+        "Designed geo-experiments to test incrementality",
+        "Presented insights to stakeholders"
+    ]
+},
+{
+    date: "12/2021 - 07/2023",
+    title: "Data Science Support Engineer",
+    company: "One Data GmbH",
+    description: [
+        "Maintained analytics projects for supply chain",
+        "Built dashboards and apps on One Data Platform",
+        "Automated monitoring via APIs and Slack"
+    ]
+},
+{
+    date: "08/2014 - 07/2017",
+    title: "Research Assistant",
+    company: "Centre of Technologies",
+    description: [
+        "Managed environmental lab equipment",
+        "Prepared reports on lab projects"
+    ]
+}
+
     ],
 
     // Education for About Page
