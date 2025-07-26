@@ -34,37 +34,27 @@ const CONFIG = {
 
     // Skills for About Page
     skills: [
-        {
-            icon: "⚛️",
-            name: "React/Next.js",
-            level: "Advanced"
-        },
-        {
-            icon: "🐍",
-            name: "Python",
-            level: "Advanced"
-        },
-        {
-            icon: "☁️",
-            name: "Cloud Services",
-            level: "Intermediate"
-        },
-        {
-            icon: "🎨",
-            name: "UI/UX Design",
-            level: "Intermediate"
-        },
-        {
-            icon: "📊",
-            name: "Data Analysis",
-            level: "Advanced"
-        },
-        {
-            icon: "🔧",
-            name: "DevOps",
-            level: "Intermediate"
-        }
-    ],
+    {
+        icon: "🐍",
+        name: "Python",
+        level: "Advanced"
+    },
+    {
+        icon: "🧠",
+        name: "Machine Learning",
+        level: "Advanced"
+    },
+    {
+        icon: "📈",
+        name: "Marketing Analytics",
+        level: "Advanced"
+    },
+    {
+        icon: "📊",
+        name: "Data Analysis",
+        level: "Advanced"
+    }
+],
 
     // Experience Timeline for About Page
     experience: [
@@ -110,20 +100,27 @@ const CONFIG = {
     ],
 
     // Education for About Page
-    education: [
-        {
-            degree: "Bachelor of Science in Computer Science",
-            school: "University Name",
-            year: "2015 - 2019",
-            description: "Focused on software engineering, algorithms, and data structures. Graduated with honors."
-        },
-        {
-            degree: "Certification in Web Development",
-            school: "Coding Bootcamp",
-            year: "2019",
-            description: "Intensive program covering modern web development technologies and best practices."
-        }
-    ],
+    eeducation: [
+    {
+        degree: "Ph.D. in Materials Science",
+        school: "TU Berlin, Germany",
+        year: "2017 - 2021",
+        description: "Researched low-cost materials for water filtration. Work includes synthesis, processing, and material characterization. Pending patent on fungal-based materials."
+    },
+    {
+        degree: "Data Scientist Certification",
+        school: "Practicum by Yandex",
+        year: "2021",
+        description: "Intensive bootcamp covering math, statistics, EDA, SQL, ML models, time series, computer vision, and NLP."
+    },
+    {
+        degree: "Diploma in Environmental Science",
+        school: "Turkmen State University, Turkmenistan",
+        year: "2009 - 2014",
+        description: "Studied environmental systems, sustainability, and ecological research methods."
+    }
+]
+,
 
     // Contact Information
     contact: [
@@ -144,7 +141,7 @@ const CONFIG = {
         // },
         {
             name: "GitHub",
-            icon: "🔗",
+            icon: "🐙",
             url: "https://github.com/amanabdullayev"
         }
     ],
