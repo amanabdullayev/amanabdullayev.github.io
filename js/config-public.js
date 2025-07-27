@@ -114,7 +114,7 @@ const CONFIG = {
         },
         {
             name: "PyMC",
-            logo: "https://raw.githubusercontent.com/pymc-devs/pymc/main/docs/logos/PyMC.png"
+            logo: "images/techstack/snowflake.jpg"
         },
         {
             name: "Databricks",
