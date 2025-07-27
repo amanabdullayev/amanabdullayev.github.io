@@ -29,19 +29,21 @@ class BlogPage {
         const noPostsElement = document.getElementById('no-posts');
         
         try {
-            if (!notionAPI) {
+            // Use markdown blog system
+            if (!markdownBlogCMS) {
                 this.showFallbackPosts();
                 return;
             }
 
-            this.allPosts = await notionAPI.getBlogPosts();
+            this.allPosts = await markdownBlogCMS.getBlogPosts();
             
             if (this.allPosts.length === 0) {
                 loadingElement.style.display = 'none';
                 noPostsElement.style.display = 'block';
                 noPostsElement.innerHTML = `
                     <h3>No blog posts found</h3>
-                    <p>Make sure your Notion database is set up correctly and has published posts.</p>
+                    <p>Add markdown files to the <code>blog-posts/</code> folder to get started.</p>
+                    <p>Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.</p>
                 `;
                 return;
             }
@@ -64,7 +66,13 @@ class BlogPage {
 
         } catch (error) {
             console.error('Error loading blog posts:', error);
-            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your Notion configuration.</p>';
+            loadingElement.style.display = 'none';
+            noPostsElement.style.display = 'block';
+            noPostsElement.innerHTML = `
+                <h3>Error loading blog posts</h3>
+                <p>Unable to load posts from GitHub. Please check your internet connection or try again later.</p>
+                <p><a href="https://github.com/amanabdullayev/amanabdullayev.github.io/issues" target="_blank">View posts directly on GitHub</a></p>
+            `;
         }
     }
 
@@ -194,13 +202,13 @@ class BlogPage {
 
     // Create HTML for a blog post card
     createPostCard(post) {
-        const formattedDate = notionAPI ? notionAPI.formatDate(post.date) : post.date;
-        const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+        const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
+        const tagsHtml = post.tags ? post.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
         
         return `
             <article class="post-card">
                 <h3 class="post-title">
-                    <a href="${post.url}" target="_blank">${post.title}</a>
+                    <a href="blog-post.html?post=${post.slug}" target="_blank">${post.title}</a>
                 </h3>
                 <p class="post-excerpt">${post.excerpt}</p>
                 <div class="post-meta">
@@ -282,7 +290,7 @@ class BlogPage {
         });
     }
 
-    // Show fallback posts when Notion API is not configured
+    // Show fallback posts when markdown blog system is not available
     showFallbackPosts() {
         const loadingElement = document.getElementById('loading-posts');
         const postsContainer = document.getElementById('posts-container');
@@ -293,9 +301,9 @@ class BlogPage {
         const fallbackPosts = [
             {
                 title: "Getting Started with Your Blog",
-                excerpt: "Configure your Notion database and API token to start displaying your blog posts automatically. This comprehensive guide will walk you through the entire setup process.",
+                excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically. This comprehensive guide will walk you through the entire setup process.",
                 date: "Dec 15, 2024",
-                tags: ["Setup", "Tutorial", "Notion"],
+                tags: ["Setup", "Tutorial", "Markdown"],
                 url: "#"
             },
             {
@@ -306,10 +314,10 @@ class BlogPage {
                 url: "#"
             },
             {
-                title: "Building with Notion API",
-                excerpt: "Discover how to integrate Notion as a content management system for your website. Perfect for bloggers and content creators.",
+                title: "Markdown Blog System",
+                excerpt: "Discover how to use the markdown-based blog system for your website content management. Perfect for bloggers and content creators.",
                 date: "Dec 5, 2024",
-                tags: ["API", "Integration", "Notion"],
+                tags: ["Markdown", "Blog", "CMS"],
                 url: "#"
             },
             {
@@ -348,7 +356,7 @@ class BlogPage {
         // Add info message
         const infoMessage = document.createElement('div');
         infoMessage.className = 'error';
-        infoMessage.innerHTML = 'Configure your Notion API in <code>js/config.js</code> to display your actual blog posts.';
+        infoMessage.innerHTML = 'Add markdown files to <code>blog-posts/</code> folder to display your actual blog posts. Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.';
         document.getElementById('posts-grid').parentNode.insertBefore(infoMessage, document.getElementById('posts-grid'));
     }
 }

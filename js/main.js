@@ -17,7 +17,7 @@ class Portfolio {
         // Load contact links
         this.loadContactLinks();
         
-        // Load blog posts from Notion
+        // Load blog posts from markdown blog system
         await this.loadBlogPosts();
         
         // Initialize navigation
@@ -114,21 +114,21 @@ class Portfolio {
         });
     }
 
-    // Load blog posts from Notion API
+    // Load blog posts from markdown blog system
     async loadBlogPosts() {
         const loadingElement = document.getElementById('loading-posts');
         const postsGrid = document.getElementById('posts-grid');
         
         try {
-            if (!notionAPI) {
+            if (!markdownBlogCMS) {
                 this.showFallbackPosts();
                 return;
             }
 
-            const posts = await notionAPI.getBlogPosts();
+            const posts = await markdownBlogCMS.getBlogPosts();
             
             if (posts.length === 0) {
-                loadingElement.innerHTML = '<p class="error">No blog posts found. Make sure your Notion database is set up correctly.</p>';
+                loadingElement.innerHTML = '<p class="error">No blog posts found. Add markdown files to the <code>blog-posts/</code> folder.</p>';
                 return;
             }
 
@@ -148,13 +148,13 @@ class Portfolio {
 
         } catch (error) {
             console.error('Error loading blog posts:', error);
-            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your Notion configuration.</p>';
+            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your markdown blog configuration.</p>';
         }
     }
 
     // Create HTML for a blog post card
     createPostCard(post) {
-        const formattedDate = notionAPI ? notionAPI.formatDate(post.date) : post.date;
+        const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
         const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
         
         return `
@@ -171,7 +171,7 @@ class Portfolio {
         `;
     }
 
-    // Show fallback posts when Notion API is not configured
+    // Show fallback posts when markdown blog system is not available
     showFallbackPosts() {
         const loadingElement = document.getElementById('loading-posts');
         const postsGrid = document.getElementById('posts-grid');
@@ -182,7 +182,7 @@ class Portfolio {
         const fallbackPosts = [
             {
                 title: "Getting Started with Your Blog",
-                excerpt: "Configure your Notion database and API token to start displaying your blog posts automatically. This post will guide you through the setup process.",
+                excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically. This post will guide you through the setup process.",
                 date: "Dec 15, 2024",
                 tags: ["Setup", "Tutorial"],
                 url: "#"
@@ -201,7 +201,7 @@ class Portfolio {
         // Add info message
         const infoMessage = document.createElement('div');
         infoMessage.className = 'error';
-        infoMessage.innerHTML = 'Configure your Notion API in <code>js/config.js</code> to display your actual blog posts.';
+        infoMessage.innerHTML = 'Add markdown files to <code>blog-posts/</code> folder to display your actual blog posts. Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.';
         postsGrid.parentNode.insertBefore(infoMessage, postsGrid);
     }
 

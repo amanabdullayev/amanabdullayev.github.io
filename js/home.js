@@ -15,22 +15,13 @@ class HomePage {
         await this.loadLatestPosts();
     }
 
-    // Load home intro content from Notion or config
+    // Load home intro content from config
     async loadAboutContent() {
         const introText = document.getElementById('intro-text');
         if (!introText) return;
         
         try {
-            // Try to load from Notion if page ID is provided
-            if (notionAPI && CONFIG.notion && CONFIG.notion.aboutPageId) {
-                const content = await notionAPI.getPageContent(CONFIG.notion.aboutPageId);
-                if (content) {
-                    introText.innerHTML = content;
-                    return;
-                }
-            }
-            
-            // Fallback to config - use homeIntro for home page
+            // Use homeIntro from config for home page
             if (typeof CONFIG !== 'undefined' && CONFIG.personal.homeIntro) {
                 introText.innerHTML = CONFIG.personal.homeIntro;
             }
@@ -69,17 +60,18 @@ class HomePage {
         const postsGrid = document.getElementById('posts-grid');
         
         try {
-            if (!notionAPI) {
+            // Use markdown blog system
+            if (!markdownBlogCMS) {
                 this.showFallbackPosts();
                 return;
             }
 
-            const allPosts = await notionAPI.getBlogPosts();
+            const allPosts = await markdownBlogCMS.getBlogPosts();
             // Only show the latest 4 posts on home page
             const latestPosts = allPosts.slice(0, CONFIG.settings.homePostsCount || 4);
             
             if (latestPosts.length === 0) {
-                loadingElement.innerHTML = '<p class="error">No blog posts found. Make sure your Notion database is set up correctly.</p>';
+                loadingElement.innerHTML = '<p class="error">No blog posts found. Add markdown files to the <code>blog-posts/</code> folder.</p>';
                 return;
             }
 
@@ -99,13 +91,13 @@ class HomePage {
 
         } catch (error) {
             console.error('Error loading latest posts:', error);
-            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your Notion configuration.</p>';
+            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your markdown blog configuration.</p>';
         }
     }
 
     // Create HTML for a blog post card
     createPostCard(post) {
-        const formattedDate = notionAPI ? notionAPI.formatDate(post.date) : post.date;
+        const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
         const tagsHtml = post.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join(''); // Limit tags on home page
         
         return `
@@ -122,7 +114,7 @@ class HomePage {
         `;
     }
 
-    // Show fallback posts when Notion API is not configured
+    // Show fallback posts when markdown blog system is not available
     showFallbackPosts() {
         const loadingElement = document.getElementById('loading-posts');
         const postsGrid = document.getElementById('posts-grid');
@@ -133,7 +125,7 @@ class HomePage {
         const fallbackPosts = [
             {
                 title: "Getting Started with Your Blog",
-                excerpt: "Configure your Notion database and API token to start displaying your blog posts automatically.",
+                excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically.",
                 date: "Dec 15, 2024",
                 tags: ["Setup", "Tutorial"],
                 url: "#"
@@ -146,10 +138,10 @@ class HomePage {
                 url: "#"
             },
             {
-                title: "Building with Notion API",
-                excerpt: "Discover how to integrate Notion as a content management system for your website.",
+                title: "Markdown Blog System",
+                excerpt: "Discover how to use the markdown-based blog system for your website content management.",
                 date: "Dec 5, 2024",
-                tags: ["API", "Integration"],
+                tags: ["Markdown", "Blog"],
                 url: "#"
             },
             {
@@ -166,7 +158,7 @@ class HomePage {
         // Add info message
         const infoMessage = document.createElement('div');
         infoMessage.className = 'error';
-        infoMessage.innerHTML = 'Configure your Notion API in <code>js/config.js</code> to display your actual blog posts.';
+        infoMessage.innerHTML = 'Add markdown files to <code>blog-posts/</code> folder to display your actual blog posts. Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.';
         postsGrid.parentNode.insertBefore(infoMessage, postsGrid);
     }
 }

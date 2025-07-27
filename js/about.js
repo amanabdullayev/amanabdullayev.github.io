@@ -21,21 +21,12 @@ class AboutPage {
         this.initAnimations();
     }
 
-    // Load about content from Notion or config
+    // Load about content from config
     async loadAboutContent() {
         const aboutContent = document.getElementById('about-content');
         
         try {
-            // Try to load from Notion if page ID is provided
-            if (notionAPI && CONFIG.notion.aboutPageId) {
-                const content = await notionAPI.getPageContent(CONFIG.notion.aboutPageId);
-                if (content) {
-                    aboutContent.innerHTML = content;
-                    return;
-                }
-            }
-            
-            // Fallback to config
+            // Use aboutMe from config
             if (typeof CONFIG !== 'undefined' && CONFIG.personal.aboutMe) {
                 aboutContent.innerHTML = CONFIG.personal.aboutMe;
             }
@@ -47,10 +38,13 @@ class AboutPage {
 
     // Load skills grid
     loadSkills() {
-        if (typeof CONFIG === 'undefined' || !CONFIG.skills) return;
-        
         const skillsGrid = document.getElementById('skills-grid');
+        
         if (!skillsGrid) return;
+        
+        if (typeof CONFIG === 'undefined' || !CONFIG.skills) {
+            return;
+        }
         
         skillsGrid.innerHTML = CONFIG.skills.map(skill => `
             <div class="skill-card">
@@ -62,9 +56,12 @@ class AboutPage {
 
     // Load experience timeline
     loadExperience() {
-        if (typeof CONFIG === 'undefined' || !CONFIG.experience) return;
+        if (typeof CONFIG === 'undefined' || !CONFIG.experience) {
+            return;
+        }
         
         const timeline = document.getElementById('timeline');
+        
         if (!timeline) return;
         
         timeline.innerHTML = CONFIG.experience.map(exp => `

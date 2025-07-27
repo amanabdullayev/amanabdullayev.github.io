@@ -1,33 +1,145 @@
-# Portfolio Website Setup Guide
+# Portfolio Website
 
-This guide will help you set up your portfolio website with Notion integration for easy content management.
+A modern, responsive portfolio website with dark/light theme toggle and markdown-based blog system.
 
-# Multi-Page Portfolio Website Setup Guide
+## 🚀 Features
 
-This guide will help you set up your multi-page portfolio website with Notion integration for easy content management.
+- **Multi-page Portfolio**: Home, About, Blog, Contact pages
+- **Dark/Light Theme**: Complete theme system with localStorage persistence
+- **Markdown Blog**: File-based blog system with individual post pages
+- **Responsive Design**: Mobile-first approach with modern CSS
+- **Contact Form**: Integrated with Formspree for form handling
+- **GitHub Actions**: Automated deployment workflow
+- **Private Configuration**: Secure handling of sensitive data
 
-## File Structure
+## 📁 File Structure
 
 ```
-your-portfolio/
+portfolio/
 ├── index.html              # Home page
-├── about.html             # About page
-├── blog.html              # Blog listing page
-├── contact.html           # Contact page
+├── about.html              # About page  
+├── blog.html               # Blog listing page
+├── blog-post.html          # Individual blog post template
+├── contact.html            # Contact page
 ├── styles/
-│   └── main.css          # All styles
+│   └── main.css           # All styles with theme variables
 ├── js/
-│   ├── config.js         # Configuration
-│   ├── notion-api.js     # Notion integration
-│   ├── main.js           # Shared functionality
-│   ├── home.js           # Home page specific
-│   ├── about.js          # About page specific
-│   ├── blog.js           # Blog page specific
-│   └── contact.js        # Contact page specific
-└── SETUP_GUIDE.md
+│   ├── config-public.js   # Public configuration
+│   ├── config-private.js  # Private configuration (gitignored)
+│   ├── main.js            # Shared functionality & theme system
+│   ├── home.js            # Home page functionality
+│   ├── about.js           # About page functionality
+│   ├── blog.js            # Blog listing functionality
+│   ├── blog-post.js       # Individual blog post functionality
+│   ├── contact.js         # Contact form functionality
+│   └── markdown-blog-cms.js # Markdown processing system
+├── blog-posts/
+│   ├── post-1.md          # Blog post markdown files
+│   └── post-2.md
+└── .github/
+    └── workflows/
+        └── deploy.yml     # GitHub Actions deployment
 ```
 
-## Quick Start
+## 🎨 Theme System
+
+The website features a complete dark/light theme system:
+
+- **CSS Variables**: All colors defined as CSS custom properties
+- **Theme Toggle**: Sun/moon icon toggle in navigation
+- **Persistence**: Theme choice saved to localStorage
+- **Smooth Transitions**: Animated theme switching
+
+## ✍️ Blog System
+
+### Creating Blog Posts
+
+1. Create a new `.md` file in the `blog-posts/` directory
+2. Add metadata at the top:
+
+```markdown
+---
+title: "Your Blog Post Title"
+published: "2025-01-15"
+tags: ["data-science", "analytics"]
+excerpt: "Brief description of your post..."
+---
+
+Your blog content here...
+```
+
+3. The post will automatically appear in the blog listing
+4. Individual post pages are generated dynamically
+
+### Blog Features
+
+- **Markdown Processing**: Full markdown support with code highlighting
+- **Metadata Extraction**: Title, date, tags, excerpt
+- **Dynamic Routing**: Clean URLs for individual posts
+- **Social Sharing**: Built-in sharing buttons
+- **Responsive Layout**: Mobile-optimized reading experience
+
+## 🔧 Configuration
+
+### Public Configuration (`js/config-public.js`)
+Contains non-sensitive data like:
+- Personal information
+- Skills and experience
+- Social links
+- Public settings
+
+### Private Configuration (`js/config-private.js`)
+Contains sensitive data (gitignored):
+- API endpoints
+- Form handlers
+- Private tokens
+
+## 🚀 Deployment
+
+### GitHub Pages with Actions
+
+The repository includes a GitHub Actions workflow that:
+1. Builds the blog index from markdown files
+2. Processes configuration with environment variables
+3. Deploys to GitHub Pages
+
+### Environment Variables
+
+Set these in your GitHub repository secrets:
+- `FORMSPREE_ENDPOINT`: Your Formspree form endpoint
+- Add any other sensitive configuration values
+
+## 📱 Responsive Design
+
+- **Mobile-first**: Optimized for mobile devices
+- **Flexible Grid**: CSS Grid and Flexbox layouts
+- **Touch-friendly**: Proper touch targets and spacing
+- **Performance**: Optimized loading and rendering
+
+## 🛠️ Development
+
+### Local Development
+
+1. Clone the repository
+2. Create `js/config-private.js` with your configuration
+3. Open `index.html` in a browser or use a local server
+
+### Adding New Pages
+
+1. Create HTML file with proper structure
+2. Link relevant JavaScript files
+3. Update navigation in all pages
+4. Add corresponding CSS if needed
+
+## 🔒 Security
+
+- **Private Config**: Sensitive data kept in gitignored files
+- **Environment Variables**: Production secrets managed via GitHub
+- **No API Keys**: Client-side code contains no sensitive tokens
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
 
 1. **Download all files** and organize them in the structure shown above
 2. **Configure your personal information** in `js/config.js`

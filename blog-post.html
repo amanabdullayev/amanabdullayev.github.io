@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Aman Abdullayev</title>
+    <title id="post-title">Blog Post - Aman Abdullayev</title>
+    <meta name="description" id="post-description" content="A blog post by Aman Abdullayev">
     
-    <!-- Favicons -->
+    <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="public/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="public/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="public/apple-icon-72x72.png">
@@ -20,14 +21,14 @@
     <link rel="icon" type="image/png" sizes="96x96" href="public/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
     <link rel="manifest" href="public/manifest.json">
-    <meta name="msapplication-TileColor" href="#2563eb">
+    <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="theme-color" content="#ffffff">
     
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <header>
+    <header class="header">
         <div class="container">
             <nav>
                 <a href="index.html" class="logo">
@@ -36,7 +37,7 @@
                 </a>
                 <div class="nav-buttons">
                     <a href="about.html" class="nav-btn">About</a>
-                    <a href="blog.html" class="nav-btn active">Blog</a>
+                    <a href="blog.html" class="nav-btn">Blog</a>
                     <a href="contact.html" class="nav-btn">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
                         <span class="theme-icon">☀️</span>
@@ -46,57 +47,71 @@
         </div>
     </header>
 
-    <section class="page-hero">
-        <div class="container">
-            <h1 id="page-title">Blog</h1>
-            <p id="page-description">Thoughts, insights, and stories from my journey</p>
-        </div>
-    </section>
-
     <main class="container">
-        <!-- Search and Filter -->
-        <section class="blog-controls section">
-            <div class="search-filter-bar">
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Search posts..." />
-                    <button id="search-btn">🔍</button>
-                </div>
-                <div class="filter-tags">
-                    <button class="tag-filter active" data-tag="all">All</button>
-                    <div id="tag-filters">
-                        <!-- Tag filters will be generated dynamically -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Blog Posts -->
-        <section class="blog-posts section">
-            <div id="loading-posts" class="loading">Loading blog posts...</div>
-            <div id="posts-container" style="display: none;">
-                <div id="posts-grid" class="posts-grid">
-                    <!-- All blog posts will be loaded here -->
-                </div>
-                
-                <!-- Pagination -->
-                <div id="pagination" class="pagination">
-                    <!-- Pagination controls will be added here -->
-                </div>
+        <!-- Blog Post Content -->
+        <article class="blog-post-container">
+            <div id="loading-post" class="loading">
+                <p>Loading blog post...</p>
             </div>
             
-            <div id="no-posts" class="no-posts" style="display: none;">
-                <h3>No posts found</h3>
-                <p>Try adjusting your search or filter criteria.</p>
+            <div id="post-not-found" class="error" style="display: none;">
+                <h2>Post Not Found</h2>
+                <p>The blog post you're looking for could not be found.</p>
+                <a href="blog.html" class="btn btn-primary">← Back to Blog</a>
             </div>
-        </section>
+
+            <div id="blog-post-content" style="display: none;">
+                <!-- Back to blog link -->
+                <div class="blog-post-nav">
+                    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+                </div>
+
+                <!-- Post header -->
+                <header class="blog-post-header">
+                    <h1 id="blog-post-title"></h1>
+                    <div class="blog-post-meta">
+                        <div class="post-author">
+                            <img id="author-avatar" src="" alt="Author" class="author-avatar">
+                            <span id="author-name"></span>
+                        </div>
+                        <time id="post-date"></time>
+                    </div>
+                    <div id="post-tags" class="post-tags"></div>
+                </header>
+
+                <!-- Post content -->
+                <div id="blog-post-body" class="blog-post-body">
+                    <!-- Content will be loaded here -->
+                </div>
+
+                <!-- Post footer -->
+                <footer class="blog-post-footer">
+                    <div class="post-sharing">
+                        <h4>Share this post:</h4>
+                        <div class="share-buttons">
+                            <a id="share-twitter" href="#" target="_blank" class="share-btn twitter">
+                                🐦 Twitter
+                            </a>
+                            <a id="share-linkedin" href="#" target="_blank" class="share-btn linkedin">
+                                💼 LinkedIn
+                            </a>
+                            <a id="share-copy" href="#" class="share-btn copy">
+                                📋 Copy Link
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="post-navigation">
+                        <a href="blog.html" class="btn btn-secondary">← Back to All Posts</a>
+                    </div>
+                </footer>
+            </div>
+        </article>
     </main>
 
-    <footer>
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-info">
-                    <p>&copy; 2024 <span id="footer-name">Aman Abdullayev</span>. All rights reserved.</p>
-                </div>
                 <div class="footer-links">
                     <a href="index.html">Home</a>
                     <a href="about.html">About</a>
@@ -119,6 +134,6 @@
     </script>
     <script src="js/markdown-blog-cms.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/blog.js"></script>
+    <script src="js/blog-post.js"></script>
 </body>
 </html>

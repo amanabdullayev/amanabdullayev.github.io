@@ -101,8 +101,15 @@
         </div>
     </footer>
 
-    <script src="js/config.js"></script>
-    <script src="js/notion-api.js"></script>
+    <script src="js/config-public.js"></script>
+    <script src="js/config-private.js"></script>
+    <script>
+        // Merge private config after both scripts have loaded
+        if (typeof loadPrivateConfig === 'function') {
+            loadPrivateConfig();
+        }
+    </script>
+    <script src="js/markdown-blog-cms.js"></script>
     <script src="js/main.js"></script>
     <script src="js/home.js"></script>
 </body>

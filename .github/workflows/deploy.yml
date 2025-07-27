@@ -1,0 +1,49 @@
+# GitHub Actions Workflow for Blog Deployment
+name: Deploy Blog with Markdown CMS
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'blog-posts/**'
+      - 'js/**'
+      - '*.html'
+      - 'styles/**'
+  schedule:
+    # Rebuild site daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        npm init -y
+        npm install marked gray-matter
+        
+    - name: Generate blog posts index
+      run: |
+        node .github/scripts/generate-blog-index.js
+        
+    - name: Create environment config
+      env:
+        FORMSPREE_ENDPOINT: ${{ secrets.FORMSPREE_ENDPOINT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        node .github/scripts/create-env-config.js
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./

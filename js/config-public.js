@@ -1,10 +1,9 @@
-// Configuration file for your portfolio/blog
+// Configuration file with public and private settings separated
 const CONFIG = {
-    // Personal Information
+    // Personal Information (public)
     personal: {
         name: "Aman Abdullayev",
         title: "Applied Scientist",
-        // description: "I'm an Applied Scientist passionate about marketing analytics, machine learning, and mentoring young minds. Here you'll find my thoughts, projects, and insights on data science and personal growth.",
         homeIntro: `
             <p><strong>Welcome to my digital space!</strong> I'm an Applied Scientist passionate about turning data into actionable insights and building meaningful connections through technology.</p>
             <p>Here you'll discover my journey at the intersection of machine learning and marketing analytics, along with thoughts on mentoring, personal growth, and the evolving world of data science.</p>
@@ -16,7 +15,7 @@ const CONFIG = {
         `
     },
 
-    // Page Metadata
+    // Page Metadata (public)
     pages: {
         about: {
             title: "About Me",
@@ -32,7 +31,7 @@ const CONFIG = {
         }
     },
 
-    // Home Page Stats/What I'm Working On
+    // Home Page Stats (public)
     homeStats: [
         {
             icon: "💻",
@@ -51,7 +50,7 @@ const CONFIG = {
         }
     ],
 
-    // Skills for About Page
+    // Skills (public)
     skills: [
         {
             icon: "🐍",
@@ -87,15 +86,17 @@ const CONFIG = {
         }
     ],
 
-    // Experience Timeline for About Page
+    // Experience (public)
     experience: [
         {
             date: "06/2025 - Present",
             title: "Applied Scientist",
             company: "Zalando",
             description: `
-                <p>Work in the Performance Marketing department.</p>
-                <p>Focus on measurement and steering topics.</p>
+            <ul>
+                <li>Work in the Performance Marketing department.</li>
+                <li>Focus on measurement and steering topics.</li>
+            </ul>
             `
         },
         {
@@ -103,9 +104,11 @@ const CONFIG = {
             title: "Senior Data Scientist",
             company: "Haensel AMS GmbH",
             description: `
-                <p>Built models for attribution, customer lifetime value, and mixed media modeling.</p>
-                <p>Designed geo-experiments to test uplift and incrementality.</p>
-                <p>Communicated findings and insights with stakeholders.</p>
+            <ul>
+                <li>Built models for attribution, customer lifetime value, and mixed media modeling.</li>
+                <li>Designed geo-experiments to test uplift and incrementality.</li>
+                <li>Communicated findings and insights with stakeholders.</li>
+            </ul>
             `
         },
         {
@@ -113,9 +116,12 @@ const CONFIG = {
             title: "Data Science Support Engineer",
             company: "One Data GmbH",
             description: `
-                <p>Maintained analytics projects for supply chain and purchasing teams.</p>
-                <p>Built dashboards and web apps on the One Data Platform.</p>
-                <p>Automated pipeline monitoring with APIs and Slack notifications.</p>
+            <ul>
+                <li>Supported data science teams in building and deploying models.</li>
+                <li>Maintained analytics projects for supply chain and purchasing teams.</li>
+                <li>Built dashboards and web apps on the One Data Platform.</li>
+                <li>Automated pipeline monitoring with APIs and Slack notifications.</li>
+            </ul>
             `
         },
         {
@@ -123,19 +129,21 @@ const CONFIG = {
             title: "Research Assistant",
             company: "Centre of Technologies",
             description: `
-                <p>Managed equipment and logistics for the environmental lab.</p>
-                <p>Prepared interim reports on lab research projects.</p>
+            <ul>
+                <li>Managed equipment and logistics for the environmental lab.</li>
+                <li>Prepared interim reports on lab research projects.</li>
+            </ul>
             `
         }
     ],
 
-    // Education for About Page
+    // Education (public)
     education: [
         {
             degree: "Ph.D. in Materials Science",
             school: "TU Berlin, Germany",
             year: "2017 - 2021",
-            description: "Researched low-cost materials for water filtration. Work includes synthesis, processing, and material characterization. Pending patent on fungal-based materials."
+            description: "Research: Low-cost ceramic materials for water filtration membranes. Work includes synthesis, processing, and material characterization. <strong>Pending patent on fungal-based materials.</strong>"
         },
         {
             degree: "Data Scientist Certification",
@@ -151,7 +159,7 @@ const CONFIG = {
         }
     ],
 
-    // Contact Information
+    // Contact Information (public)
     contact: [
         {
             name: "Email",
@@ -170,14 +178,24 @@ const CONFIG = {
         }
     ],
 
-    // Notion API Configuration
-    notion: {
-        token: "secret_h18M3wQutOZDi5INlEu8ACm9jZVlrKwNF3sg35zXyUp",
-        databaseId: "3a86829dbab84364bafd46390180b730",
-        aboutPageId: "About-Me-d9bc4468ddb24c198df8c636ae5e22a0"
+    // GitHub Repository Info (public)
+    github: {
+        username: "amanabdullayev",
+        repository: "amanabdullayev.github.io"
     },
 
-    // Site Settings
+    // Private configuration loaded from environment or separate file
+    private: {
+        // These will be loaded from environment variables or a separate config
+        formspree: {
+            endpoint: "" // Will be set from private config
+        },
+        github: {
+            token: "" // Optional for higher API limits
+        }
+    },
+
+    // Site Settings (mostly public)
     settings: {
         postsPerPage: 6,
         homePostsCount: 4,
@@ -186,9 +204,34 @@ const CONFIG = {
         enableAnalytics: false,
         theme: "light",
         enableContactForm: true,
-        contactFormAction: "https://formspree.io/f/xovldbzk"
+        // This will be set from private config
+        contactFormAction: "" // Will be populated from private.formspree.endpoint
     }
 };
+
+// Load private configuration
+function loadPrivateConfig() {
+    // In production, these would come from environment variables
+    // For development, you can set them in a separate file that's gitignored
+    
+    try {
+        // Try to load from a separate config file (gitignored)
+        if (typeof PRIVATE_CONFIG !== 'undefined') {
+            CONFIG.private = { ...CONFIG.private, ...PRIVATE_CONFIG };
+        }
+        
+        // Set derived settings
+        if (CONFIG.private.formspree && CONFIG.private.formspree.endpoint) {
+            CONFIG.settings.contactFormAction = CONFIG.private.formspree.endpoint;
+        }
+        
+    } catch (error) {
+        console.warn('Private configuration not loaded:', error);
+    }
+}
+
+// Don't load private config immediately - wait for DOM ready
+// This will be called after all scripts are loaded
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
