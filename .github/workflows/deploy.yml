@@ -13,37 +13,63 @@ on:
     # Rebuild site daily at 2 AM UTC
     - cron: '0 2 * * *'
 
+# Add permissions for GitHub token
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     
+    # Set up GitHub Pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '18'
         
     - name: Install dependencies
       run: |
         npm init -y
-        npm install marked gray-matter
+        npm install gray-matter
         
     - name: Generate blog posts index
       run: |
+        echo "Generating blog posts index..."
         node .github/scripts/generate-blog-index.js
+        echo "Blog index generation completed"
         
     - name: Create environment config
       env:
         FORMSPREE_ENDPOINT: ${{ secrets.FORMSPREE_ENDPOINT }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        node .github/scripts/create-env-config.js
+        echo "Creating environment configuration..."
+        if [ -f ".github/scripts/create-env-config.js" ]; then
+          node .github/scripts/create-env-config.js
+          echo "Environment config created successfully"
+        else
+          echo "Environment config script not found, skipping..."
+          echo "// Fallback environment config" > js/env-config.js
+          echo "window.ENV_CONFIG = {};" >> js/env-config.js
+        fi
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./
         
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
+      id: deployment
+      uses: actions/deploy-pages@v4
