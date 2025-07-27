@@ -49,8 +49,8 @@
     }
     
     .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 200px));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 170px));
+        gap: 0.875rem;
         justify-content: center;
     }
     
@@ -288,7 +288,7 @@
     .skill-card,
     .education-card,
     .timeline-item {
-        padding: 1rem;
+        padding: 0.875rem;
     }
     
     .post-title {
@@ -505,7 +505,7 @@
     }
     
     .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(160px, 200px));
     }
 }
 

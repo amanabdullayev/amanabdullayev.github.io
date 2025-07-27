@@ -14,6 +14,9 @@ class AboutPage {
         // Load experience timeline
         this.loadExperience();
         
+        // Load tech stack
+        this.loadTechstack();
+        
         // Load education
         this.loadEducation();
         
@@ -74,6 +77,21 @@ class AboutPage {
         `).join('');
     }
 
+    // Load techstack grid
+    loadTechstack() {
+        if (typeof CONFIG === 'undefined' || !CONFIG.techstack) return;
+        
+        const techstackGrid = document.getElementById('techstack-grid');
+        if (!techstackGrid) return;
+        
+        techstackGrid.innerHTML = CONFIG.techstack.map(tech => `
+            <div class="tech-item">
+                <img src="${tech.logo}" alt="${tech.name}" class="tech-logo">
+                <span class="tech-name">${tech.name}</span>
+            </div>
+        `).join('');
+    }
+
     // Load education
     loadEducation() {
         if (typeof CONFIG === 'undefined' || !CONFIG.education) return;
@@ -108,7 +126,7 @@ class AboutPage {
 
         // Observe elements that should animate on scroll
         document.querySelectorAll(
-            '.about-content, .skill-card, .timeline-item, .education-card, .cta-card'
+            '.about-content, .skill-card, .timeline-item, .education-card, .tech-item, .cta-card'
         ).forEach((el, index) => {
             // Add staggered delay for timeline items
             if (el.classList.contains('timeline-item')) {

@@ -53,10 +53,6 @@ const CONFIG = {
     // Skills (public)
     skills: [
         {
-            icon: "🐍",
-            name: "Python"
-        },
-        {
             icon: "🧩📊🧭",
             name: "Attribution Modeling"
         },
@@ -83,6 +79,46 @@ const CONFIG = {
         {
             icon: "🕒📈🔮",
             name: "Time Series Forecasting"
+        }
+    ],
+
+    // Techstack (public)
+    techstack: [
+        {
+            name: "Python",
+            logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+        },
+        {
+            name: "SQL",
+            logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+        },
+        {
+            name: "Databricks",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/6/63/Databricks_Logo.png"
+        },
+        {
+            name: "Pandas",
+            logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
+        },
+        {
+            name: "Numpy",
+            logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg"
+        },
+        {
+            name: "Scipy",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/b/b2/SCIPY_2.svg"
+        },
+        {
+            name: "ScikitLearn",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg"
+        },
+        {
+            name: "Matplotlib",
+            logo: "https://matplotlib.org/stable/_images/sphx_glr_logos2_003.png"
+        },
+        {
+            name: "PyMC",
+            logo: "https://raw.githubusercontent.com/pymc-devs/pymc/main/docs/logos/PyMC.png"
         }
     ],
 
