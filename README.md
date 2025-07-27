@@ -241,6 +241,8 @@ contact: [
 ```
 
 ## Imprevement Ideas
+- cover images to each blog
+- make sure whole excerpt shown as preview of a blog
 - GA4
 - Social link sharing preview images
 - SEO optimization
