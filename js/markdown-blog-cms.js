@@ -124,11 +124,30 @@ class MarkdownBlogCMS {
     processMarkdown(content) {
         if (!content) return '';
 
-        return content
-            // Code blocks with language support
-            .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
-            
-            // Headers
+        // First, protect code blocks and process them separately
+        const codeBlocks = [];
+        let codeBlockIndex = 0;
+        
+        // Extract and temporarily replace code blocks
+        content = content.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+            codeBlocks.push({
+                lang: lang || '',
+                code: code.trim()
+            });
+            return `__CODE_BLOCK_${codeBlockIndex++}__`;
+        });
+
+        // Extract and temporarily replace inline code
+        const inlineCodes = [];
+        let inlineCodeIndex = 0;
+        content = content.replace(/`([^`\n]+)`/g, (match, code) => {
+            inlineCodes.push(code);
+            return `__INLINE_CODE_${inlineCodeIndex++}__`;
+        });
+
+        // Process basic markdown
+        let html = content
+            // Headers (process before paragraphs)
             .replace(/^### (.*$)/gim, '<h3>$1</h3>')
             .replace(/^## (.*$)/gim, '<h2>$1</h2>')
             .replace(/^# (.*$)/gim, '<h1>$1</h1>')
@@ -138,35 +157,165 @@ class MarkdownBlogCMS {
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
             
             // Links
-            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+        // Process tables
+        html = this.processTables(html);
+        
+        // Process lists
+        html = this.processLists(html);
+        
+        // Process paragraphs and line breaks
+        html = this.processParagraphs(html);
+        
+        // Restore inline code
+        inlineCodes.forEach((code, index) => {
+            html = html.replace(`__INLINE_CODE_${index}__`, `<code class="inline-code">${this.escapeHtml(code)}</code>`);
+        });
+
+        // Restore code blocks
+        codeBlocks.forEach((block, index) => {
+            const langClass = block.lang ? ` class="language-${block.lang}"` : '';
+            const langAttribute = block.lang ? ` data-language="${block.lang}"` : '';
+            html = html.replace(`__CODE_BLOCK_${index}__`, 
+                `<pre class="code-block"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>`);
+        });
+
+        return html;
+    }
+
+    // Process tables separately for better handling
+    processTables(content) {
+        const lines = content.split('\n');
+        const result = [];
+        let inTable = false;
+        let tableRows = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
             
-            // Inline code
-            .replace(/`([^`]+)`/g, '<code>$1</code>')
-            
-            // Lists
-            .replace(/^\- (.+)$/gm, '<li>$1</li>')
-            .replace(/^\d+\.\s(.+)$/gm, '<li>$1</li>')
-            .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-            
-            // Tables (basic support)
-            .replace(/\|(.+)\|/g, (match, content) => {
-                const cells = content.split('|').map(cell => cell.trim()).filter(cell => cell);
-                return '<tr>' + cells.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+            if (line.includes('|') && line.split('|').length > 2) {
+                if (!inTable) {
+                    inTable = true;
+                    tableRows = [];
+                }
+                
+                // Skip separator lines (like |---|---|)
+                if (!line.match(/^\|[\s\-\|:]+\|$/)) {
+                    const cells = line.split('|').slice(1, -1).map(cell => cell.trim());
+                    tableRows.push(cells);
+                }
+            } else {
+                if (inTable && tableRows.length > 0) {
+                    // Generate table HTML
+                    let tableHtml = '<table class="markdown-table">';
+                    tableRows.forEach((row, index) => {
+                        const tag = index === 0 ? 'th' : 'td';
+                        tableHtml += '<tr>';
+                        row.forEach(cell => {
+                            tableHtml += `<${tag}>${cell}</${tag}>`;
+                        });
+                        tableHtml += '</tr>';
+                    });
+                    tableHtml += '</table>';
+                    result.push(tableHtml);
+                    tableRows = [];
+                    inTable = false;
+                }
+                result.push(line);
+            }
+        }
+
+        // Handle table at end of content
+        if (inTable && tableRows.length > 0) {
+            let tableHtml = '<table class="markdown-table">';
+            tableRows.forEach((row, index) => {
+                const tag = index === 0 ? 'th' : 'td';
+                tableHtml += '<tr>';
+                row.forEach(cell => {
+                    tableHtml += `<${tag}>${cell}</${tag}>`;
+                });
+                tableHtml += '</tr>';
+            });
+            tableHtml += '</table>';
+            result.push(tableHtml);
+        }
+
+        return result.join('\n');
+    }
+
+    // Process lists with better handling
+    processLists(content) {
+        const lines = content.split('\n');
+        const result = [];
+        let inList = false;
+        let listItems = [];
+        let isOrdered = false;
+
+        for (let line of lines) {
+            const trimmed = line.trim();
+            const unorderedMatch = trimmed.match(/^[\-\*\+]\s+(.+)$/);
+            const orderedMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+
+            if (unorderedMatch || orderedMatch) {
+                if (!inList) {
+                    inList = true;
+                    listItems = [];
+                    isOrdered = !!orderedMatch;
+                }
+                listItems.push(unorderedMatch ? unorderedMatch[1] : orderedMatch[1]);
+            } else {
+                if (inList && listItems.length > 0) {
+                    const tag = isOrdered ? 'ol' : 'ul';
+                    const listHtml = `<${tag} class="markdown-list">` +
+                        listItems.map(item => `<li>${item}</li>`).join('') +
+                        `</${tag}>`;
+                    result.push(listHtml);
+                    listItems = [];
+                    inList = false;
+                }
+                result.push(line);
+            }
+        }
+
+        // Handle list at end of content
+        if (inList && listItems.length > 0) {
+            const tag = isOrdered ? 'ol' : 'ul';
+            const listHtml = `<${tag} class="markdown-list">` +
+                listItems.map(item => `<li>${item}</li>`).join('') +
+                `</${tag}>`;
+            result.push(listHtml);
+        }
+
+        return result.join('\n');
+    }
+
+    // Process paragraphs and line breaks
+    processParagraphs(content) {
+        return content
+            .split('\n\n')
+            .map(block => {
+                block = block.trim();
+                if (!block) return '';
+                
+                // Don't wrap headers, tables, lists, or code blocks in paragraphs
+                if (block.match(/^<(h[1-6]|table|[uo]l|pre|div)/)) {
+                    return block;
+                }
+                
+                // Convert single line breaks to <br> within paragraphs
+                const processedBlock = block.replace(/\n/g, '<br>');
+                return `<p>${processedBlock}</p>`;
             })
-            .replace(/(<tr>.*<\/tr>)/gs, '<table>$1</table>')
-            
-            // Line breaks and paragraphs
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>')
-            .replace(/^(.+)$/gm, '<p>$1</p>')
-            
-            // Clean up
-            .replace(/<p><\/p>/g, '')
-            .replace(/<p><br><\/p>/g, '')
-            .replace(/<p>(<h[1-6]>.*<\/h[1-6]>)<\/p>/g, '$1')
-            .replace(/<p>(<pre>.*<\/pre>)<\/p>/g, '$1')
-            .replace(/<p>(<table>.*<\/table>)<\/p>/g, '$1')
-            .replace(/<p>(<ul>.*<\/ul>)<\/p>/g, '$1');
+            .filter(block => block)
+            .join('\n\n');
+    }
+
+    // Escape HTML characters
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     // Get all unique tags

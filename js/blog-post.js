@@ -85,7 +85,10 @@ class BlogPostPage {
 
         // Highlight code blocks if Prism.js is available
         if (typeof Prism !== 'undefined') {
-            Prism.highlightAll();
+            // Small delay to ensure DOM is updated
+            setTimeout(() => {
+                Prism.highlightAll();
+            }, 100);
         }
 
         // Update sharing links
