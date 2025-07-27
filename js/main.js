@@ -136,6 +136,15 @@ class Portfolio {
 
     // Load blog posts from markdown blog system
     async loadBlogPosts() {
+        // Skip loading blog posts on home page - handled by home.js
+        const isHomePage = window.location.pathname.endsWith('index.html') || 
+                          window.location.pathname === '/' ||
+                          window.location.pathname.endsWith('/');
+        
+        if (isHomePage) {
+            return;
+        }
+        
         const loadingElement = document.getElementById('loading-posts');
         const postsGrid = document.getElementById('posts-grid');
         
