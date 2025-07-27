@@ -37,3 +37,4 @@ npm-debug.log*
 # Temporary files
 *.tmp
 *.temp
+blog-posts/00_blog_template.md

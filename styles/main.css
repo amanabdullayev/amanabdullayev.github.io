@@ -178,46 +178,6 @@ img.avatar-image {
     overflow: hidden !important;
 }
 
-/* Force circular on desktop specifically */
-@media (min-width: 1024px) {
-    .profile-avatar img,
-    .profile-avatar .avatar-image,
-    img.avatar-image {
-        border-radius: 50% !important;
-        width: 160px !important;
-        height: 160px !important;
-    }
-}
-
-/* Responsive avatar sizing */
-@media (min-width: 769px) {
-    .avatar-image {
-        width: 150px !important;
-        height: 150px !important;
-        border-width: 4px !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .avatar-image {
-        width: 120px !important;
-        height: 120px !important;
-        border-width: 3px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .avatar-image {
-        width: 100px !important;
-        height: 100px !important;
-        border-width: 2px !important;
-    }
-    
-    .profile-avatar {
-        margin-bottom: 1.5rem;
-    }
-}
-
 /* Dark theme adjustments */
 [data-theme="dark"] .avatar-image {
     border-color: var(--accent-primary);

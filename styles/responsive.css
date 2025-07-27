@@ -137,10 +137,15 @@
     }
     
     /* Avatar sizing */
-    .avatar-image {
+    .avatar-image,
+    .profile-avatar img,
+    .profile-avatar .avatar-image,
+    img.avatar-image {
         width: 120px !important;
         height: 120px !important;
         border-width: 3px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
     }
     
     /* Tables */
@@ -404,10 +409,19 @@
     }
     
     /* Avatar */
-    .avatar-image {
+    .avatar-image,
+    .profile-avatar img,
+    .profile-avatar .avatar-image,
+    img.avatar-image {
         width: 100px !important;
         height: 100px !important;
         border-width: 2px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+    }
+    
+    .profile-avatar {
+        margin-bottom: 1.5rem;
     }
     
     .profile-avatar {
@@ -462,6 +476,18 @@
 
 /* Medium Desktop Styles - Override tablet rules for larger screens */
 @media (min-width: 769px) {
+    /* Avatar sizing for tablet and above */
+    .avatar-image,
+    .profile-avatar img,
+    .profile-avatar .avatar-image,
+    img.avatar-image {
+        width: 150px !important;
+        height: 150px !important;
+        border-width: 4px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+    }
+    
     .cta-cards {
         grid-template-columns: 1fr 1fr;
         max-width: 700px;
