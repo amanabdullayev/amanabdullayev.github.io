@@ -93,10 +93,6 @@ const CONFIG = {
             logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
         },
         {
-            name: "Databricks",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/6/63/Databricks_Logo.png"
-        },
-        {
             name: "Pandas",
             logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
         },
@@ -119,6 +115,14 @@ const CONFIG = {
         {
             name: "PyMC",
             logo: "https://raw.githubusercontent.com/pymc-devs/pymc/main/docs/logos/PyMC.png"
+        },
+        {
+            name: "Databricks",
+            logo: "images/techstack/databricks.png"
+        },
+        {
+            name: "Snowflake",
+            logo: "images/techstack/snowflake.jpg"
         }
     ],
 
