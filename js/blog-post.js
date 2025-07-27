@@ -67,16 +67,8 @@ class BlogPostPage {
         // Post title
         document.getElementById('blog-post-title').textContent = post.title;
 
-        // Author info
+        // Author info - simple name only
         if (post.author) {
-            const avatarElement = document.getElementById('author-avatar');
-            if (post.author.avatar) {
-                avatarElement.src = post.author.avatar;
-                avatarElement.alt = post.author.name;
-                avatarElement.style.display = '';
-            } else {
-                avatarElement.style.display = 'none';
-            }
             document.getElementById('author-name').textContent = post.author.name;
         }
 

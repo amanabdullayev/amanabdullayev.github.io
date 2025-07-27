@@ -1095,6 +1095,23 @@ footer {
     border-bottom: 1px solid var(--border-light);
 }
 
+.post-author-pin {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.author-pin-icon {
+    font-size: 1rem;
+}
+
+.author-pin-name {
+    font-weight: 500;
+}
+
 .blog-post-header h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -1118,13 +1135,6 @@ footer {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-.author-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
 }
 
 .blog-post-body {

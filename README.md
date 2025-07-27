@@ -1,16 +1,16 @@
 # Portfolio Website
 
-A modern, responsive portfolio website with dark/light theme toggle and markdown-based blog system.
+A modern, responsive portfolio website with dark/light theme toggle and optimized markdown-based blog system.
 
 ## 🚀 Features
 
 - **Multi-page Portfolio**: Home, About, Blog, Contact pages
 - **Dark/Light Theme**: Complete theme system with localStorage persistence
-- **Markdown Blog**: File-based blog system with individual post pages
-- **Responsive Design**: Mobile-first approach with modern CSS
+- **Optimized Markdown Blog**: Clean, file-based blog system with colorful tags
+- **Responsive Design**: Mobile-first approach with fullscreen blog posts
 - **Contact Form**: Integrated with Formspree for form handling
-- **GitHub Actions**: Automated deployment workflow
-- **Private Configuration**: Secure handling of sensitive data
+- **GitHub Actions**: Automated deployment workflow with modern actions
+- **Privacy-First**: No external avatars or tracking
 
 ## 📁 File Structure
 
@@ -22,23 +22,26 @@ portfolio/
 ├── blog-post.html          # Individual blog post template
 ├── contact.html            # Contact page
 ├── styles/
-│   └── main.css           # All styles with theme variables
+│   └── main.css           # Unified styles with theme variables & tag colors
 ├── js/
 │   ├── config-public.js   # Public configuration
 │   ├── config-private.js  # Private configuration (gitignored)
 │   ├── main.js            # Shared functionality & theme system
 │   ├── home.js            # Home page functionality
 │   ├── about.js           # About page functionality
-│   ├── blog.js            # Blog listing functionality
+│   ├── blog.js            # Blog listing with tag filtering
 │   ├── blog-post.js       # Individual blog post functionality
 │   ├── contact.js         # Contact form functionality
-│   └── markdown-blog-cms.js # Markdown processing system
+│   ├── blog-posts-index.json # Generated blog index
+│   └── markdown-blog-cms.js # Optimized markdown processing
 ├── blog-posts/
-│   ├── post-1.md          # Blog post markdown files
-│   └── post-2.md
+│   ├── *.md               # Blog post markdown files
 └── .github/
-    └── workflows/
-        └── deploy.yml     # GitHub Actions deployment
+    ├── workflows/
+    │   └── deploy.yml     # GitHub Actions deployment
+    └── scripts/
+        ├── generate-blog.js     # Blog generation script
+        └── generate-blog-index.js # Blog index generation
 ```
 
 ## 🎨 Theme System
@@ -55,29 +58,29 @@ The website features a complete dark/light theme system:
 ### Creating Blog Posts
 
 1. Create a new `.md` file in the `blog-posts/` directory
-2. Add metadata at the top:
+2. Add metadata at the top of your markdown file:
 
 ```markdown
----
-title: "Your Blog Post Title"
-published: "2025-01-15"
-tags: ["data-science", "analytics"]
-excerpt: "Brief description of your post..."
----
+**Published:** July 15, 2025
+**Tags:** data-science, analytics, marketing
+**Excerpt:** Brief description of your post that will appear in listings...
 
-Your blog content here...
+# Your Blog Post Title
+
+Your blog content here using standard markdown...
 ```
 
-3. The post will automatically appear in the blog listing
-4. Individual post pages are generated dynamically
+3. The build process automatically generates the blog index
+4. Individual post pages are created dynamically
 
 ### Blog Features
 
-- **Markdown Processing**: Full markdown support with code highlighting
-- **Metadata Extraction**: Title, date, tags, excerpt
-- **Dynamic Routing**: Clean URLs for individual posts
-- **Social Sharing**: Built-in sharing buttons
-- **Responsive Layout**: Mobile-optimized reading experience
+- **Optimized Markdown Processing**: Fast markdown-to-HTML conversion
+- **Colorful Tag System**: 10 distinct color schemes for tags with light/dark theme support
+- **Fullscreen Reading**: Wide containers (900px-1000px) for better reading experience
+- **Excerpt Prioritization**: Uses explicit excerpts from metadata over auto-generated content
+- **Privacy-First**: No external avatars or tracking pixels
+- **Mobile Optimized**: Responsive design with smooth scrolling
 
 ## 🔧 Configuration
 

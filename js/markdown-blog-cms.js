@@ -1,4 +1,4 @@
-// Markdown Blog System - Reads .md files from blog-posts folder
+// Markdown Blog System - Simple and Optimized
 class MarkdownBlogCMS {
     constructor() {
         this.cache = new Map();
@@ -6,9 +6,9 @@ class MarkdownBlogCMS {
         this.blogPostsPath = 'blog-posts/';
     }
 
-    // Get list of all blog posts
+    // Get all blog posts from generated index
     async getBlogPosts() {
-        const cacheKey = 'markdown-blog-posts';
+        const cacheKey = 'blog-posts';
         const cached = this.cache.get(cacheKey);
         
         if (cached && Date.now() - cached.timestamp < this.cacheTime) {
@@ -16,79 +16,24 @@ class MarkdownBlogCMS {
         }
 
         try {
-            // Get list of markdown files (this will be populated by build process or manually)
-            const blogPosts = await this.loadBlogPostsIndex();
+            const response = await fetch('js/blog-posts-index.json');
+            if (!response.ok) {
+                throw new Error(`Failed to load blog posts: ${response.status}`);
+            }
+            
+            const posts = await response.json();
             
             // Cache the results
             this.cache.set(cacheKey, {
-                data: blogPosts,
+                data: posts,
                 timestamp: Date.now()
             });
 
-            return blogPosts;
+            return posts;
         } catch (error) {
-            console.error('Failed to load blog posts:', error);
+            console.error('Error loading blog posts:', error);
             return [];
         }
-    }
-
-    // Load blog posts index (contains metadata for all posts)
-    async loadBlogPostsIndex() {
-        try {
-            // Try to load from generated index file
-            const response = await fetch('js/blog-posts-index.json');
-            if (response.ok) {
-                const posts = await response.json();
-                return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-            }
-        } catch (error) {
-            console.warn('Blog posts index not found, using manual list');
-        }
-
-        // Fallback to manual list of blog posts
-        return this.getManualBlogPostsList();
-    }
-
-    // Manual list of blog posts (update this when adding new posts)
-    getManualBlogPostsList() {
-        return [
-            {
-                slug: 'getting-started-with-marketing-analytics',
-                title: 'Getting Started with Marketing Analytics',
-                excerpt: 'As an Applied Scientist working in performance marketing, I\'ve learned that the key to successful marketing analytics lies in understanding both the technical aspects and the business context.',
-                date: '2025-07-20T10:00:00Z',
-                tags: ['marketing-analytics', 'data-science', 'mmm', 'attribution'],
-                author: {
-                    name: 'Aman Abdullayev',
-                    avatar: 'https://github.com/amanabdullayev.png',
-                    url: 'https://github.com/amanabdullayev'
-                }
-            },
-            {
-                slug: 'journey-environmental-science-to-data-science',
-                title: 'My Journey from Environmental Science to Data Science',
-                excerpt: 'When I started my career in environmental science, I never imagined I\'d end up as an Applied Scientist at Zalando. Life has a funny way of taking unexpected turns.',
-                date: '2025-07-15T14:30:00Z',
-                tags: ['career', 'personal', 'data-science', 'academia', 'transition'],
-                author: {
-                    name: 'Aman Abdullayev',
-                    avatar: 'https://github.com/amanabdullayev.png',
-                    url: 'https://github.com/amanabdullayev'
-                }
-            },
-            {
-                slug: 'building-robust-attribution-models',
-                title: 'Building Robust Attribution Models: Lessons Learned',
-                excerpt: 'After building multiple attribution models at Haensel AMS and now at Zalando, I\'ve learned some valuable lessons about what works and what doesn\'t.',
-                date: '2025-07-10T09:15:00Z',
-                tags: ['attribution-modeling', 'data-science', 'technical', 'machine-learning'],
-                author: {
-                    name: 'Aman Abdullayev',
-                    avatar: 'https://github.com/amanabdullayev.png',
-                    url: 'https://github.com/amanabdullayev'
-                }
-            }
-        ];
     }
 
     // Get a specific blog post content
@@ -146,9 +91,7 @@ class MarkdownBlogCMS {
             url: `blog-post.html?post=${slug}`,
             id: slug,
             author: {
-                name: 'Aman Abdullayev',
-                avatar: 'https://github.com/amanabdullayev.png',
-                url: 'https://github.com/amanabdullayev'
+                name: 'Aman Abdullayev'
             }
         };
     }
@@ -248,11 +191,6 @@ class MarkdownBlogCMS {
             month: 'short',
             day: 'numeric'
         });
-    }
-
-    // Generate blog posts index for build process
-    generateBlogPostsIndex() {
-        return this.getManualBlogPostsList();
     }
 }
 
