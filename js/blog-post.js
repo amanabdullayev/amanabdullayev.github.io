@@ -83,16 +83,56 @@ class BlogPostPage {
         // Post content
         document.getElementById('blog-post-body').innerHTML = post.content;
 
-        // Highlight code blocks if Prism.js is available
-        if (typeof Prism !== 'undefined') {
-            // Small delay to ensure DOM is updated
-            setTimeout(() => {
-                Prism.highlightAll();
-            }, 100);
-        }
+        // Enhanced code highlighting with fallback and retry logic
+        this.initializeCodeHighlighting();
 
         // Update sharing links
         this.updateSharingLinks(post);
+    }
+
+    // Initialize code highlighting with robust error handling
+    initializeCodeHighlighting() {
+        // Function to apply highlighting
+        const applyHighlighting = () => {
+            if (typeof Prism !== 'undefined') {
+                try {
+                    // Remove any existing highlighting classes first
+                    document.querySelectorAll('pre code').forEach(block => {
+                        block.className = block.className.replace(/\bhighlight-\w+/g, '');
+                    });
+                    
+                    // Apply Prism highlighting
+                    Prism.highlightAll();
+                    console.log('Prism.js highlighting applied successfully');
+                } catch (error) {
+                    console.warn('Prism.js highlighting failed:', error);
+                }
+            } else {
+                console.log('Prism.js not available, using fallback styling');
+                this.applyFallbackCodeStyling();
+            }
+        };
+
+        // Try immediate highlighting
+        applyHighlighting();
+
+        // Retry after a delay to handle CDN loading
+        setTimeout(applyHighlighting, 500);
+        
+        // Final retry after longer delay
+        setTimeout(applyHighlighting, 2000);
+    }
+
+    // Apply fallback styling when Prism.js is not available
+    applyFallbackCodeStyling() {
+        document.querySelectorAll('pre code').forEach(block => {
+            if (!block.classList.contains('language-')) {
+                block.style.color = 'var(--text-primary)';
+                block.style.fontFamily = 'Monaco, Menlo, Ubuntu Mono, Courier New, monospace';
+                block.style.fontSize = '0.9rem';
+                block.style.lineHeight = '1.6';
+            }
+        });
     }
 
     populateTags(tags) {

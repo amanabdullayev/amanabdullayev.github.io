@@ -1335,18 +1335,32 @@ footer {
 
 /* ===== ENHANCED MARKDOWN CONTENT STYLES ===== */
 
-/* Code Block Styles */
-.code-block {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    overflow-x: auto;
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    position: relative;
+/* Code Block Styles - Enhanced with fallbacks */
+.code-block, pre[class*="language-"], pre {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    overflow-x: auto !important;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace !important;
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    position: relative !important;
+    white-space: pre !important;
+    color: var(--text-primary) !important;
+}
+
+.code-block code, pre[class*="language-"] code, pre code {
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: inherit !important;
+    color: inherit !important;
+    display: block !important;
+    white-space: pre !important;
+    font-family: inherit !important;
+    border: none !important;
 }
 
 .code-block::before {
@@ -1359,16 +1373,7 @@ footer {
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.5px;
-}
-
-.code-block code {
-    background: none !important;
-    padding: 0 !important;
-    margin: 0;
-    font-size: inherit;
-    color: var(--text-primary);
-    display: block;
-    white-space: pre;
+    z-index: 1;
 }
 
 /* Inline Code Styles */
@@ -1567,5 +1572,103 @@ footer {
         font-size: 0.7rem;
         top: 0.375rem;
         right: 0.75rem;
+    }
+}
+
+/* ===== GITHUB PAGES COMPATIBILITY IMPROVEMENTS ===== */
+
+/* Ensure code blocks render properly even without Prism.js */
+pre, pre[class], .code-block {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace !important;
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    white-space: pre !important;
+    overflow-x: auto !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+}
+
+/* Force proper styling for code elements */
+pre code, .code-block code, code[class*="language-"] {
+    background: transparent !important;
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    white-space: pre !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+/* Ensure inline code is distinguishable */
+p code, li code, td code, th code, .inline-code {
+    background: var(--bg-secondary) !important;
+    color: var(--accent-primary) !important;
+    padding: 0.2em 0.4em !important;
+    border-radius: 4px !important;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace !important;
+    font-size: 0.875em !important;
+    border: 1px solid var(--border-light) !important;
+    white-space: nowrap !important;
+}
+
+/* Override any theme conflicts */
+[data-theme="dark"] pre,
+[data-theme="dark"] .code-block {
+    background: #1e1e1e !important;
+    color: #f8f8f2 !important;
+    border-color: #404040 !important;
+}
+
+[data-theme="dark"] p code,
+[data-theme="dark"] li code,
+[data-theme="dark"] .inline-code {
+    background: #2d2d2d !important;
+    color: #82aaff !important;
+    border-color: #404040 !important;
+}
+
+/* Ensure tables render properly */
+.markdown-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin: 1.5rem 0 !important;
+    font-size: 0.9rem !important;
+}
+
+.markdown-table th,
+.markdown-table td {
+    border: 1px solid var(--border-color) !important;
+    padding: 0.875rem 1rem !important;
+    text-align: left !important;
+}
+
+.markdown-table th {
+    background: var(--accent-primary) !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    pre, .code-block {
+        font-size: 0.8rem !important;
+        padding: 1rem !important;
+        margin: 1rem 0 !important;
+    }
+    
+    .markdown-table {
+        font-size: 0.8rem !important;
+    }
+    
+    .markdown-table th,
+    .markdown-table td {
+        padding: 0.5rem !important;
     }
 }

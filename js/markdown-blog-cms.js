@@ -120,28 +120,31 @@ class MarkdownBlogCMS {
         return excerptMatch ? excerptMatch[1] : '';
     }
 
-    // Process markdown content to HTML
+    // Process markdown content to HTML - Enhanced and more robust
     processMarkdown(content) {
         if (!content) return '';
+
+        // Normalize line endings
+        content = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
         // First, protect code blocks and process them separately
         const codeBlocks = [];
         let codeBlockIndex = 0;
         
-        // Extract and temporarily replace code blocks
-        content = content.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+        // Extract and temporarily replace code blocks (more robust regex)
+        content = content.replace(/```(\w+)?\s*\n([\s\S]*?)\n```/g, (match, lang, code) => {
             codeBlocks.push({
-                lang: lang || '',
-                code: code.trim()
+                lang: (lang || '').toLowerCase().trim(),
+                code: code.replace(/^\n+|\n+$/g, '') // Trim leading/trailing newlines
             });
-            return `__CODE_BLOCK_${codeBlockIndex++}__`;
+            return `\n__CODE_BLOCK_${codeBlockIndex++}__\n`;
         });
 
-        // Extract and temporarily replace inline code
+        // Extract and temporarily replace inline code (more specific)
         const inlineCodes = [];
         let inlineCodeIndex = 0;
         content = content.replace(/`([^`\n]+)`/g, (match, code) => {
-            inlineCodes.push(code);
+            inlineCodes.push(code.trim());
             return `__INLINE_CODE_${inlineCodeIndex++}__`;
         });
 
@@ -152,9 +155,9 @@ class MarkdownBlogCMS {
             .replace(/^## (.*$)/gim, '<h2>$1</h2>')
             .replace(/^# (.*$)/gim, '<h1>$1</h1>')
             
-            // Bold and Italic
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            // Bold and Italic (more specific)
+            .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
             
             // Links
             .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
@@ -168,18 +171,27 @@ class MarkdownBlogCMS {
         // Process paragraphs and line breaks
         html = this.processParagraphs(html);
         
-        // Restore inline code
+        // Restore inline code with proper escaping
         inlineCodes.forEach((code, index) => {
             html = html.replace(`__INLINE_CODE_${index}__`, `<code class="inline-code">${this.escapeHtml(code)}</code>`);
         });
 
-        // Restore code blocks
+        // Restore code blocks with enhanced structure
         codeBlocks.forEach((block, index) => {
             const langClass = block.lang ? ` class="language-${block.lang}"` : '';
             const langAttribute = block.lang ? ` data-language="${block.lang}"` : '';
+            const preClass = block.lang ? `code-block language-${block.lang}` : 'code-block';
+            
             html = html.replace(`__CODE_BLOCK_${index}__`, 
-                `<pre class="code-block"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>`);
+                `<pre class="${preClass}"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>`);
         });
+
+        // Clean up extra whitespace and empty elements
+        html = html
+            .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove excessive newlines
+            .replace(/<p>\s*<\/p>/g, '') // Remove empty paragraphs
+            .replace(/(<pre[^>]*>)\s*\n/g, '$1') // Clean pre tag spacing
+            .replace(/\n\s*(<\/pre>)/g, '$1'); // Clean pre tag spacing
 
         return html;
     }

@@ -8,24 +8,32 @@ This is a test post to demonstrate the improved markdown rendering capabilities.
 
 ## Code Examples
 
-Here's some JavaScript code:
+Here's some **JavaScript** code with proper syntax highlighting:
 
 ```javascript
 function processMarkdown(content) {
     if (!content) return '';
     
-    // Process code blocks
+    // Process code blocks with enhanced handling
     const codeBlocks = [];
     let codeBlockIndex = 0;
     
     return content.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-        codeBlocks.push({ lang: lang || '', code: code.trim() });
+        codeBlocks.push({ 
+            lang: lang || '', 
+            code: code.trim() 
+        });
         return `__CODE_BLOCK_${codeBlockIndex++}__`;
     });
 }
+
+// Example usage
+const markdown = "```js\nconsole.log('Hello World');\n```";
+const html = processMarkdown(markdown);
+console.log(html);
 ```
 
-And here's some Python code:
+And here's some **Python** code:
 
 ```python
 def generate_blog_index():
@@ -39,6 +47,32 @@ def generate_blog_index():
                 posts.append(parse_post(content))
     
     return sorted(posts, key=lambda x: x['date'], reverse=True)
+
+# Example with error handling
+try:
+    index = generate_blog_index()
+    print(f"Generated index with {len(index)} posts")
+except Exception as e:
+    print(f"Error generating index: {e}")
+```
+
+Some **CSS** for styling:
+
+```css
+.code-block {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.inline-code {
+    background: var(--bg-secondary);
+    color: var(--accent-primary);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+}
 ```
 
 ## Tables
