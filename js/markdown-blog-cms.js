@@ -168,6 +168,9 @@ class MarkdownBlogCMS {
         // Process lists
         html = this.processLists(html);
         
+        // Process blockquotes
+        html = this.processBlockquotes(html);
+        
         // Process paragraphs and line breaks
         html = this.processParagraphs(html);
         
@@ -302,6 +305,51 @@ class MarkdownBlogCMS {
         return result.join('\n');
     }
 
+    // Process blockquotes with proper handling
+    processBlockquotes(content) {
+        const lines = content.split('\n');
+        const result = [];
+        let inBlockquote = false;
+        let blockquoteLines = [];
+
+        for (let line of lines) {
+            const trimmed = line.trim();
+            
+            if (trimmed.startsWith('> ')) {
+                if (!inBlockquote) {
+                    inBlockquote = true;
+                    blockquoteLines = [];
+                }
+                // Remove the '> ' prefix and add to blockquote content
+                blockquoteLines.push(trimmed.substring(2));
+            } else if (trimmed.startsWith('>') && trimmed.length === 1) {
+                // Handle standalone '>' for empty lines in blockquotes
+                if (!inBlockquote) {
+                    inBlockquote = true;
+                    blockquoteLines = [];
+                }
+                blockquoteLines.push('');
+            } else {
+                if (inBlockquote && blockquoteLines.length > 0) {
+                    // Convert blockquote content and wrap in blockquote tags
+                    const blockquoteContent = blockquoteLines.join('<br>').trim();
+                    result.push(`<blockquote>${blockquoteContent}</blockquote>`);
+                    blockquoteLines = [];
+                    inBlockquote = false;
+                }
+                result.push(line);
+            }
+        }
+
+        // Handle blockquote at end of content
+        if (inBlockquote && blockquoteLines.length > 0) {
+            const blockquoteContent = blockquoteLines.join('<br>').trim();
+            result.push(`<blockquote>${blockquoteContent}</blockquote>`);
+        }
+
+        return result.join('\n');
+    }
+
     // Process paragraphs and line breaks
     processParagraphs(content) {
         return content
@@ -310,8 +358,8 @@ class MarkdownBlogCMS {
                 block = block.trim();
                 if (!block) return '';
                 
-                // Don't wrap headers, tables, lists, or code blocks in paragraphs
-                if (block.match(/^<(h[1-6]|table|[uo]l|pre|div)/)) {
+                // Don't wrap headers, tables, lists, blockquotes, or code blocks in paragraphs
+                if (block.match(/^<(h[1-6]|table|[uo]l|blockquote|pre|div)/)) {
                     return block;
                 }
                 
