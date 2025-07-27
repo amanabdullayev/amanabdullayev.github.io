@@ -239,3 +239,10 @@ contact: [
     // Add more contact methods...
 ]
 ```
+
+## Imprevement Ideas
+- GA4
+- Social link sharing preview images
+- SEO optimization
+- Blog View counter
+- Commenting Option for Blogs

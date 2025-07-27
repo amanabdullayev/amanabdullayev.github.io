@@ -56,7 +56,7 @@ df = pd.read_sql_query(f"""
 df.head()
 ```
 
-![image.png](blog_images/blog_01_img_01.png)
+![SQLite History Example](blog_images/blog_01_img_01.png)
 
 Now, explore the dataframe and locate your code snippets in the "source" column. Once you find a snippet, note the corresponding session number from the "session" column—this reflects each time you start or restart the Jupyter Kernel. Remember this session number for the next step.
 
@@ -69,7 +69,7 @@ df_session_content = pd.read_sql_query(f"""
 df_session_content.head()
 ```
 
-![image.png](blog_images/blog_01_img_02.png)
+![Specific Session Eexample](blog_images/blog_01_img_02.png)
 
 After creating the above dataframe, filter it to include only distinct rows based on the "source" column. This ensures that running the code cell multiple times within the same session doesn't result in duplicate rows. Finally, use the `nbformat` package to write the required rows from the "source" column into a new Jupyter Notebook, as shown below:
 
