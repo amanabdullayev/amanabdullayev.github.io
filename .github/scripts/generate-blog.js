@@ -40,6 +40,7 @@ async function generateBlogIndex() {
         excerpt,
         date,
         tags: Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()),
+        url: `blog-post.html?post=${slug}`,
         author: {
           name: 'Aman Abdullayev',
           url: 'https://github.com/amanabdullayev'

@@ -212,7 +212,7 @@ class BlogPage {
         return `
             <article class="post-card">
                 <h3 class="post-title">
-                    <a href="blog-post.html?post=${post.slug}" target="_blank">${post.title}</a>
+                    <a href="blog-post.html?post=${post.slug}">${post.title}</a>
                 </h3>
                 <div class="post-tags">${tagsHtml}</div>
                 <p class="post-excerpt">${post.excerpt}</p>

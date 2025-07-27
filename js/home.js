@@ -106,7 +106,7 @@ class HomePage {
         return `
             <article class="post-card">
                 <h3 class="post-title">
-                    <a href="${post.url}" target="_blank">${post.title}</a>
+                    <a href="${post.url}">${post.title}</a>
                 </h3>
                 <div class="post-tags">${tagsHtml}</div>
                 <p class="post-excerpt">${post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt}</p>
