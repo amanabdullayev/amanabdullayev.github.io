@@ -159,6 +159,11 @@ class MarkdownBlogCMS {
             .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
             .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
             
+            // Images (process before links to avoid conflicts)
+            .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
+                return this.processImage(alt, src);
+            })
+            
             // Links
             .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
@@ -350,6 +355,39 @@ class MarkdownBlogCMS {
         return result.join('\n');
     }
 
+    // Process images with enhanced features
+    processImage(alt, src) {
+        // Handle relative paths for blog images
+        let imageSrc = src;
+        
+        // Support multiple path formats
+        if (src.startsWith('blog_images/')) {
+            // Legacy format: blog_images/filename.ext
+            imageSrc = `blog-posts/${src}`;
+        } else if (src.startsWith('images/')) {
+            // New organized format: images/category/filename.ext
+            imageSrc = `blog-posts/${src}`;
+        } else if (!src.startsWith('http') && !src.startsWith('/') && !src.startsWith('data:')) {
+            // Relative path without prefix, assume it's in blog-posts
+            imageSrc = `blog-posts/${src}`;
+        }
+        
+        // Generate responsive image HTML with proper attributes
+        const imageHTML = `<figure class="blog-image">
+            <img src="${imageSrc}" 
+                 alt="${this.escapeHtml(alt)}" 
+                 loading="lazy"
+                 class="responsive-image"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="image-error" style="display:none; padding: 20px; background: #f5f5f5; border: 1px dashed #ccc; text-align: center; color: #666;">
+                <p>Image not found: ${this.escapeHtml(src)}</p>
+            </div>
+            ${alt ? `<figcaption class="image-caption">${this.escapeHtml(alt)}</figcaption>` : ''}
+        </figure>`;
+        
+        return imageHTML;
+    }
+
     // Process paragraphs and line breaks
     processParagraphs(content) {
         return content
@@ -358,8 +396,8 @@ class MarkdownBlogCMS {
                 block = block.trim();
                 if (!block) return '';
                 
-                // Don't wrap headers, tables, lists, blockquotes, or code blocks in paragraphs
-                if (block.match(/^<(h[1-6]|table|[uo]l|blockquote|pre|div)/)) {
+                // Don't wrap headers, tables, lists, blockquotes, images, or code blocks in paragraphs
+                if (block.match(/^<(h[1-6]|table|[uo]l|blockquote|figure|pre|div)/)) {
                     return block;
                 }
                 

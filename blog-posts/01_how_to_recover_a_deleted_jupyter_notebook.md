@@ -93,4 +93,4 @@ print("Jupyter Notebook created successfully.")
 
 Voilà! You have recovered the code cells of your Jupyter Notebook. However, you'll need to manually input all markdown cells if you had them before.
 
->Troubles are like the night... Rest, don’t despair; morning will surely come.
+> Troubles are like the night... Rest, don’t despair; morning will surely come.
