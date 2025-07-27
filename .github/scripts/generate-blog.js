@@ -42,7 +42,6 @@ async function generateBlogIndex() {
         tags: Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()),
         author: {
           name: 'Aman Abdullayev',
-          avatar: 'https://github.com/amanabdullayev.png',
           url: 'https://github.com/amanabdullayev'
         }
       });
@@ -97,7 +96,13 @@ function extractTitleFromContent(content) {
 }
 
 function extractExcerptFromContent(content) {
-  // Remove markdown formatting and get first paragraph
+  // First try to find explicit excerpt from metadata parsing
+  const excerptMatch = content.match(/\*\*Excerpt:\*\*\s+(.+)/);
+  if (excerptMatch) {
+    return excerptMatch[1].trim();
+  }
+  
+  // Fallback: Remove markdown formatting and get first paragraph
   const plainText = content
     .replace(/#+\s/g, '')
     .replace(/\*\*(.*?)\*\*/g, '$1')

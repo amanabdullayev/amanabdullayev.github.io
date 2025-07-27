@@ -84,9 +84,10 @@ class BlogPage {
         // Get all unique tags
         const allTags = [...new Set(this.allPosts.flatMap(post => post.tags))];
         
-        tagFilters.innerHTML = allTags.map(tag => `
-            <button class="tag-filter" data-tag="${tag}">${tag}</button>
-        `).join('');
+        tagFilters.innerHTML = allTags.map(tag => {
+            const colorIndex = getTagColorIndex(tag);
+            return `<button class="tag-filter tag" data-tag="${tag}" data-color="${colorIndex}">${tag}</button>`;
+        }).join('');
         
         // Add click listeners
         tagFilters.addEventListener('click', (e) => {
@@ -203,17 +204,20 @@ class BlogPage {
     // Create HTML for a blog post card
     createPostCard(post) {
         const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
-        const tagsHtml = post.tags ? post.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
+        const tagsHtml = post.tags ? post.tags.map(tag => {
+            const colorIndex = getTagColorIndex(tag);
+            return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
+        }).join('') : '';
         
         return `
             <article class="post-card">
                 <h3 class="post-title">
                     <a href="blog-post.html?post=${post.slug}" target="_blank">${post.title}</a>
                 </h3>
+                <div class="post-tags">${tagsHtml}</div>
                 <p class="post-excerpt">${post.excerpt}</p>
                 <div class="post-meta">
                     <span class="post-date">${formattedDate}</span>
-                    <div class="post-tags">${tagsHtml}</div>
                 </div>
             </article>
         `;

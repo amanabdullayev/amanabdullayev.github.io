@@ -1,0 +1,21 @@
+{
+  "name": "amanabdullayev.github.io",
+  "version": "1.0.0",
+  "description": "A modern, responsive portfolio website with dark/light theme toggle and markdown-based blog system.",
+  "main": "index.js",
+  "scripts": {
+    "generate-blog": "node .github/scripts/generate-blog-index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-private:amanabdullayev/amanabdullayev.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

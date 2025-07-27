@@ -1,3 +1,23 @@
+// Utility function to generate consistent colors for tags
+function getTagColorIndex(tagName) {
+    let hash = 0;
+    for (let i = 0; i < tagName.length; i++) {
+        const char = tagName.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash) % 10; // Return index between 0-9
+}
+
+// Test function to verify tag color consistency (can be removed in production)
+function testTagColors() {
+    const testTags = ['data-science', 'marketing-analytics', 'javascript', 'react', 'python', 'web-dev'];
+    console.log('Tag color mapping:');
+    testTags.forEach(tag => {
+        console.log(`${tag}: color-${getTagColorIndex(tag)}`);
+    });
+}
+
 // Main JavaScript file for portfolio functionality
 class Portfolio {
     constructor() {

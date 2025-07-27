@@ -69,8 +69,14 @@ class BlogPostPage {
 
         // Author info
         if (post.author) {
-            document.getElementById('author-avatar').src = post.author.avatar;
-            document.getElementById('author-avatar').alt = post.author.name;
+            const avatarElement = document.getElementById('author-avatar');
+            if (post.author.avatar) {
+                avatarElement.src = post.author.avatar;
+                avatarElement.alt = post.author.name;
+                avatarElement.style.display = '';
+            } else {
+                avatarElement.style.display = 'none';
+            }
             document.getElementById('author-name').textContent = post.author.name;
         }
 
@@ -98,9 +104,11 @@ class BlogPostPage {
         const tagsContainer = document.getElementById('post-tags');
         
         if (tags && tags.length > 0) {
-            tagsContainer.innerHTML = tags.map(tag => 
-                `<span class="tag">${tag}</span>`
-            ).join('');
+            const tagsHtml = tags.map(tag => {
+                const colorIndex = getTagColorIndex(tag);
+                return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
+            }).join('');
+            tagsContainer.innerHTML = tagsHtml;
         } else {
             tagsContainer.style.display = 'none';
         }

@@ -1,3 +1,8 @@
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+}
+
 /* CSS Variables for Theme Support */
 :root {
     /* Light theme variables */
@@ -581,18 +586,30 @@ main {
 }
 
 .tag-filter {
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+}
+
+.tag-filter:not(.tag) {
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
     color: var(--text-secondary);
 }
 
-.tag-filter:hover,
+.tag-filter:hover:not(.active),
 .tag-filter.active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tag-filter.active:not(.tag) {
     background: var(--accent-primary);
     color: white;
     border-color: var(--accent-primary);
@@ -769,9 +786,13 @@ main {
 
 .post-title {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     color: var(--text-primary);
     font-weight: 600;
+}
+
+.post-card .post-tags {
+    margin-bottom: 1rem;
 }
 
 .post-title a {
@@ -807,6 +828,49 @@ main {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.tag {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border-radius: 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+}
+
+/* Distinct tag colors - these will be applied via JavaScript based on tag name hash */
+.tag[data-color="0"] { background-color: #e3f2fd; color: #1565c0; border-color: #bbdefb; }
+.tag[data-color="1"] { background-color: #f3e5f5; color: #7b1fa2; border-color: #e1bee7; }
+.tag[data-color="2"] { background-color: #e8f5e8; color: #2e7d32; border-color: #c8e6c9; }
+.tag[data-color="3"] { background-color: #fff3e0; color: #f57c00; border-color: #ffcc02; }
+.tag[data-color="4"] { background-color: #fce4ec; color: #c2185b; border-color: #f8bbd9; }
+.tag[data-color="5"] { background-color: #e0f2f1; color: #00695c; border-color: #b2dfdb; }
+.tag[data-color="6"] { background-color: #f1f8e9; color: #558b2f; border-color: #dcedc8; }
+.tag[data-color="7"] { background-color: #fff8e1; color: #ff8f00; border-color: #ffecb3; }
+.tag[data-color="8"] { background-color: #fafafa; color: #424242; border-color: #e0e0e0; }
+.tag[data-color="9"] { background-color: #e8eaf6; color: #3f51b5; border-color: #c5cae9; }
+
+/* Dark theme colors for tags */
+[data-theme="dark"] .tag[data-color="0"] { background-color: #1a237e; color: #90caf9; border-color: #3f51b5; }
+[data-theme="dark"] .tag[data-color="1"] { background-color: #4a148c; color: #ce93d8; border-color: #7b1fa2; }
+[data-theme="dark"] .tag[data-color="2"] { background-color: #1b5e20; color: #a5d6a7; border-color: #388e3c; }
+[data-theme="dark"] .tag[data-color="3"] { background-color: #e65100; color: #ffcc02; border-color: #ff9800; }
+[data-theme="dark"] .tag[data-color="4"] { background-color: #880e4f; color: #f48fb1; border-color: #ad1457; }
+[data-theme="dark"] .tag[data-color="5"] { background-color: #004d40; color: #80cbc4; border-color: #00695c; }
+[data-theme="dark"] .tag[data-color="6"] { background-color: #33691e; color: #c5e1a5; border-color: #689f38; }
+[data-theme="dark"] .tag[data-color="7"] { background-color: #ff6f00; color: #ffecb3; border-color: #ff8f00; }
+[data-theme="dark"] .tag[data-color="8"] { background-color: #424242; color: #e0e0e0; border-color: #616161; }
+[data-theme="dark"] .tag[data-color="9"] { background-color: #283593; color: #9fa8da; border-color: #3f51b5; }
+
+.tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .comments-count {
@@ -1004,9 +1068,10 @@ footer {
 
     /* Blog Post Page Styles */
 .blog-post-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
+    min-height: calc(100vh - 140px); /* Account for header/footer */
 }
 
 .blog-post-nav {
@@ -1032,9 +1097,13 @@ footer {
 
 .blog-post-header h1 {
     font-size: 2.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     color: var(--text-primary);
     line-height: 1.2;
+}
+
+.blog-post-header .post-tags {
+    margin-bottom: 1.5rem;
 }
 
 .blog-post-meta {
@@ -1062,6 +1131,32 @@ footer {
     line-height: 1.8;
     font-size: 1.1rem;
     color: var(--text-primary);
+    max-width: none;
+    scroll-behavior: smooth;
+}
+
+/* Improve blog post readability and spacing */
+.blog-post-body > * {
+    margin-bottom: 1.5rem;
+}
+
+.blog-post-body > h1,
+.blog-post-body > h2,
+.blog-post-body > h3 {
+    scroll-margin-top: 80px; /* Account for fixed header if any */
+}
+
+/* Better visual hierarchy for large screens */
+@media (min-width: 1200px) {
+    .blog-post-container {
+        max-width: 1000px;
+        padding: 3rem 2rem;
+    }
+    
+    .blog-post-body {
+        font-size: 1.2rem;
+        line-height: 1.9;
+    }
 }
 
 .blog-post-body h1,
@@ -1199,7 +1294,9 @@ footer {
 /* Mobile responsiveness for blog posts */
 @media (max-width: 768px) {
     .blog-post-container {
-        padding: 1rem;
+        padding: 1rem 0.5rem;
+        max-width: 100%;
+        margin: 0;
     }
     
     .blog-post-header h1 {
@@ -1220,16 +1317,10 @@ footer {
         justify-content: center;
     }
     
-    .blog-post-body pre {
+    .blog-post_body pre {
         padding: 1rem;
         font-size: 0.9rem;
     }
-}
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
 }
 
 /* Animations */
