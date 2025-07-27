@@ -70,13 +70,7 @@
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 2px 8px var(--shadow-color);
-    transition: all 0.3s ease;
     border: 1px solid var(--border-color);
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px var(--shadow-hover);
 }
 
 /* Post Card Styles */
@@ -95,12 +89,14 @@
 .post-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px var(--shadow-hover);
+    border-color: var(--accent-primary);
 }
 
 .post-title {
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
     font-weight: 600;
+    color: var(--text-primary);
 }
 
 .post-title a {
@@ -135,6 +131,23 @@
     color: var(--text-muted);
 }
 
+/* Ensure text elements inside clickable cards maintain proper styling */
+.post-card[onclick] .post-title {
+    color: var(--text-primary);
+}
+
+.post-card[onclick]:hover .post-title {
+    color: var(--accent-primary);
+}
+
+/* Prevent text selection on clickable cards for better UX */
+.post-card[onclick] {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 /* Stat Card Styles */
 .stat-card {
     background: var(--bg-secondary);
@@ -142,13 +155,7 @@
     padding: 1.5rem;
     text-align: center;
     box-shadow: 0 2px 8px var(--shadow-color);
-    transition: all 0.3s ease;
     border: 1px solid var(--border-color);
-}
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px var(--shadow-hover);
 }
 
 .stat-icon {
@@ -176,7 +183,6 @@
     font-size: 0.8rem;
     font-weight: 500;
     margin: 0.25rem 0.25rem 0.25rem 0;
-    transition: all 0.3s ease;
     cursor: pointer;
     border: 1px solid transparent;
 }
@@ -212,9 +218,16 @@
 [data-theme="dark"] .tag[data-color="8"] { background-color: #92400e; color: #fcd34d; }
 [data-theme="dark"] .tag[data-color="9"] { background-color: #1f2937; color: #d1d5db; }
 
-.tag:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px var(--shadow-color);
+/* Tags inside blog posts or on blog cards should not have hover effects (they're just labels) */
+.post-card .tag,
+.blog-post-header .tag {
+    cursor: default;
+}
+
+.post-card .tag:hover,
+.blog-post-header .tag:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 /* Form Styles */

@@ -178,10 +178,8 @@ class Portfolio {
         const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
         
         return `
-            <article class="post-card">
-                <h3 class="post-title">
-                    <a href="${post.url}" target="_blank">${post.title}</a>
-                </h3>
+            <article class="post-card" onclick="window.location.href='blog-post.html?post=${post.slug}'" style="cursor: pointer;">
+                <h3 class="post-title">${post.title}</h3>
                 <p class="post-excerpt">${post.excerpt}</p>
                 <div class="post-meta">
                     <span class="post-date">${formattedDate}</span>

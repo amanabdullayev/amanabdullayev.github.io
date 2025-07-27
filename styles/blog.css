@@ -33,8 +33,8 @@
 /* Blog Post Header */
 .blog-post-header {
     text-align: center;
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-light);
 }
 
@@ -43,7 +43,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     color: var(--text-muted);
     font-size: 0.9rem;
 }
@@ -57,16 +57,16 @@
 }
 
 .blog-post-header h1 {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     color: var(--text-primary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     line-height: 1.2;
 }
 
 .blog-post-meta {
     color: var(--text-muted);
     font-size: 0.95rem;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 /* Blog Post Body */

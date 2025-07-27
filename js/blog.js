@@ -210,10 +210,8 @@ class BlogPage {
         }).join('') : '';
         
         return `
-            <article class="post-card">
-                <h3 class="post-title">
-                    <a href="blog-post.html?post=${post.slug}">${post.title}</a>
-                </h3>
+            <article class="post-card" onclick="window.location.href='blog-post.html?post=${post.slug}'" style="cursor: pointer;">
+                <h3 class="post-title">${post.title}</h3>
                 <div class="post-tags">${tagsHtml}</div>
                 <p class="post-excerpt">${post.excerpt}</p>
                 <div class="post-meta">
