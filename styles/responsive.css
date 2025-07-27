@@ -460,6 +460,15 @@
     }
 }
 
+/* Medium Desktop Styles - Override tablet rules for larger screens */
+@media (min-width: 769px) {
+    .cta-cards {
+        grid-template-columns: 1fr 1fr;
+        max-width: 700px;
+        gap: 2rem;
+    }
+}
+
 /* Large Desktop Styles */
 @media (min-width: 1024px) {
     /* Larger avatar on desktop */
@@ -483,12 +492,13 @@
     
     /* CTA Cards on large screens */
     .cta-cards {
-        max-width: 1200px;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 450px));
+        max-width: 700px;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
     }
     
     .cta-section > .cta-card {
-        max-width: 600px;
+        max-width: 500px;
     }
     
     .blog-post_body {
@@ -557,9 +567,4 @@
 
 .contact-links {
     justify-content: center;
-}
-
-.cta-cards {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
 }

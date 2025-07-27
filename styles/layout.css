@@ -192,12 +192,7 @@ footer {
 }
 
 /* Grid Systems */
-.posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
+/* .posts-grid moved to blog.css */
 
 .stats-grid {
     display: grid;
