@@ -104,7 +104,7 @@ class HomePage {
         }).join(''); // Limit tags on home page
         
         return `
-            <article class="post-card" onclick="window.location.href='blog-post.html?post=${post.slug}'" style="cursor: pointer;">
+            <article class="post-card" onclick="window.location.href='${post.url}'" style="cursor: pointer;">
                 <h3 class="post-title">${post.title}</h3>
                 <div class="post-tags">${tagsHtml}</div>
                 <p class="post-excerpt">${post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt}</p>

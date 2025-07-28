@@ -16,7 +16,27 @@ class MarkdownBlogCMS {
         }
 
         try {
-            const response = await fetch('js/blog-posts-index.json');
+            // Determine correct path based on current location
+            const currentPath = window.location.pathname;
+            let indexPath = 'js/blog-posts-index.json';
+            
+            // If we're in a subdirectory (about/, blog/, contact/), adjust the path
+            if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
+                currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
+                indexPath = '../js/blog-posts-index.json';
+            } else if (currentPath.includes('/blog-post/')) {
+                // For blog post pages, we need to go up one or two levels
+                const pathDepth = (currentPath.match(/\//g) || []).length;
+                if (pathDepth >= 3) { // /blog-post/slug/
+                    indexPath = '../../js/blog-posts-index.json';
+                } else { // /blog-post/
+                    indexPath = '../js/blog-posts-index.json';
+                }
+            }
+            
+            console.log('Loading blog posts from:', indexPath, 'Current path:', currentPath);
+            
+            const response = await fetch(indexPath);
             if (!response.ok) {
                 throw new Error(`Failed to load blog posts: ${response.status}`);
             }
@@ -39,13 +59,41 @@ class MarkdownBlogCMS {
     // Get a specific blog post content
     async getBlogPost(slug) {
         try {
-            const response = await fetch(`${this.blogPostsPath}${slug}.md`);
+            // First, try to load all posts to find the file that matches this slug
+            const allPosts = await this.getBlogPosts();
+            const matchingPost = allPosts.find(post => post.slug === slug);
+            
+            if (!matchingPost) {
+                throw new Error(`Blog post not found with slug: ${slug}`);
+            }
+            
+            // Determine correct path based on current location
+            const currentPath = window.location.pathname;
+            let blogPostsPath = 'blog-posts/';
+            
+            // If we're in a subdirectory (about/, blog/, contact/), adjust the path
+            if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
+                currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
+                blogPostsPath = '../blog-posts/';
+            } else if (currentPath.includes('/blog-post/')) {
+                // For blog post pages, we need to go up one or two levels
+                const pathDepth = (currentPath.match(/\//g) || []).length;
+                if (pathDepth >= 3) { // /blog-post/slug/
+                    blogPostsPath = '../../blog-posts/';
+                } else { // /blog-post/
+                    blogPostsPath = '../blog-posts/';
+                }
+            }
+            
+            // Load the actual markdown file using the file slug
+            const fileSlug = matchingPost.fileSlug || matchingPost.slug;
+            const response = await fetch(`${blogPostsPath}${fileSlug}.md`);
             if (!response.ok) {
-                throw new Error(`Blog post not found: ${slug}`);
+                throw new Error(`Blog post file not found: ${fileSlug}`);
             }
             
             const markdown = await response.text();
-            return this.parseMarkdownPost(markdown, slug);
+            return this.parseMarkdownPost(markdown, fileSlug);
         } catch (error) {
             console.error('Failed to load blog post:', error);
             return null;
@@ -68,6 +116,8 @@ class MarkdownBlogCMS {
                 metadata.tags = this.extractTagsFromLine(line);
             } else if (line.startsWith('**Excerpt:**')) {
                 metadata.excerpt = this.extractExcerptFromLine(line);
+            } else if (line.startsWith('**Slug:**')) {
+                metadata.slug = this.extractSlugFromLine(line);
             } else if (line === '---' && i > 0) {
                 contentStart = i + 1;
                 break;
@@ -83,13 +133,17 @@ class MarkdownBlogCMS {
         // Get content after metadata
         const content = lines.slice(contentStart).join('\n');
 
+        // Use the slug from metadata if available, otherwise fall back to filename slug
+        const postSlug = metadata.slug || slug;
+
         return {
-            slug,
+            slug: postSlug,
+            fileSlug: slug, // Keep original filename slug for file loading
             ...metadata,
             content: this.processMarkdown(content),
             rawContent: content,
-            url: `blog-post.html?post=${slug}`,
-            id: slug,
+            url: `blog-post/${postSlug}`,
+            id: postSlug,
             author: {
                 name: 'Aman Abdullayev'
             }
@@ -118,6 +172,12 @@ class MarkdownBlogCMS {
     extractExcerptFromLine(line) {
         const excerptMatch = line.match(/\*\*Excerpt:\*\*\s+(.+)/);
         return excerptMatch ? excerptMatch[1] : '';
+    }
+
+    // Extract slug from metadata line
+    extractSlugFromLine(line) {
+        const slugMatch = line.match(/\*\*Slug:\*\*\s+(.+)/);
+        return slugMatch ? slugMatch[1].trim() : '';
     }
 
     // Process markdown content to HTML - Enhanced and more robust
@@ -360,16 +420,34 @@ class MarkdownBlogCMS {
         // Handle relative paths for blog images
         let imageSrc = src;
         
+        // Determine correct path based on current location
+        const currentPath = window.location.pathname;
+        let blogPostsBasePath = 'blog-posts/';
+        
+        // If we're in a subdirectory (about/, blog/, contact/), adjust the path
+        if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
+            currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
+            blogPostsBasePath = '../blog-posts/';
+        } else if (currentPath.includes('/blog-post/')) {
+            // For blog post pages, we need to go up one or two levels
+            const pathDepth = (currentPath.match(/\//g) || []).length;
+            if (pathDepth >= 3) { // /blog-post/slug/
+                blogPostsBasePath = '../../blog-posts/';
+            } else { // /blog-post/
+                blogPostsBasePath = '../blog-posts/';
+            }
+        }
+        
         // Support multiple path formats
         if (src.startsWith('blog_images/')) {
             // Legacy format: blog_images/filename.ext
-            imageSrc = `blog-posts/${src}`;
+            imageSrc = `${blogPostsBasePath}${src}`;
         } else if (src.startsWith('images/')) {
             // New organized format: images/category/filename.ext
-            imageSrc = `blog-posts/${src}`;
+            imageSrc = `${blogPostsBasePath}${src}`;
         } else if (!src.startsWith('http') && !src.startsWith('/') && !src.startsWith('data:')) {
             // Relative path without prefix, assume it's in blog-posts
-            imageSrc = `blog-posts/${src}`;
+            imageSrc = `${blogPostsBasePath}${src}`;
         }
         
         // Generate responsive image HTML with proper attributes

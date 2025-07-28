@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="post-title">Blog Post - Aman Abdullayev</title>
+    <meta name="description" id="post-description" content="A blog post by Aman Abdullayev">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="../public/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../public/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../public/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../public/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../public/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../public/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../public/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../public/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../public/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../public/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../public/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../public/favicon-16x16.png">
+    <link rel="manifest" href="../public/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="../public/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Core styles - variables, themes, base styles -->
+    <link rel="stylesheet" href="../styles/core.css">
+    <!-- Layout styles - containers, grids, structural elements -->
+    <link rel="stylesheet" href="../styles/layout.css">
+    <!-- Component styles - buttons, cards, reusable elements -->
+    <link rel="stylesheet" href="../styles/components.css">
+    <!-- Blog styles - blog-specific styling -->
+    <link rel="stylesheet" href="../styles/blog.css">
+    <!-- Page styles - page-specific customizations -->
+    <link rel="stylesheet" href="../styles/pages.css">
+    <!-- Responsive styles - media queries and mobile adaptations -->
+    <link rel="stylesheet" href="../styles/responsive.css">
+    
+    <!-- Prism.js for syntax highlighting - Use one consistent theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav>
+                <a href="../" class="logo">
+                    <img src="../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
+                    Aman's Space
+                </a>
+                <div class="nav-buttons">
+                    <a href="../about" class="nav-btn">About</a>
+                    <a href="../blog" class="nav-btn">Blog</a>
+                    <a href="../contact" class="nav-btn">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Blog Post Content -->
+        <article class="blog-post-container">
+            <div id="loading-post" class="loading">
+                <p>Loading blog post...</p>
+            </div>
+            
+            <div id="post-not-found" class="error" style="display: none;">
+                <h2>Post Not Found</h2>
+                <p>The blog post you're looking for could not be found.</p>
+                <a href="../blog" class="btn btn-primary">← Back to Blog</a>
+            </div>
+
+            <div id="blog-post-content" style="display: none;">
+                <!-- Back to blog link -->
+                <div class="blog-post-nav">
+                    <a href="../blog" class="back-to-blog">← Back to Blog</a>
+                </div>
+
+                <!-- Post header -->
+                <header class="blog-post-header">
+                    <div class="post-author-pin">
+                        <div class="author-pin-icon">📝</div>
+                        <span id="author-name" class="author-pin-name"></span>
+                    </div>
+                    <h1 id="blog-post-title"></h1>
+                    <div id="post-tags" class="post-tags"></div>
+                    <div class="blog-post-meta">
+                        <time id="post-date"></time>
+                    </div>
+                </header>
+
+                <!-- Post content -->
+                <div id="blog-post-body" class="blog-post-body">
+                    <!-- Content will be loaded here -->
+                </div>
+
+                <!-- Post footer -->
+                <footer class="blog-post-footer">
+                    <div class="post-sharing">
+                        <h4>Share this post:</h4>
+                        <div class="share-buttons">
+                            <a id="share-twitter" href="#" target="_blank" class="share-btn twitter">
+                                🐦 Twitter
+                            </a>
+                            <a id="share-linkedin" href="#" target="_blank" class="share-btn linkedin">
+                                💼 LinkedIn
+                            </a>
+                            <a id="share-copy" href="#" class="share-btn copy">
+                                📋 Copy Link
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="post-navigation">
+                        <a href="../blog" class="btn btn-secondary">← Back to All Posts</a>
+                    </div>
+                </footer>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 <span id="footer-name">Aman Abdullayev</span>. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../">Home</a>
+                    <a href="../about">About</a>
+                    <a href="../blog">Blog</a>
+                    <a href="../contact">Contact</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Scripts -->
+    <script src="../js/env-config.js"></script>
+    <script src="../js/config-public.js"></script>
+    <script src="../js/markdown-blog-cms.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/blog-post.js"></script>
+    
+    <!-- Prism.js for syntax highlighting - Simplified loading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

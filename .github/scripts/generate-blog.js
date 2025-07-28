@@ -23,24 +23,31 @@ async function generateBlogIndex() {
         const parsed = matter(fileContent);
         frontMatter = parsed.data;
         content = parsed.content;
+        
+        // If gray-matter didn't find any data, fallback to manual parsing
+        if (Object.keys(frontMatter).length === 0) {
+          frontMatter = parseManualMetadata(fileContent);
+        }
       } catch (e) {
         // Fallback to manual parsing
         frontMatter = parseManualMetadata(fileContent);
       }
       
-      const slug = path.basename(file, '.md');
+      const fileSlug = path.basename(file, '.md');
       const title = frontMatter.title || extractTitleFromContent(content);
       const excerpt = frontMatter.excerpt || extractExcerptFromContent(content);
       const date = frontMatter.date || extractDateFromContent(content) || new Date().toISOString();
       const tags = frontMatter.tags || extractTagsFromContent(content) || [];
+      const postSlug = frontMatter.slug || fileSlug; // Use custom slug if available, fallback to filename
       
       blogPosts.push({
-        slug,
+        slug: postSlug,
+        fileSlug: fileSlug, // Keep original filename for file loading
         title,
         excerpt,
         date,
         tags: Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()),
-        url: `blog-post.html?post=${slug}`,
+        url: `blog-post/${postSlug}`,
         author: {
           name: 'Aman Abdullayev',
           url: 'https://github.com/amanabdullayev'
@@ -84,6 +91,11 @@ function parseManualMetadata(content) {
       const excerptMatch = line.match(/\*\*Excerpt:\*\*\s+(.+)/);
       if (excerptMatch) {
         metadata.excerpt = excerptMatch[1];
+      }
+    } else if (line.startsWith('**Slug:**')) {
+      const slugMatch = line.match(/\*\*Slug:\*\*\s+(.+)/);
+      if (slugMatch) {
+        metadata.slug = slugMatch[1].trim();
       }
     }
   }

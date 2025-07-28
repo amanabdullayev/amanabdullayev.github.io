@@ -48,6 +48,12 @@ jobs:
         node .github/scripts/generate-blog-index.js
         echo "Blog index generation completed"
         
+    - name: Generate blog post pages
+      run: |
+        echo "Generating individual blog post pages..."
+        node .github/scripts/generate-blog-pages.js
+        echo "Blog pages generation completed"
+        
     - name: Create environment config
       env:
         FORMSPREE_ENDPOINT: ${{ secrets.FORMSPREE_ENDPOINT }}

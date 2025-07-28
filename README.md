@@ -4,7 +4,8 @@ A modern, responsive portfolio website with dark/light theme toggle and optimize
 
 ## 🚀 Features
 
-- **Multi-page Portfolio**: Home, About, Blog, Contact pages
+- **Multi-page Portfolio**: Home, About, Blog, Contact pages with clean URLs
+- **Clean URL Structure**: SEO-friendly URLs without .html extensions
 - **Dark/Light Theme**: Complete theme system with localStorage persistence
 - **Optimized Markdown Blog**: Clean, file-based blog system with colorful tags
 - **Responsive Design**: Mobile-first approach with fullscreen blog posts
@@ -15,11 +16,14 @@ A modern, responsive portfolio website with dark/light theme toggle and optimize
 
 ```
 portfolio/
-├── index.html              # Home page
-├── about.html              # About page  
-├── blog.html               # Blog listing page
-├── blog-post.html          # Individual blog post template
-├── contact.html            # Contact page
+├── index.html              # Home page (accessible at /)
+├── about/
+│   └── index.html         # About page (accessible at /about)
+├── blog/
+│   └── index.html         # Blog listing page (accessible at /blog)
+├── contact/
+│   └── index.html         # Contact page (accessible at /contact)
+├── 404.html               # 404 handling with clean URL routing
 ├── styles/
 │   └── main.css           # Unified styles with theme variables & tag colors
 ├── js/
@@ -35,13 +39,29 @@ portfolio/
 │   └── markdown-blog-cms.js # Optimized markdown processing
 ├── blog-posts/
 │   ├── *.md               # Blog post markdown files
+│   └── blog_images/       # Blog post images
+├── blog-post/             # Generated static blog post pages
+│   ├── index.html         # Blog post template
+│   └── [slug]/           # Individual post directories
+│       └── index.html    # Static post pages (accessible at /blog-post/[slug])
 └── .github/
     ├── workflows/
     │   └── deploy.yml     # GitHub Actions deployment
     └── scripts/
-        ├── generate-blog.js     # Blog generation script
-        └── generate-blog-index.js # Blog index generation
+        ├── generate-blog.js       # Blog generation script
+        ├── generate-blog-index.js # Blog index generation
+        └── generate-blog-pages.js # Static page generation
 ```
+
+## 🌐 URL Structure
+
+The site uses clean URLs for better SEO and user experience:
+
+- **Home**: `https://amanabdullayev.me/`
+- **About**: `https://amanabdullayev.me/about`
+- **Blog**: `https://amanabdullayev.me/blog`
+- **Contact**: `https://amanabdullayev.me/contact`
+- **Blog Posts**: `https://amanabdullayev.me/blog-post/[slug]`
 
 ## 🎨 Theme System
 
@@ -63,6 +83,7 @@ The website features a complete dark/light theme system:
 **Published:** July 15, 2025
 **Tags:** data-science, analytics, marketing
 **Excerpt:** Brief description of your post that will appear in listings...
+**Slug:** custom-url-slug
 
 # Your Blog Post Title
 
@@ -80,6 +101,17 @@ Your blog content here using standard markdown...
 - **Excerpt Prioritization**: Uses explicit excerpts from metadata over auto-generated content
 - **Privacy-First**: No external avatars or tracking pixels
 - **Mobile Optimized**: Responsive design with smooth scrolling
+- **Clean URLs**: SEO-friendly URLs with custom slugs (e.g., `/blog-post/my-awesome-post`)
+
+### URL Structure
+
+The blog system uses clean, SEO-friendly URLs:
+
+- **Format**: `https://yoursite.com/blog-post/custom-slug`
+
+Each blog post gets its own directory with an `index.html` file, making URLs analytics-friendly for tools like Counter.dev. The system automatically generates static pages during the GitHub Actions deployment process.
+
+**Custom Slugs**: Use the `**Slug:**` metadata field to create custom URLs. If no slug is provided, the filename (without `.md`) will be used as the default slug.
 
 ## 🔧 Configuration
 
@@ -240,11 +272,11 @@ contact: [
 ]
 ```
 
-## Imprevement Ideas
-- cover images to each blog
-- make sure whole excerpt shown as preview of a blog
-- GA4
+## Improvement Ideas
+- Cover images for each blog post
+- Ensure full excerpt is shown as preview of a blog
+- GA4 integration
 - Social link sharing preview images
-- SEO optimization
-- Blog View counter
-- Commenting Option for Blogs
+- ~~SEO optimization~~ ✅ **COMPLETED** - Added Open Graph and Twitter Card meta tags
+- Blog view counter (compatible with Counter.dev analytics)
+- Commenting system for blog posts

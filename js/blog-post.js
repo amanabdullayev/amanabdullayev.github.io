@@ -5,9 +5,8 @@ class BlogPostPage {
     }
 
     async init() {
-        // Get post slug from URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const postSlug = urlParams.get('post');
+        // Get post slug from URL path format
+        const postSlug = this.getPostSlugFromUrl();
         
         if (!postSlug) {
             this.showPostNotFound();
@@ -16,6 +15,19 @@ class BlogPostPage {
 
         await this.loadBlogPost(postSlug);
         this.initializeSharing();
+    }
+
+    // Extract post slug from URL path: /blog-post/slug-name
+    getPostSlugFromUrl() {
+        const path = window.location.pathname;
+        
+        // Extract slug from path-based format
+        if (path.includes('/blog-post/')) {
+            const slug = path.split('/blog-post/')[1];
+            return slug ? slug.replace(/\/$/, '') : null; // Remove trailing slash
+        }
+        
+        return null;
     }
 
     async loadBlogPost(slug) {
@@ -66,6 +78,24 @@ class BlogPostPage {
         if (post.excerpt) {
             const metaDescription = document.getElementById('post-description');
             metaDescription.setAttribute('content', post.excerpt);
+            
+            // Update Open Graph tags
+            const ogTitle = document.getElementById('og-title');
+            const ogDescription = document.getElementById('og-description');
+            if (ogTitle) ogTitle.setAttribute('content', document.title);
+            if (ogDescription) ogDescription.setAttribute('content', post.excerpt);
+            
+            // Update Twitter Card tags
+            const twitterTitle = document.getElementById('twitter-title');
+            const twitterDescription = document.getElementById('twitter-description');
+            if (twitterTitle) twitterTitle.setAttribute('content', document.title);
+            if (twitterDescription) twitterDescription.setAttribute('content', post.excerpt);
+        }
+        
+        // Update canonical URL
+        const canonicalUrl = document.getElementById('canonical-url');
+        if (canonicalUrl) {
+            canonicalUrl.setAttribute('href', window.location.href);
         }
     }
 

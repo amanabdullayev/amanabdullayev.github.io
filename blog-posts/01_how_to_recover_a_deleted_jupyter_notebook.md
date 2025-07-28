@@ -3,6 +3,7 @@
 **Published:** September 28, 2024  
 **Tags:** Projects, Python, Research
 **Excerpt:** This article shows how to recover unsaved or deleted Jupyter Notebook code cells using the IPython kernel history stored in an SQLite database. It walks you through locating the history.sqlite file, extracting code with SQL, and saving it into a new notebook using nbformat. Only Python, R, or Julia code cells can be recovered — not markdown.
+**Slug:** recover-deleted-jupyter-notebook
 
 ---
 

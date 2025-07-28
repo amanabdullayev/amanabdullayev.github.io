@@ -62,7 +62,7 @@ class ConfigLoader {
 }
 
 // Auto-initialize for contact page
-if (document.location.pathname.includes('contact.html') || document.location.pathname.endsWith('/contact')) {
+if (document.location.pathname.includes('contact') || document.location.pathname.endsWith('/contact')) {
     document.addEventListener('DOMContentLoaded', () => {
         ConfigLoader.loadContactConfig();
     });

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        // Handle client-side routing for blog posts
+        const path = window.location.pathname;
+        
+        // If this is a blog post URL, redirect to the blog post page with proper routing
+        if (path.startsWith('/blog-post/') && path !== '/blog-post/') {
+            // Keep the URL as is, just redirect to the blog post handler
+            window.location.replace('/blog-post/');
+        } else {
+            // For other 404s, redirect to home
+            window.location.replace('/');
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>

@@ -161,9 +161,9 @@ class Portfolio {
         const path = window.location.pathname;
         const filename = path.split('/').pop();
         
-        if (filename === 'about.html') return 'about';
-        if (filename === 'blog.html') return 'blog';
-        if (filename === 'contact.html') return 'contact';
+        if (filename === 'about') return 'about';
+        if (filename === 'blog') return 'blog';
+        if (filename === 'contact') return 'contact';
         
         return null; // Home page or unknown
     }
@@ -246,7 +246,7 @@ class Portfolio {
         const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
         
         return `
-            <article class="post-card" onclick="window.location.href='blog-post.html?post=${post.slug}'" style="cursor: pointer;">
+            <article class="post-card" onclick="window.location.href='${post.url}'" style="cursor: pointer;">
                 <h3 class="post-title">${post.title}</h3>
                 <p class="post-excerpt">${post.excerpt}</p>
                 <div class="post-meta">
@@ -274,14 +274,14 @@ class Portfolio {
                 excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically. This post will guide you through the setup process.",
                 date: "Dec 15, 2024",
                 tags: ["Setup", "Tutorial"],
-                url: "#"
+                url: "blog-post/getting-started"
             },
             {
                 title: "Customizing Your Portfolio",
                 excerpt: "Learn how to customize the design, colors, and content of your portfolio to match your personal brand and style preferences.",
                 date: "Dec 10, 2024",
                 tags: ["Customization", "Design"],
-                url: "#"
+                url: "blog-post/customizing-portfolio"
             }
         ];
         
