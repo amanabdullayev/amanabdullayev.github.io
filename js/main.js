@@ -91,9 +91,6 @@ class Portfolio {
         // Load contact links
         this.loadContactLinks();
         
-        // Load blog posts from markdown blog system
-        await this.loadBlogPosts();
-        
         // Initialize navigation
         this.initNavigation();
         
@@ -188,116 +185,6 @@ class Portfolio {
             `;
             contactLinksContainer.appendChild(link);
         });
-    }
-
-    // Load blog posts from markdown blog system
-    async loadBlogPosts() {
-        // Skip loading blog posts on home page - handled by home.js
-        const isHomePage = window.location.pathname.endsWith('index.html') || 
-                          window.location.pathname === '/' ||
-                          window.location.pathname.endsWith('/');
-        
-        // Skip loading blog posts on blog page - handled by blog.js
-        const isBlogPage = window.location.pathname.includes('/blog');
-        
-        if (isHomePage || isBlogPage) {
-            return;
-        }
-        
-        const loadingElement = document.getElementById('loading-posts');
-        const postsGrid = document.getElementById('posts-grid');
-        
-        // Skip if elements don't exist on this page
-        if (!loadingElement || !postsGrid) return;
-        
-        try {
-            if (!markdownBlogCMS) {
-                this.showFallbackPosts();
-                return;
-            }
-
-            const posts = await markdownBlogCMS.getBlogPosts();
-            
-            if (posts.length === 0) {
-                loadingElement.innerHTML = '<p class="error">No blog posts found. Add markdown files to the <code>blog-posts/</code> folder.</p>';
-                return;
-            }
-
-            // Hide loading, show posts
-            loadingElement.style.display = 'none';
-            postsGrid.style.display = 'grid';
-            
-            // Render posts
-            postsGrid.innerHTML = posts.map(post => this.createPostCard(post)).join('');
-            
-            // Add animation classes
-            document.querySelectorAll('.post-card').forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('fade-in');
-                }, index * 100);
-            });
-
-        } catch (error) {
-            console.error('Error loading blog posts:', error);
-            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your markdown blog configuration.</p>';
-        }
-    }
-
-    // Create HTML for a blog post card
-    createPostCard(post) {
-        const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
-        const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-        
-        // Navigate to the static blog post page
-        const postUrl = `blog/${post.slug}/`;
-        
-        return `
-            <article class="post-card" onclick="window.location.href='${postUrl}'" style="cursor: pointer;">
-                <h3 class="post-title">${post.title}</h3>
-                <p class="post-excerpt">${post.excerpt}</p>
-                <div class="post-meta">
-                    <span class="post-date">${formattedDate}</span>
-                    <div class="post-tags">${tagsHtml}</div>
-                </div>
-            </article>
-        `;
-    }
-
-    // Show fallback posts when markdown blog system is not available
-    showFallbackPosts() {
-        const loadingElement = document.getElementById('loading-posts');
-        const postsGrid = document.getElementById('posts-grid');
-        
-        // Skip if elements don't exist on this page
-        if (!loadingElement || !postsGrid) return;
-        
-        loadingElement.style.display = 'none';
-        postsGrid.style.display = 'grid';
-        
-        const fallbackPosts = [
-            {
-                title: "Getting Started with Your Blog",
-                excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically. This post will guide you through the setup process.",
-                date: "Dec 15, 2024",
-                tags: ["Setup", "Tutorial"],
-                url: "blog/getting-started"
-            },
-            {
-                title: "Customizing Your Portfolio",
-                excerpt: "Learn how to customize the design, colors, and content of your portfolio to match your personal brand and style preferences.",
-                date: "Dec 10, 2024",
-                tags: ["Customization", "Design"],
-                url: "blog/customizing-portfolio"
-            }
-        ];
-        
-        postsGrid.innerHTML = fallbackPosts.map(post => this.createPostCard(post)).join('');
-        
-        // Add info message
-        const infoMessage = document.createElement('div');
-        infoMessage.className = 'error';
-        infoMessage.innerHTML = 'Add markdown files to <code>blog-posts/</code> folder to display your actual blog posts. Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.';
-        postsGrid.parentNode.insertBefore(infoMessage, postsGrid);
     }
 
     // Initialize smooth scrolling navigation

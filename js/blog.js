@@ -422,5 +422,9 @@ window.addEventListener('popstate', function(event) {
 
 // Initialize blog page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new BlogPage();
+    // Only run on blog listing page (/blog/ or /blog/index.html)
+    const path = window.location.pathname;
+    if (path === '/blog/' || path === '/blog' || path.endsWith('/blog/index.html')) {
+        new BlogPage();
+    }
 });

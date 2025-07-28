@@ -180,5 +180,8 @@ if (typeof navigateToPost === 'undefined') {
 
 // Initialize home page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new HomePage();
+    // Only run on home page
+    if (window.location.pathname === '/' || window.location.pathname.endsWith('/index.html')) {
+        new HomePage();
+    }
 });
