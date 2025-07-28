@@ -241,54 +241,13 @@ const CONFIG = {
         homePostsCount: 4,
         dateFormat: "MMM DD, YYYY",
         defaultTags: ["Blog", "Thoughts"],
-        enableAnalytics: false,
+        enableAnalytics: true,
         theme: "light",
         enableContactForm: true,
         // This will be set from private config
         contactFormAction: "" // Will be populated from private.formspree.endpoint
     }
 };
-
-// Load private configuration
-function loadPrivateConfig() {
-    // In production, these would come from environment variables
-    // For development, you can set them in a separate file that's gitignored
-    
-    try {
-        // First, try to load from environment config (GitHub Pages)
-        if (typeof window !== 'undefined' && window.ENV_CONFIG) {
-            if (window.ENV_CONFIG.FORMSPREE_ENDPOINT) {
-                CONFIG.private.formspree.endpoint = window.ENV_CONFIG.FORMSPREE_ENDPOINT;
-            }
-            if (window.ENV_CONFIG.GITHUB_TOKEN) {
-                CONFIG.private.github.token = window.ENV_CONFIG.GITHUB_TOKEN;
-            }
-        }
-        
-        // Then, try to load from local private config file (development)
-        if (typeof PRIVATE_CONFIG !== 'undefined') {
-            CONFIG.private = { ...CONFIG.private, ...PRIVATE_CONFIG };
-        }
-        
-        // Set derived settings
-        if (CONFIG.private.formspree && CONFIG.private.formspree.endpoint) {
-            CONFIG.settings.contactFormAction = CONFIG.private.formspree.endpoint;
-        }
-        
-    } catch (error) {
-        console.warn('Private configuration not loaded:', error);
-    }
-}
-
-// Load private config when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    loadPrivateConfig();
-});
-
-// Fallback for immediate loading
-if (document.readyState !== 'loading') {
-    loadPrivateConfig();
-}
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {

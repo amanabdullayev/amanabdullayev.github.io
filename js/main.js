@@ -20,6 +20,12 @@ function testTagColors() {
 
 // Initialize Counter.dev analytics
 function initAnalytics() {
+    // Check if analytics is enabled in config
+    if (typeof CONFIG !== 'undefined' && !CONFIG.settings.enableAnalytics) {
+        console.log('Analytics disabled in config');
+        return;
+    }
+    
     // Check if script already exists to prevent duplicates
     if (document.querySelector('script[data-id="0d04bd09-31ab-4270-8229-a8691744db89"]')) {
         console.log('Analytics already loaded');
@@ -45,25 +51,24 @@ function initAnalytics() {
     console.log('Counter.dev script added to head');
 }
 
-// Multiple initialization strategies for reliability
+// Initialize Counter.dev analytics - single, clean initialization
 (function() {
-    // Strategy 1: Immediate execution if DOM is already ready
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        initAnalytics();
-    }
-    // Strategy 2: Wait for DOMContentLoaded
-    else if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initAnalytics);
+    // Wait for CONFIG to load before initializing analytics
+    function waitForConfigAndInitAnalytics() {
+        if (typeof CONFIG !== 'undefined') {
+            initAnalytics();
+        } else {
+            // Wait a bit longer for CONFIG to load
+            setTimeout(waitForConfigAndInitAnalytics, 100);
+        }
     }
     
-    // Strategy 3: Fallback with window.onload
-    if (typeof window !== 'undefined') {
-        const originalOnload = window.onload;
-        window.onload = function() {
-            if (originalOnload) originalOnload();
-            // Double-check analytics loaded
-            setTimeout(initAnalytics, 100);
-        };
+    // Simple, single initialization strategy
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', waitForConfigAndInitAnalytics);
+    } else {
+        // DOM is already ready
+        waitForConfigAndInitAnalytics();
     }
 })();
 

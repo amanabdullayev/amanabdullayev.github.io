@@ -134,26 +134,7 @@
 
     <!-- Configuration Scripts -->
     <script src="js/env-config.js"></script>
-    <script>
-        // Load private config conditionally (only exists in development)
-        function loadPrivateConfigScript() {
-            return new Promise((resolve) => {
-                const script = document.createElement('script');
-                script.src = 'js/config-private.js';
-                script.onload = resolve;
-                script.onerror = resolve; // Continue even if file doesn't exist
-                document.head.appendChild(script);
-            });
-        }
-        
-        // Load scripts in sequence
-        loadPrivateConfigScript().then(() => {
-            // Load public config after private config attempt
-            const publicScript = document.createElement('script');
-            publicScript.src = 'js/config-public.js';
-            document.head.appendChild(publicScript);
-        });
-    </script>
+    <script src="js/config-public.js"></script>
     <script src="js/main.js"></script>
     <script src="js/about.js"></script>
 </body>

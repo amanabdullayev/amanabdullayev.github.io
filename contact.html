@@ -149,23 +149,34 @@
     <!-- Configuration Scripts -->
     <script src="js/env-config.js"></script>
     <script>
-        // Load private config conditionally (only exists in development)
-        function loadPrivateConfigScript() {
+        // Contact page needs Formspree config - load with proper fallback handling
+        function loadContactConfig() {
             return new Promise((resolve) => {
-                const script = document.createElement('script');
-                script.src = 'js/config-private.js';
-                script.onload = resolve;
-                script.onerror = resolve; // Continue even if file doesn't exist
-                document.head.appendChild(script);
+                // First load public config
+                const publicScript = document.createElement('script');
+                publicScript.src = 'js/config-public.js';
+                publicScript.onload = () => {
+                    // Then try to load private config (for development)
+                    const privateScript = document.createElement('script');
+                    privateScript.src = 'js/config-private.js';
+                    privateScript.onload = resolve;
+                    privateScript.onerror = () => {
+                        // Private config failed to load (production) - continue without it
+                        console.log('Private config not found, will use environment config for Formspree');
+                        resolve();
+                    };
+                    document.head.appendChild(privateScript);
+                };
+                publicScript.onerror = resolve; // Continue even if public config fails
+                document.head.appendChild(publicScript);
             });
         }
         
-        // Load scripts in sequence
-        loadPrivateConfigScript().then(() => {
-            // Load public config after private config attempt
-            const publicScript = document.createElement('script');
-            publicScript.src = 'js/config-public.js';
-            document.head.appendChild(publicScript);
+        // Load config first, then load the config loader utility
+        loadContactConfig().then(() => {
+            const configLoaderScript = document.createElement('script');
+            configLoaderScript.src = 'js/config-loader.js';
+            document.head.appendChild(configLoaderScript);
         });
     </script>
     <script src="js/main.js"></script>
