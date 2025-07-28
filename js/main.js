@@ -173,6 +173,8 @@ class Portfolio {
         if (typeof CONFIG === 'undefined') return;
         
         const contactLinksContainer = document.getElementById('contact-links');
+        if (!contactLinksContainer) return; // Element doesn't exist on this page
+        
         contactLinksContainer.innerHTML = '';
         
         CONFIG.contact.forEach(contact => {
@@ -201,6 +203,9 @@ class Portfolio {
         
         const loadingElement = document.getElementById('loading-posts');
         const postsGrid = document.getElementById('posts-grid');
+        
+        // Skip if elements don't exist on this page
+        if (!loadingElement || !postsGrid) return;
         
         try {
             if (!markdownBlogCMS) {
@@ -256,6 +261,9 @@ class Portfolio {
     showFallbackPosts() {
         const loadingElement = document.getElementById('loading-posts');
         const postsGrid = document.getElementById('posts-grid');
+        
+        // Skip if elements don't exist on this page
+        if (!loadingElement || !postsGrid) return;
         
         loadingElement.style.display = 'none';
         postsGrid.style.display = 'grid';
