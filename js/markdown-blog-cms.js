@@ -4,9 +4,7 @@ class MarkdownBlogCMS {
         this.cache = new Map();
         this.cacheTime = 5 * 60 * 1000; // 5 minutes
         this.blogPostsPath = 'blog-posts/';
-    }
-
-    // Get all blog posts from generated index
+    }    // Get all blog posts from generated index
     async getBlogPosts() {
         const cacheKey = 'blog-posts';
         const cached = this.cache.get(cacheKey);
@@ -39,7 +37,7 @@ class MarkdownBlogCMS {
             if (!response.ok) {
                 throw new Error(`Failed to load blog posts: ${response.status}`);
             }
-            
+
             const posts = await response.json();
             
             // Cache the results
@@ -50,7 +48,6 @@ class MarkdownBlogCMS {
 
             return posts;
         } catch (error) {
-            console.error('Error loading blog posts:', error);
             return [];
         }
     }
@@ -58,22 +55,14 @@ class MarkdownBlogCMS {
     // Get a specific blog post content
     async getBlogPost(slug) {
         try {
-            console.log('getBlogPost: Starting with slug:', slug);
-            
             // First, try to load all posts to find the file that matches this slug
             const allPosts = await this.getBlogPosts();
-            console.log('getBlogPost: Loaded', allPosts.length, 'total posts');
-            console.log('getBlogPost: Available slugs:', allPosts.map(p => p.slug));
             
             const matchingPost = allPosts.find(post => post.slug === slug);
-            console.log('getBlogPost: Matching post found:', !!matchingPost);
             
             if (!matchingPost) {
-                console.error('getBlogPost: No post found with slug:', slug);
                 throw new Error(`Blog post not found with slug: ${slug}`);
             }
-            
-            console.log('getBlogPost: Found post:', matchingPost.title, 'fileSlug:', matchingPost.fileSlug);
             
             // Determine correct path based on current location
             let blogPostsPath = 'blog-posts/';
@@ -83,7 +72,6 @@ class MarkdownBlogCMS {
                 blogPostsPath = `${window._blogBasePath}blog-posts/`;
             } else {
                 const currentPath = window.location.pathname;
-                console.log('getBlogPost: Current path:', currentPath);
                 
                 // Check if we're in the blog section (including client-side routed blog posts)
                 if (currentPath.startsWith('/blog')) {
@@ -95,30 +83,22 @@ class MarkdownBlogCMS {
                 }
             }
             
-            console.log('getBlogPost: Using blog posts path:', blogPostsPath);
-            
             // Load the actual markdown file using the file slug
             const fileSlug = matchingPost.fileSlug || matchingPost.slug;
             const markdownUrl = `${blogPostsPath}${fileSlug}.md`;
-            console.log('getBlogPost: Loading markdown from:', markdownUrl);
             
             const response = await fetch(markdownUrl);
-            console.log('getBlogPost: Fetch response:', response.ok, response.status);
             
             if (!response.ok) {
-                console.error('getBlogPost: Failed to fetch markdown file:', markdownUrl);
                 throw new Error(`Blog post file not found: ${fileSlug}`);
             }
             
             const markdown = await response.text();
-            console.log('getBlogPost: Markdown loaded, length:', markdown.length);
             
             const parsedPost = this.parseMarkdownPost(markdown, fileSlug);
-            console.log('getBlogPost: Post parsed successfully');
             
             return parsedPost;
         } catch (error) {
-            console.error('getBlogPost: Failed to load blog post:', error);
             return null;
         }
     }

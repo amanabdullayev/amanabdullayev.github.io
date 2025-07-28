@@ -4,7 +4,7 @@ class BlogPage {
         this.allPosts = [];
         this.filteredPosts = [];
         this.currentPage = 1;
-        this.postsPerPage = CONFIG.settings.postsPerPage || 6;
+        this.postsPerPage = CONFIG?.settings?.postsPerPage || 6;
         this.currentTag = 'all';
         this.searchQuery = '';
         
@@ -27,6 +27,10 @@ class BlogPage {
         const loadingElement = document.getElementById('loading-posts');
         const postsContainer = document.getElementById('posts-container');
         const noPostsElement = document.getElementById('no-posts');
+        
+        if (!loadingElement || !postsContainer || !noPostsElement) {
+            return;
+        }
         
         try {
             // Use markdown blog system
@@ -65,7 +69,6 @@ class BlogPage {
             this.setupPagination();
 
         } catch (error) {
-            console.error('Error loading blog posts:', error);
             loadingElement.style.display = 'none';
             noPostsElement.style.display = 'block';
             noPostsElement.innerHTML = `
@@ -370,8 +373,6 @@ class BlogPage {
 
 // Global function for blog post navigation
 async function navigateToBlogPost(slug) {
-    console.log('Navigating to blog post:', slug);
-    
     // Set a flag to help with path resolution during client-side navigation
     window._blogBasePath = '../';
     
@@ -383,30 +384,22 @@ async function navigateToBlogPost(slug) {
     const blogListContainer = document.querySelector('.blog-posts');
     const blogPostContainer = document.getElementById('blog-post-container');
     
-    console.log('Containers found:', {
-        listing: !!blogListContainer,
-        post: !!blogPostContainer
-    });
-    
     if (blogListContainer) blogListContainer.style.display = 'none';
     if (blogPostContainer) blogPostContainer.style.display = 'block';
     
     // Load the blog post content
     if (typeof initializeBlogPost === 'function') {
-        console.log('Calling initializeBlogPost with slug:', slug);
         try {
             await initializeBlogPost(slug);
         } catch (error) {
-            console.error('Error in initializeBlogPost:', error);
+            // Error handling without console output
         }
-    } else {
-        console.error('initializeBlogPost function not available');
     }
+}
 }
 
 // Handle browser back/forward navigation
 window.addEventListener('popstate', function(event) {
-    console.log('Popstate event:', event.state);
     if (event.state && event.state.slug) {
         // User navigated to a blog post
         navigateToBlogPost(event.state.slug);
@@ -424,6 +417,7 @@ window.addEventListener('popstate', function(event) {
 document.addEventListener('DOMContentLoaded', () => {
     // Only run on blog listing page (/blog/ or /blog/index.html)
     const path = window.location.pathname;
+    
     if (path === '/blog/' || path === '/blog' || path.endsWith('/blog/index.html')) {
         new BlogPage();
     }
