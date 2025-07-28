@@ -22,6 +22,7 @@ function testTagColors() {
 function initAnalytics() {
     // Check if script already exists to prevent duplicates
     if (document.querySelector('script[data-id="0d04bd09-31ab-4270-8229-a8691744db89"]')) {
+        console.log('Analytics already loaded');
         return;
     }
     
@@ -30,15 +31,41 @@ function initAnalytics() {
     script.setAttribute('data-id', '0d04bd09-31ab-4270-8229-a8691744db89');
     script.setAttribute('data-utcoffset', '2');
     script.async = true;
+    
+    // Add load event listener for debugging
+    script.onload = function() {
+        console.log('Counter.dev analytics loaded successfully');
+    };
+    
+    script.onerror = function() {
+        console.error('Failed to load Counter.dev analytics');
+    };
+    
     document.head.appendChild(script);
+    console.log('Counter.dev script added to head');
 }
 
-// Auto-initialize analytics when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAnalytics);
-} else {
-    initAnalytics();
-}
+// Multiple initialization strategies for reliability
+(function() {
+    // Strategy 1: Immediate execution if DOM is already ready
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        initAnalytics();
+    }
+    // Strategy 2: Wait for DOMContentLoaded
+    else if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAnalytics);
+    }
+    
+    // Strategy 3: Fallback with window.onload
+    if (typeof window !== 'undefined') {
+        const originalOnload = window.onload;
+        window.onload = function() {
+            if (originalOnload) originalOnload();
+            // Double-check analytics loaded
+            setTimeout(initAnalytics, 100);
+        };
+    }
+})();
 
 // Main JavaScript file for portfolio functionality
 class Portfolio {
