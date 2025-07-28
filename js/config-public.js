@@ -255,7 +255,17 @@ function loadPrivateConfig() {
     // For development, you can set them in a separate file that's gitignored
     
     try {
-        // Try to load from a separate config file (gitignored)
+        // First, try to load from environment config (GitHub Pages)
+        if (typeof window !== 'undefined' && window.ENV_CONFIG) {
+            if (window.ENV_CONFIG.FORMSPREE_ENDPOINT) {
+                CONFIG.private.formspree.endpoint = window.ENV_CONFIG.FORMSPREE_ENDPOINT;
+            }
+            if (window.ENV_CONFIG.GITHUB_TOKEN) {
+                CONFIG.private.github.token = window.ENV_CONFIG.GITHUB_TOKEN;
+            }
+        }
+        
+        // Then, try to load from local private config file (development)
         if (typeof PRIVATE_CONFIG !== 'undefined') {
             CONFIG.private = { ...CONFIG.private, ...PRIVATE_CONFIG };
         }
@@ -270,8 +280,15 @@ function loadPrivateConfig() {
     }
 }
 
-// Don't load private config immediately - wait for DOM ready
-// This will be called after all scripts are loaded
+// Load private config when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    loadPrivateConfig();
+});
+
+// Fallback for immediate loading
+if (document.readyState !== 'loading') {
+    loadPrivateConfig();
+}
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
