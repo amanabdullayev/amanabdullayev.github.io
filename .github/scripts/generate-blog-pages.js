@@ -3,6 +3,13 @@ const path = require('path');
 
 // Read the blog posts index to get all slugs
 const blogIndexPath = path.join(__dirname, '../../js/blog-posts-index.json');
+
+// Check if blog index exists
+if (!fs.existsSync(blogIndexPath)) {
+    console.error('Blog posts index not found. Please run generate-blog-index.js first.');
+    process.exit(1);
+}
+
 const blogPosts = JSON.parse(fs.readFileSync(blogIndexPath, 'utf8'));
 
 // Template for blog post index.html
@@ -178,6 +185,25 @@ const blogPostTemplate = `<!DOCTYPE html>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>`;
+
+// Create directories and index.html files for each blog post
+const currentSlugs = new Set(blogPosts.map(post => post.slug));
+const blogDir = path.join(__dirname, '../../blog');
+
+// Clean up old blog post directories that no longer exist
+if (fs.existsSync(blogDir)) {
+    const existingDirs = fs.readdirSync(blogDir, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+    
+    existingDirs.forEach(dirName => {
+        if (!currentSlugs.has(dirName)) {
+            const oldDirPath = path.join(blogDir, dirName);
+            fs.rmSync(oldDirPath, { recursive: true, force: true });
+            console.log(`Removed old blog directory: ${oldDirPath}`);
+        }
+    });
+}
 
 // Create directories and index.html files for each blog post
 blogPosts.forEach(post => {
