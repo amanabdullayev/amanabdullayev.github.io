@@ -33,7 +33,7 @@ class BlogPage {
         }
         
         try {
-            // Use markdown blog system
+            // Use markdown blog system (same as home page)
             if (!markdownBlogCMS) {
                 this.showFallbackPosts();
                 return;
@@ -47,7 +47,6 @@ class BlogPage {
                 noPostsElement.innerHTML = `
                     <h3>No blog posts found</h3>
                     <p>Add markdown files to the <code>blog-posts/</code> folder to get started.</p>
-                    <p>Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.</p>
                 `;
                 return;
             }
@@ -73,8 +72,7 @@ class BlogPage {
             noPostsElement.style.display = 'block';
             noPostsElement.innerHTML = `
                 <h3>Error loading blog posts</h3>
-                <p>Unable to load posts from GitHub. Please check your internet connection or try again later.</p>
-                <p><a href="https://github.com/amanabdullayev/amanabdullayev.github.io/issues" target="_blank">View posts directly on GitHub</a></p>
+                <p>Unable to load posts. Please check your setup.</p>
             `;
         }
     }
@@ -396,7 +394,6 @@ async function navigateToBlogPost(slug) {
         }
     }
 }
-}
 
 // Handle browser back/forward navigation
 window.addEventListener('popstate', function(event) {
@@ -415,10 +412,13 @@ window.addEventListener('popstate', function(event) {
 
 // Initialize blog page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Only run on blog listing page (/blog/ or /blog/index.html)
+    // Check if we're on the blog listing page
     const path = window.location.pathname;
+    const isBlogListing = path.endsWith('/blog/') || 
+                         path.endsWith('/blog/index.html') ||
+                         path === '/blog';
     
-    if (path === '/blog/' || path === '/blog' || path.endsWith('/blog/index.html')) {
+    if (isBlogListing) {
         new BlogPage();
     }
 });
