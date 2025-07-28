@@ -452,7 +452,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle errors gracefully
 window.addEventListener('error', (e) => {
-    console.error('Portfolio error:', e.error);
+    // Provide more detailed error information
+    const errorInfo = {
+        message: e.message,
+        filename: e.filename,
+        lineno: e.lineno,
+        colno: e.colno,
+        error: e.error
+    };
+    console.error('Portfolio error:', errorInfo);
+    
+    // Don't flood console with Prism.js errors
+    if (e.filename && e.filename.includes('prism')) {
+        console.warn('Prism.js error detected - this is usually non-critical for syntax highlighting');
+    }
 });
 
 // Add some utility functions

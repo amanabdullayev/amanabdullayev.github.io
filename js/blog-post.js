@@ -23,6 +23,12 @@ class BlogPostPage {
         const postNotFoundElement = document.getElementById('post-not-found');
         const postContentElement = document.getElementById('blog-post-content');
 
+        // Add null checks for DOM elements
+        if (!loadingElement || !postNotFoundElement || !postContentElement) {
+            console.error('Required DOM elements not found');
+            return;
+        }
+
         try {
             if (!markdownBlogCMS) {
                 throw new Error('Blog system not initialized');
@@ -92,20 +98,30 @@ class BlogPostPage {
 
     // Initialize code highlighting with robust error handling
     initializeCodeHighlighting() {
-        // Function to apply highlighting
+        // Function to apply highlighting with better error handling
         const applyHighlighting = () => {
-            if (typeof Prism !== 'undefined') {
+            if (typeof Prism !== 'undefined' && Prism.highlightAll) {
                 try {
-                    // Remove any existing highlighting classes first
-                    document.querySelectorAll('pre code').forEach(block => {
-                        block.className = block.className.replace(/\bhighlight-\w+/g, '');
-                    });
-                    
-                    // Apply Prism highlighting
-                    Prism.highlightAll();
-                    console.log('Prism.js highlighting applied successfully');
+                    // Ensure Prism is fully loaded before highlighting
+                    if (Prism.plugins && Prism.plugins.autoloader) {
+                        // Wait a bit for autoloader to finish if it's still loading
+                        setTimeout(() => {
+                            try {
+                                Prism.highlightAll();
+                                console.log('Prism.js highlighting applied successfully');
+                            } catch (error) {
+                                console.warn('Prism.js highlighting failed:', error);
+                                this.applyFallbackCodeStyling();
+                            }
+                        }, 100);
+                    } else {
+                        // Direct highlighting if autoloader is not used
+                        Prism.highlightAll();
+                        console.log('Prism.js highlighting applied successfully');
+                    }
                 } catch (error) {
                     console.warn('Prism.js highlighting failed:', error);
+                    this.applyFallbackCodeStyling();
                 }
             } else {
                 console.log('Prism.js not available, using fallback styling');
@@ -208,5 +224,15 @@ class BlogPostPage {
 
 // Initialize blog post page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new BlogPostPage();
+    // Prevent double initialization
+    if (window.blogPostPageInitialized) {
+        return;
+    }
+    window.blogPostPageInitialized = true;
+    
+    try {
+        new BlogPostPage();
+    } catch (error) {
+        console.error('Failed to initialize blog post page:', error);
+    }
 });
