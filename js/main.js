@@ -197,7 +197,10 @@ class Portfolio {
                           window.location.pathname === '/' ||
                           window.location.pathname.endsWith('/');
         
-        if (isHomePage) {
+        // Skip loading blog posts on blog page - handled by blog.js
+        const isBlogPage = window.location.pathname.includes('/blog');
+        
+        if (isHomePage || isBlogPage) {
             return;
         }
         

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test</title>
+</head>
+<body>
+    <h1>Navigation Test</h1>
+    
+    <h2>Test Static Navigation</h2>
+    <p>These should work without any JavaScript:</p>
+    <ul>
+        <li><a href="/blog/simple-test-post/">Go to Simple Test Post (static link)</a></li>
+        <li><a href="/blog/test-new-blog-post/">Go to Test New Blog Post (static link)</a></li>
+        <li><a href="/blog/">Go to Blog Listing</a></li>
+    </ul>
+    
+    <h2>Test JavaScript Navigation</h2>
+    <p>These use the same onclick as the blog cards:</p>
+    <ul>
+        <li><button onclick="window.location.href='/blog/simple-test-post/'">Go to Simple Test Post (JS)</button></li>
+        <li><button onclick="window.location.href='blog/simple-test-post/'">Go to Simple Test Post (relative JS)</button></li>
+    </ul>
+</body>
+</html>

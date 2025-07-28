@@ -103,17 +103,19 @@ class HomePage {
             return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
         }).join(''); // Limit tags on home page
         
-        // Simple navigation to static page
+        // Use simple HTML link instead of JavaScript onclick
         const postUrl = `blog/${post.slug}/`;
         
         return `
-            <article class="post-card" onclick="window.location.href='${postUrl}'" style="cursor: pointer;">
-                <h3 class="post-title">${post.title}</h3>
-                <div class="post-tags">${tagsHtml}</div>
-                <p class="post-excerpt">${post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt}</p>
-                <div class="post-meta">
-                    <span class="post-date">${formattedDate}</span>
-                </div>
+            <article class="post-card">
+                <a href="${postUrl}" style="text-decoration: none; color: inherit; display: block;">
+                    <h3 class="post-title">${post.title}</h3>
+                    <div class="post-tags">${tagsHtml}</div>
+                    <p class="post-excerpt">${post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt}</p>
+                    <div class="post-meta">
+                        <span class="post-date">${formattedDate}</span>
+                    </div>
+                </a>
             </article>
         `;
     }
