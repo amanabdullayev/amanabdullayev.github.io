@@ -18,6 +18,28 @@ function testTagColors() {
     });
 }
 
+// Initialize Counter.dev analytics
+function initAnalytics() {
+    // Check if script already exists to prevent duplicates
+    if (document.querySelector('script[data-id="0d04bd09-31ab-4270-8229-a8691744db89"]')) {
+        return;
+    }
+    
+    const script = document.createElement('script');
+    script.src = 'https://cdn.counter.dev/script.js';
+    script.setAttribute('data-id', '0d04bd09-31ab-4270-8229-a8691744db89');
+    script.setAttribute('data-utcoffset', '2');
+    script.async = true;
+    document.head.appendChild(script);
+}
+
+// Auto-initialize analytics when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnalytics);
+} else {
+    initAnalytics();
+}
+
 // Main JavaScript file for portfolio functionality
 class Portfolio {
     constructor() {
