@@ -209,8 +209,11 @@ class BlogPage {
             return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
         }).join('') : '';
         
+        // Use simple URL navigation - go to the static page
+        const postUrl = `${post.slug}/`;
+        
         return `
-            <article class="post-card" onclick="window.location.href='${post.url}'" style="cursor: pointer;">
+            <article class="post-card" onclick="window.location.href='${postUrl}'" style="cursor: pointer;">
                 <h3 class="post-title">${post.title}</h3>
                 <div class="post-tags">${tagsHtml}</div>
                 <p class="post-excerpt">${post.excerpt}</p>
@@ -362,6 +365,58 @@ class BlogPage {
         document.getElementById('posts-grid').parentNode.insertBefore(infoMessage, document.getElementById('posts-grid'));
     }
 }
+
+// Global function for blog post navigation
+async function navigateToBlogPost(slug) {
+    console.log('Navigating to blog post:', slug);
+    
+    // Set a flag to help with path resolution during client-side navigation
+    window._blogBasePath = '../';
+    
+    // Update the URL without causing a page reload
+    const newUrl = `/blog/${slug}`;
+    window.history.pushState({ slug: slug }, '', newUrl);
+    
+    // Hide blog listing and show blog post
+    const blogListContainer = document.querySelector('.blog-posts');
+    const blogPostContainer = document.getElementById('blog-post-container');
+    
+    console.log('Containers found:', {
+        listing: !!blogListContainer,
+        post: !!blogPostContainer
+    });
+    
+    if (blogListContainer) blogListContainer.style.display = 'none';
+    if (blogPostContainer) blogPostContainer.style.display = 'block';
+    
+    // Load the blog post content
+    if (typeof initializeBlogPost === 'function') {
+        console.log('Calling initializeBlogPost with slug:', slug);
+        try {
+            await initializeBlogPost(slug);
+        } catch (error) {
+            console.error('Error in initializeBlogPost:', error);
+        }
+    } else {
+        console.error('initializeBlogPost function not available');
+    }
+}
+
+// Handle browser back/forward navigation
+window.addEventListener('popstate', function(event) {
+    console.log('Popstate event:', event.state);
+    if (event.state && event.state.slug) {
+        // User navigated to a blog post
+        navigateToBlogPost(event.state.slug);
+    } else {
+        // User navigated back to blog listing
+        const blogListContainer = document.querySelector('.blog-posts');
+        const blogPostContainer = document.getElementById('blog-post-container');
+        
+        if (blogListContainer) blogListContainer.style.display = 'block';
+        if (blogPostContainer) blogPostContainer.style.display = 'none';
+    }
+});
 
 // Initialize blog page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

@@ -17,11 +17,17 @@ class BlogPostPage {
         this.initializeSharing();
     }
 
-    // Extract post slug from URL path: /blog-post/slug-name
+    // Extract post slug from URL path: /blog/slug-name
     getPostSlugFromUrl() {
         const path = window.location.pathname;
         
-        // Extract slug from path-based format
+        // Extract slug from new path-based format (/blog/slug)
+        if (path.includes('/blog/') && path !== '/blog' && path !== '/blog/') {
+            const slug = path.split('/blog/')[1];
+            return slug ? slug.replace(/\/$/, '') : null; // Remove trailing slash
+        }
+        
+        // Fallback for old format (for backwards compatibility)
         if (path.includes('/blog-post/')) {
             const slug = path.split('/blog-post/')[1];
             return slug ? slug.replace(/\/$/, '') : null; // Remove trailing slash
@@ -252,6 +258,32 @@ class BlogPostPage {
     }
 }
 
+// Function to initialize blog post with a specific slug (for router use)
+async function initializeBlogPost(slug) {
+    try {
+        console.log('initializeBlogPost: Starting with slug:', slug);
+        
+        // Ensure markdownBlogCMS is available
+        if (!markdownBlogCMS) {
+            console.error('initializeBlogPost: markdownBlogCMS not available');
+            return;
+        }
+        
+        console.log('initializeBlogPost: Creating BlogPostPage instance');
+        const blogPost = new BlogPostPage();
+        
+        console.log('initializeBlogPost: Loading blog post');
+        await blogPost.loadBlogPost(slug);
+        
+        console.log('initializeBlogPost: Initializing sharing');
+        blogPost.initializeSharing();
+        
+        console.log('initializeBlogPost: Completed successfully');
+    } catch (error) {
+        console.error('initializeBlogPost: Error occurred:', error);
+    }
+}
+
 // Initialize blog post page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Prevent double initialization
@@ -261,7 +293,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.blogPostPageInitialized = true;
     
     try {
-        new BlogPostPage();
+        // Only initialize if we're on the old blog-post path
+        const path = window.location.pathname;
+        if (path.includes('/blog-post/')) {
+            new BlogPostPage();
+        }
     } catch (error) {
         console.error('Failed to initialize blog post page:', error);
     }

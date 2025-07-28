@@ -13,7 +13,7 @@ This is a test blog post to verify that our blog generation system is working co
 
 ## Features to Test
 
-1. **Automatic Directory Creation**: The system should create `/blog-post/test-new-blog-post/` directory
+1. **Automatic Directory Creation**: The system should create `/blog/test-new-blog-post/` directory
 2. **Static Page Generation**: An `index.html` file should be created with the correct template
 3. **Blog Index Update**: The new post should appear in the blog index JSON
 4. **Path Consistency**: All paths should work correctly with the clean URL structure

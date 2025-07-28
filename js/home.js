@@ -103,8 +103,11 @@ class HomePage {
             return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
         }).join(''); // Limit tags on home page
         
+        // Simple navigation to static page
+        const postUrl = `blog/${post.slug}/`;
+        
         return `
-            <article class="post-card" onclick="window.location.href='${post.url}'" style="cursor: pointer;">
+            <article class="post-card" onclick="window.location.href='${postUrl}'" style="cursor: pointer;">
                 <h3 class="post-title">${post.title}</h3>
                 <div class="post-tags">${tagsHtml}</div>
                 <p class="post-excerpt">${post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt}</p>
@@ -161,6 +164,15 @@ class HomePage {
         infoMessage.className = 'error';
         infoMessage.innerHTML = 'Add markdown files to <code>blog-posts/</code> folder to display your actual blog posts. Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.';
         postsGrid.parentNode.insertBefore(infoMessage, postsGrid);
+    }
+}
+
+// Global function for blog post navigation from home page
+if (typeof navigateToPost === 'undefined') {
+    function navigateToPost(slug) {
+        console.log('Navigating to blog post from home:', slug);
+        // Navigate to the blog post URL with trailing slash for static page
+        window.location.href = `/blog/${slug}/`;
     }
 }
 

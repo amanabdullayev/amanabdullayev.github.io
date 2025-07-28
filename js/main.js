@@ -245,8 +245,11 @@ class Portfolio {
         const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
         const tagsHtml = post.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
         
+        // Navigate to the static blog post page
+        const postUrl = `blog/${post.slug}/`;
+        
         return `
-            <article class="post-card" onclick="window.location.href='${post.url}'" style="cursor: pointer;">
+            <article class="post-card" onclick="window.location.href='${postUrl}'" style="cursor: pointer;">
                 <h3 class="post-title">${post.title}</h3>
                 <p class="post-excerpt">${post.excerpt}</p>
                 <div class="post-meta">
@@ -274,14 +277,14 @@ class Portfolio {
                 excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically. This post will guide you through the setup process.",
                 date: "Dec 15, 2024",
                 tags: ["Setup", "Tutorial"],
-                url: "blog-post/getting-started"
+                url: "blog/getting-started"
             },
             {
                 title: "Customizing Your Portfolio",
                 excerpt: "Learn how to customize the design, colors, and content of your portfolio to match your personal brand and style preferences.",
                 date: "Dec 10, 2024",
                 tags: ["Customization", "Design"],
-                url: "blog-post/customizing-portfolio"
+                url: "blog/customizing-portfolio"
             }
         ];
         
@@ -443,6 +446,13 @@ class Portfolio {
             themeColorMeta.setAttribute('content', color);
         }
     }
+}
+
+// Global function for blog post navigation from home page
+function navigateToPost(slug) {
+    console.log('Navigating to blog post from home:', slug);
+    // Navigate to the blog post URL with trailing slash for static page
+    window.location.href = `/blog/${slug}/`;
 }
 
 // Initialize portfolio when DOM is loaded

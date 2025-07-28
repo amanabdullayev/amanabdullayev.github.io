@@ -17,24 +17,23 @@ class MarkdownBlogCMS {
 
         try {
             // Determine correct path based on current location
-            const currentPath = window.location.pathname;
             let indexPath = 'js/blog-posts-index.json';
             
-            // If we're in a subdirectory (about/, blog/, contact/), adjust the path
-            if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
-                currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
-                indexPath = '../js/blog-posts-index.json';
-            } else if (currentPath.includes('/blog-post/')) {
-                // For blog post pages, we need to go up one or two levels
-                const pathDepth = (currentPath.match(/\//g) || []).length;
-                if (pathDepth >= 3) { // /blog-post/slug/
-                    indexPath = '../../js/blog-posts-index.json';
-                } else { // /blog-post/
+            // Check for base path override (for client-side navigation)
+            if (window._blogBasePath) {
+                indexPath = `${window._blogBasePath}js/blog-posts-index.json`;
+            } else {
+                const currentPath = window.location.pathname;
+                
+                // Check if we're in the blog section (including client-side routed blog posts)
+                if (currentPath.startsWith('/blog')) {
+                    // For any blog-related path, we're serving from /blog/index.html
+                    indexPath = '../js/blog-posts-index.json';
+                } else if (currentPath.endsWith('/about') || currentPath.endsWith('/contact') ||
+                           currentPath.endsWith('/about/') || currentPath.endsWith('/contact/')) {
                     indexPath = '../js/blog-posts-index.json';
                 }
             }
-            
-            console.log('Loading blog posts from:', indexPath, 'Current path:', currentPath);
             
             const response = await fetch(indexPath);
             if (!response.ok) {
@@ -59,43 +58,67 @@ class MarkdownBlogCMS {
     // Get a specific blog post content
     async getBlogPost(slug) {
         try {
+            console.log('getBlogPost: Starting with slug:', slug);
+            
             // First, try to load all posts to find the file that matches this slug
             const allPosts = await this.getBlogPosts();
+            console.log('getBlogPost: Loaded', allPosts.length, 'total posts');
+            console.log('getBlogPost: Available slugs:', allPosts.map(p => p.slug));
+            
             const matchingPost = allPosts.find(post => post.slug === slug);
+            console.log('getBlogPost: Matching post found:', !!matchingPost);
             
             if (!matchingPost) {
+                console.error('getBlogPost: No post found with slug:', slug);
                 throw new Error(`Blog post not found with slug: ${slug}`);
             }
             
+            console.log('getBlogPost: Found post:', matchingPost.title, 'fileSlug:', matchingPost.fileSlug);
+            
             // Determine correct path based on current location
-            const currentPath = window.location.pathname;
             let blogPostsPath = 'blog-posts/';
             
-            // If we're in a subdirectory (about/, blog/, contact/), adjust the path
-            if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
-                currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
-                blogPostsPath = '../blog-posts/';
-            } else if (currentPath.includes('/blog-post/')) {
-                // For blog post pages, we need to go up one or two levels
-                const pathDepth = (currentPath.match(/\//g) || []).length;
-                if (pathDepth >= 3) { // /blog-post/slug/
-                    blogPostsPath = '../../blog-posts/';
-                } else { // /blog-post/
+            // Check for base path override (for client-side navigation)
+            if (window._blogBasePath) {
+                blogPostsPath = `${window._blogBasePath}blog-posts/`;
+            } else {
+                const currentPath = window.location.pathname;
+                console.log('getBlogPost: Current path:', currentPath);
+                
+                // Check if we're in the blog section (including client-side routed blog posts)
+                if (currentPath.startsWith('/blog')) {
+                    // For any blog-related path, we're serving from /blog/index.html
+                    blogPostsPath = '../blog-posts/';
+                } else if (currentPath.endsWith('/about') || currentPath.endsWith('/contact') ||
+                           currentPath.endsWith('/about/') || currentPath.endsWith('/contact/')) {
                     blogPostsPath = '../blog-posts/';
                 }
             }
             
+            console.log('getBlogPost: Using blog posts path:', blogPostsPath);
+            
             // Load the actual markdown file using the file slug
             const fileSlug = matchingPost.fileSlug || matchingPost.slug;
-            const response = await fetch(`${blogPostsPath}${fileSlug}.md`);
+            const markdownUrl = `${blogPostsPath}${fileSlug}.md`;
+            console.log('getBlogPost: Loading markdown from:', markdownUrl);
+            
+            const response = await fetch(markdownUrl);
+            console.log('getBlogPost: Fetch response:', response.ok, response.status);
+            
             if (!response.ok) {
+                console.error('getBlogPost: Failed to fetch markdown file:', markdownUrl);
                 throw new Error(`Blog post file not found: ${fileSlug}`);
             }
             
             const markdown = await response.text();
-            return this.parseMarkdownPost(markdown, fileSlug);
+            console.log('getBlogPost: Markdown loaded, length:', markdown.length);
+            
+            const parsedPost = this.parseMarkdownPost(markdown, fileSlug);
+            console.log('getBlogPost: Post parsed successfully');
+            
+            return parsedPost;
         } catch (error) {
-            console.error('Failed to load blog post:', error);
+            console.error('getBlogPost: Failed to load blog post:', error);
             return null;
         }
     }
@@ -142,7 +165,7 @@ class MarkdownBlogCMS {
             ...metadata,
             content: this.processMarkdown(content),
             rawContent: content,
-            url: `blog-post/${postSlug}`,
+            url: `blog/${postSlug}`,
             id: postSlug,
             author: {
                 name: 'Aman Abdullayev'
@@ -421,19 +444,20 @@ class MarkdownBlogCMS {
         let imageSrc = src;
         
         // Determine correct path based on current location
-        const currentPath = window.location.pathname;
         let blogPostsBasePath = 'blog-posts/';
         
-        // If we're in a subdirectory (about/, blog/, contact/), adjust the path
-        if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
-            currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
-            blogPostsBasePath = '../blog-posts/';
-        } else if (currentPath.includes('/blog-post/')) {
-            // For blog post pages, we need to go up one or two levels
-            const pathDepth = (currentPath.match(/\//g) || []).length;
-            if (pathDepth >= 3) { // /blog-post/slug/
-                blogPostsBasePath = '../../blog-posts/';
-            } else { // /blog-post/
+        // Check for base path override (for client-side navigation)
+        if (window._blogBasePath) {
+            blogPostsBasePath = `${window._blogBasePath}blog-posts/`;
+        } else {
+            const currentPath = window.location.pathname;
+            
+            // Check if we're in the blog section (including client-side routed blog posts)
+            if (currentPath.startsWith('/blog')) {
+                // For any blog-related path, we're serving from /blog/index.html
+                blogPostsBasePath = '../blog-posts/';
+            } else if (currentPath.endsWith('/about') || currentPath.endsWith('/contact') ||
+                       currentPath.endsWith('/about/') || currentPath.endsWith('/contact/')) {
                 blogPostsBasePath = '../blog-posts/';
             }
         }

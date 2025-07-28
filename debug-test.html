@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    <p>Current path: <span id="current-path"></span></p>
+    <p>Blog posts index path: <span id="index-path"></span></p>
+    <p>Markdown path: <span id="markdown-path"></span></p>
+    
+    <button onclick="testBlogPostsIndex()">Test Blog Posts Index</button>
+    <button onclick="testMarkdownFile()">Test Markdown File</button>
+    <button onclick="simulateNavigation()">Simulate Navigation</button>
+    
+    <div id="results"></div>
+
+    <script src="js/markdown-blog-cms.js"></script>
+    <script>
+        function updatePaths() {
+            const currentPath = window.location.pathname;
+            document.getElementById('current-path').textContent = currentPath;
+            
+            let indexPath = 'js/blog-posts-index.json';
+            let blogPostsPath = 'blog-posts/';
+            
+            if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
+                currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
+                indexPath = '../js/blog-posts-index.json';
+                blogPostsPath = '../blog-posts/';
+            } else if (currentPath.includes('/blog/') && currentPath !== '/blog' && currentPath !== '/blog/') {
+                indexPath = '../js/blog-posts-index.json';
+                blogPostsPath = '../blog-posts/';
+            }
+            
+            document.getElementById('index-path').textContent = indexPath;
+            document.getElementById('markdown-path').textContent = blogPostsPath + '02_test_new_blog_post.md';
+        }
+        
+        async function testBlogPostsIndex() {
+            try {
+                const currentPath = window.location.pathname;
+                let indexPath = 'js/blog-posts-index.json';
+                
+                if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
+                    currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
+                    indexPath = '../js/blog-posts-index.json';
+                } else if (currentPath.includes('/blog/') && currentPath !== '/blog' && currentPath !== '/blog/') {
+                    indexPath = '../js/blog-posts-index.json';
+                }
+                
+                console.log('Testing index path:', indexPath);
+                const response = await fetch(indexPath);
+                const data = await response.json();
+                document.getElementById('results').innerHTML = `<h3>Blog Posts Index:</h3><pre>${JSON.stringify(data.slice(0, 1), null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<h3>Error loading index:</h3><pre>${error.message}</pre>`;
+            }
+        }
+        
+        async function testMarkdownFile() {
+            try {
+                const currentPath = window.location.pathname;
+                let blogPostsPath = 'blog-posts/';
+                
+                if (currentPath.endsWith('/about') || currentPath.endsWith('/blog') || currentPath.endsWith('/contact') ||
+                    currentPath.endsWith('/about/') || currentPath.endsWith('/blog/') || currentPath.endsWith('/contact/')) {
+                    blogPostsPath = '../blog-posts/';
+                } else if (currentPath.includes('/blog/') && currentPath !== '/blog' && currentPath !== '/blog/') {
+                    blogPostsPath = '../blog-posts/';
+                }
+                
+                const markdownPath = blogPostsPath + '02_test_new_blog_post.md';
+                console.log('Testing markdown path:', markdownPath);
+                const response = await fetch(markdownPath);
+                const data = await response.text();
+                document.getElementById('results').innerHTML = `<h3>Markdown File:</h3><pre>${data.substring(0, 200)}...</pre>`;
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<h3>Error loading markdown:</h3><pre>${error.message}</pre>`;
+            }
+        }
+        
+        function simulateNavigation() {
+            window.history.pushState({}, '', '/blog/test-new-blog-post');
+            updatePaths();
+        }
+        
+        updatePaths();
+    </script>
+</body>
+</html>

@@ -40,10 +40,10 @@ portfolio/
 ├── blog-posts/
 │   ├── *.md               # Blog post markdown files
 │   └── blog_images/       # Blog post images
-├── blog-post/             # Generated static blog post pages
-│   ├── index.html         # Blog post template
+├── blog/                  # Blog and generated static blog post pages
+│   ├── index.html         # Blog listing page
 │   └── [slug]/           # Individual post directories
-│       └── index.html    # Static post pages (accessible at /blog-post/[slug])
+│       └── index.html    # Static post pages (accessible at /blog/[slug])
 └── .github/
     ├── workflows/
     │   └── deploy.yml     # GitHub Actions deployment
@@ -61,7 +61,7 @@ The site uses clean URLs for better SEO and user experience:
 - **About**: `https://amanabdullayev.me/about`
 - **Blog**: `https://amanabdullayev.me/blog`
 - **Contact**: `https://amanabdullayev.me/contact`
-- **Blog Posts**: `https://amanabdullayev.me/blog-post/[slug]`
+- **Blog Posts**: `https://amanabdullayev.me/blog/[slug]`
 
 ## 🎨 Theme System
 
@@ -101,13 +101,13 @@ Your blog content here using standard markdown...
 - **Excerpt Prioritization**: Uses explicit excerpts from metadata over auto-generated content
 - **Privacy-First**: No external avatars or tracking pixels
 - **Mobile Optimized**: Responsive design with smooth scrolling
-- **Clean URLs**: SEO-friendly URLs with custom slugs (e.g., `/blog-post/my-awesome-post`)
+- **Clean URLs**: SEO-friendly URLs with custom slugs (e.g., `/blog/my-awesome-post`)
 
 ### URL Structure
 
 The blog system uses clean, SEO-friendly URLs:
 
-- **Format**: `https://yoursite.com/blog-post/custom-slug`
+- **Format**: `https://yoursite.com/blog/custom-slug`
 
 Each blog post gets its own directory with an `index.html` file, making URLs analytics-friendly for tools like Counter.dev. The system automatically generates static pages during the GitHub Actions deployment process.
 
