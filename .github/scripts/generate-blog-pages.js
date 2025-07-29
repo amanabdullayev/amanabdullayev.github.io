@@ -448,10 +448,8 @@ function createBlogPostTemplate(post, renderedContent) {
                 <div class="post-tags">${tagsHtml}</div>
                 <div class="blog-post-meta">
                     <time datetime="${post.date}">${formattedDate}</time>
-                    <div class="page-views">
-                        <iframe src="https://amanabdullayev.goatcounter.com/counter/blog/${post.slug}/.html?no_branding=1&style=div{font-size:0.875rem;color:%23666;border:none;background:none;padding:0;margin:0;display:inline-flex;align-items:center;gap:0.25rem;}%23gcvc-for{display:none;}%23gcvc-views{color:%23666;font-weight:500;}%23gcvc-views:before{content:'👁%20';}" 
-                                width="100" height="20" frameborder="0" scrolling="no" 
-                                style="border:none;background:transparent;"></iframe>
+                    <div class="page-views" id="page-views">
+                        📊 Loading...
                     </div>
                 </div>
             </header>
@@ -519,6 +517,26 @@ function createBlogPostTemplate(post, renderedContent) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    
+    <!-- Fetch page views from GoatCounter -->
+    <script>
+        // Fetch page views for this blog post
+        fetch('https://amanabdullayev.goatcounter.com/counter/blog/${post.slug}/.json')
+            .then(response => response.json())
+            .then(data => {
+                const pageViewsElement = document.getElementById('page-views');
+                if (pageViewsElement && data.count) {
+                    pageViewsElement.textContent = '📊 ' + data.count + ' views';
+                }
+            })
+            .catch(error => {
+                // Silently fail and hide the view count if there's an error
+                const pageViewsElement = document.getElementById('page-views');
+                if (pageViewsElement) {
+                    pageViewsElement.style.display = 'none';
+                }
+            });
+    </script>
 </body>
 </html>`;
 }
