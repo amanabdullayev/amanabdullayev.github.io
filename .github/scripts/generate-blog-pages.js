@@ -445,6 +445,7 @@ function createBlogPostTemplate(post, renderedContent) {
                 <div class="post-tags">${tagsHtml}</div>
                 <div class="blog-post-meta">
                     <time datetime="${post.date}">${formattedDate}</time>
+                    <div id="page-views" class="page-views"></div>
                 </div>
             </header>
 
@@ -505,6 +506,40 @@ function createBlogPostTemplate(post, renderedContent) {
     <!-- Prism.js for syntax highlighting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- GoatCounter visitor count for individual blog posts -->
+    <script>
+        // Wait for GoatCounter to load, then add visitor count
+        var pageViewsInterval = setInterval(function() {
+            if (window.goatcounter && window.goatcounter.visit_count) {
+                clearInterval(pageViewsInterval);
+                window.goatcounter.visit_count({
+                    append: '#page-views',
+                    type: 'html',
+                    no_branding: true,
+                    style: \`
+                        div { 
+                            font-size: 0.875rem; 
+                            color: var(--text-secondary); 
+                            border: none; 
+                            background: none; 
+                            padding: 0; 
+                            margin: 0;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 0.25rem;
+                        }
+                        #gcvc-for { display: none; }
+                        #gcvc-views { 
+                            color: var(--text-secondary);
+                            font-weight: 500;
+                        }
+                        #gcvc-views:before { content: '👁 '; }
+                    \`
+                });
+            }
+        }, 100);
+    </script>
 </body>
 </html>`;
 }

@@ -210,6 +210,14 @@
     justify-content: center;
 }
 
+/* Page Views Counter */
+.page-views {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
 .post-author {
     display: flex;
     align-items: center;
