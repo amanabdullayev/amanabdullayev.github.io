@@ -33,13 +33,18 @@ class BlogPage {
         }
         
         try {
-            // Use markdown blog system (same as home page)
-            if (!markdownBlogCMS) {
-                this.showFallbackPosts();
+            // Use blog index system
+            if (!blogIndex) {
+                loadingElement.style.display = 'none';
+                noPostsElement.style.display = 'block';
+                noPostsElement.innerHTML = `
+                    <h3>Blog system not available</h3>
+                    <p>Unable to load the blog index system. Please check your setup.</p>
+                `;
                 return;
             }
 
-            this.allPosts = await markdownBlogCMS.getBlogPosts();
+            this.allPosts = await blogIndex.getBlogPosts();
             
             if (this.allPosts.length === 0) {
                 loadingElement.style.display = 'none';
@@ -204,7 +209,7 @@ class BlogPage {
 
     // Create HTML for a blog post card
     createPostCard(post) {
-        const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
+        const formattedDate = blogIndex ? blogIndex.formatDate(post.date) : post.date;
         const tagsHtml = post.tags ? post.tags.map(tag => {
             const colorIndex = getTagColorIndex(tag);
             return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
@@ -296,76 +301,6 @@ class BlogPage {
                 });
             }
         });
-    }
-
-    // Show fallback posts when markdown blog system is not available
-    showFallbackPosts() {
-        const loadingElement = document.getElementById('loading-posts');
-        const postsContainer = document.getElementById('posts-container');
-        
-        loadingElement.style.display = 'none';
-        postsContainer.style.display = 'block';
-        
-        const fallbackPosts = [
-            {
-                title: "Getting Started with Your Blog",
-                excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically. This comprehensive guide will walk you through the entire setup process.",
-                date: "Dec 15, 2024",
-                tags: ["Setup", "Tutorial", "Markdown"],
-                url: "#"
-            },
-            {
-                title: "Customizing Your Portfolio Design",
-                excerpt: "Learn how to customize the design, colors, and content of your portfolio to match your personal brand and style preferences. Make it truly yours.",
-                date: "Dec 10, 2024",
-                tags: ["Customization", "Design", "CSS"],
-                url: "#"
-            },
-            {
-                title: "Markdown Blog System",
-                excerpt: "Discover how to use the markdown-based blog system for your website content management. Perfect for bloggers and content creators.",
-                date: "Dec 5, 2024",
-                tags: ["Markdown", "Blog", "CMS"],
-                url: "#"
-            },
-            {
-                title: "Modern Web Development Trends",
-                excerpt: "Exploring the latest trends and technologies in web development for 2024. Stay ahead of the curve with these insights.",
-                date: "Dec 1, 2024",
-                tags: ["Web Dev", "Trends", "Technology"],
-                url: "#"
-            },
-            {
-                title: "Responsive Design Best Practices",
-                excerpt: "Master the art of creating websites that look great on all devices. Learn the principles of mobile-first design.",
-                date: "Nov 28, 2024",
-                tags: ["Design", "Mobile", "Responsive"],
-                url: "#"
-            },
-            {
-                title: "JavaScript Performance Optimization",
-                excerpt: "Tips and techniques for writing faster, more efficient JavaScript code. Improve your website's performance.",
-                date: "Nov 25, 2024",
-                tags: ["JavaScript", "Performance", "Optimization"],
-                url: "#"
-            }
-        ];
-        
-        this.allPosts = fallbackPosts;
-        this.filteredPosts = fallbackPosts;
-        
-        // Generate tag filters for fallback posts
-        this.generateTagFilters();
-        
-        // Render posts
-        this.renderPosts();
-        this.setupPagination();
-        
-        // Add info message
-        const infoMessage = document.createElement('div');
-        infoMessage.className = 'error';
-        infoMessage.innerHTML = 'Add markdown files to <code>blog-posts/</code> folder to display your actual blog posts. Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.';
-        document.getElementById('posts-grid').parentNode.insertBefore(infoMessage, document.getElementById('posts-grid'));
     }
 }
 

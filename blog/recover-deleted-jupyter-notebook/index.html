@@ -138,12 +138,12 @@ df = pd.read_sql_query(f&quot;&quot;&quot;
 df.head()</code></pre></p>
 
 <figure class="blog-image">
-            <img src="../../blog-posts/blog_images/blog_01_img_01.png" 
-                 alt="SQLite History Example" 
-                 loading="lazy"
-                 class="responsive-image">
-            <figcaption class="image-caption">SQLite History Example</figcaption>
-        </figure>
+<img src="../../blog-posts/blog_images/blog_01_img_01.png"
+alt="SQLite History Example"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">SQLite History Example</figcaption>
+</figure>
 
 <p>Now, explore the dataframe and locate your code snippets in the "source" column. Once you find a snippet, note the corresponding session number from the "session" column—this reflects each time you start or restart the Jupyter Kernel. Remember this session number for the next step.</p>
 
@@ -155,12 +155,12 @@ df_session_content = pd.read_sql_query(f&quot;&quot;&quot;
 df_session_content.head()</code></pre></p>
 
 <figure class="blog-image">
-            <img src="../../blog-posts/blog_images/blog_01_img_02.png" 
-                 alt="Specific Session Eexample" 
-                 loading="lazy"
-                 class="responsive-image">
-            <figcaption class="image-caption">Specific Session Eexample</figcaption>
-        </figure>
+<img src="../../blog-posts/blog_images/blog_01_img_02.png"
+alt="Specific Session Eexample"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Specific Session Eexample</figcaption>
+</figure>
 
 <p>After creating the above dataframe, filter it to include only distinct rows based on the "source" column. This ensures that running the code cell multiple times within the same session doesn't result in duplicate rows. Finally, use the <code class="inline-code">nbformat</code> package to write the required rows from the "source" column into a new Jupyter Notebook, as shown below:</p>
 
@@ -232,6 +232,7 @@ print(&quot;Jupyter Notebook created successfully.&quot;)</code></pre></p>
     <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="../../js/blog-post.js"></script>
     
     <!-- Prism.js for syntax highlighting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>

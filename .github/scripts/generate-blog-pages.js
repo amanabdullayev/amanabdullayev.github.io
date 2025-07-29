@@ -47,6 +47,9 @@ class NodeMarkdownProcessor {
             // Links
             .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
+        // Process tables
+        html = this.processTables(html);
+        
         // Process lists
         html = this.processLists(html);
         
@@ -90,6 +93,65 @@ class NodeMarkdownProcessor {
                  class="responsive-image">
             ${alt ? `<figcaption class="image-caption">${this.escapeHtml(alt)}</figcaption>` : ''}
         </figure>`;
+    }
+
+    processTables(content) {
+        const lines = content.split('\n');
+        const result = [];
+        let inTable = false;
+        let tableRows = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            
+            if (line.includes('|') && line.split('|').length > 2) {
+                if (!inTable) {
+                    inTable = true;
+                    tableRows = [];
+                }
+                
+                // Skip separator lines (like |---|---|)
+                if (!line.match(/^\|[\s\-\|:]+\|$/)) {
+                    const cells = line.split('|').slice(1, -1).map(cell => cell.trim());
+                    tableRows.push(cells);
+                }
+            } else {
+                if (inTable && tableRows.length > 0) {
+                    // Generate table HTML
+                    let tableHtml = '<table class="markdown-table">';
+                    tableRows.forEach((row, index) => {
+                        const tag = index === 0 ? 'th' : 'td';
+                        tableHtml += '<tr>';
+                        row.forEach(cell => {
+                            tableHtml += `<${tag}>${cell}</${tag}>`;
+                        });
+                        tableHtml += '</tr>';
+                    });
+                    tableHtml += '</table>';
+                    result.push(tableHtml);
+                    tableRows = [];
+                    inTable = false;
+                }
+                result.push(line);
+            }
+        }
+
+        // Handle table at end of content
+        if (inTable && tableRows.length > 0) {
+            let tableHtml = '<table class="markdown-table">';
+            tableRows.forEach((row, index) => {
+                const tag = index === 0 ? 'th' : 'td';
+                tableHtml += '<tr>';
+                row.forEach(cell => {
+                    tableHtml += `<${tag}>${cell}</${tag}>`;
+                });
+                tableHtml += '</tr>';
+            });
+            tableHtml += '</table>';
+            result.push(tableHtml);
+        }
+
+        return result.join('\n');
     }
 
     processLists(content) {
@@ -438,6 +500,7 @@ function createBlogPostTemplate(post, renderedContent) {
     <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="../../js/blog-post.js"></script>
     
     <!-- Prism.js for syntax highlighting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>

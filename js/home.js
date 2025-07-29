@@ -60,13 +60,13 @@ class HomePage {
         const postsGrid = document.getElementById('posts-grid');
         
         try {
-            // Use markdown blog system
-            if (!markdownBlogCMS) {
-                this.showFallbackPosts();
+            // Use blog index system
+            if (!blogIndex) {
+                loadingElement.innerHTML = '<p class="error">Blog system not available. Please check your setup.</p>';
                 return;
             }
 
-            const allPosts = await markdownBlogCMS.getBlogPosts();
+            const allPosts = await blogIndex.getBlogPosts();
             // Only show the latest 4 posts on home page
             const latestPosts = allPosts.slice(0, CONFIG.settings.homePostsCount || 4);
             
@@ -91,13 +91,13 @@ class HomePage {
 
         } catch (error) {
             console.error('Error loading latest posts:', error);
-            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your markdown blog configuration.</p>';
+            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your blog system configuration.</p>';
         }
     }
 
     // Create HTML for a blog post card
     createPostCard(post) {
-        const formattedDate = markdownBlogCMS ? markdownBlogCMS.formatDate(post.date) : post.date;
+        const formattedDate = blogIndex ? blogIndex.formatDate(post.date) : post.date;
         const tagsHtml = post.tags.slice(0, 3).map(tag => {
             const colorIndex = getTagColorIndex(tag);
             return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
@@ -118,54 +118,6 @@ class HomePage {
                 </a>
             </article>
         `;
-    }
-
-    // Show fallback posts when markdown blog system is not available
-    showFallbackPosts() {
-        const loadingElement = document.getElementById('loading-posts');
-        const postsGrid = document.getElementById('posts-grid');
-        
-        loadingElement.style.display = 'none';
-        postsGrid.style.display = 'grid';
-        
-        const fallbackPosts = [
-            {
-                title: "Getting Started with Your Blog",
-                excerpt: "Add markdown files to the blog-posts/ folder to start displaying your blog posts automatically.",
-                date: "Dec 15, 2024",
-                tags: ["Setup", "Tutorial"],
-                url: "#"
-            },
-            {
-                title: "Customizing Your Portfolio",
-                excerpt: "Learn how to customize the design, colors, and content of your portfolio to match your personal brand.",
-                date: "Dec 10, 2024",
-                tags: ["Customization", "Design"],
-                url: "#"
-            },
-            {
-                title: "Markdown Blog System",
-                excerpt: "Discover how to use the markdown-based blog system for your website content management.",
-                date: "Dec 5, 2024",
-                tags: ["Markdown", "Blog"],
-                url: "#"
-            },
-            {
-                title: "Modern Web Development",
-                excerpt: "Exploring the latest trends and technologies in web development for 2024.",
-                date: "Dec 1, 2024",
-                tags: ["Web Dev", "Trends"],
-                url: "#"
-            }
-        ];
-        
-        postsGrid.innerHTML = fallbackPosts.map(post => this.createPostCard(post)).join('');
-        
-        // Add info message
-        const infoMessage = document.createElement('div');
-        infoMessage.className = 'error';
-        infoMessage.innerHTML = 'Add markdown files to <code>blog-posts/</code> folder to display your actual blog posts. Check the <a href="PRIVATE_REPO_BLOG_GUIDE.md" target="_blank">setup guide</a> for more information.';
-        postsGrid.parentNode.insertBefore(infoMessage, postsGrid);
     }
 }
 

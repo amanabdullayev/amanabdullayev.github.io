@@ -1,304 +1,90 @@
-// Blog Post Page - Individual blog post display
+// Blog Post Page - Static page functionality
 class BlogPostPage {
     constructor() {
         this.init();
     }
 
     async init() {
-        // Get post slug from URL path format
-        const postSlug = this.getPostSlugFromUrl();
-        
-        if (!postSlug) {
-            this.showPostNotFound();
-            return;
-        }
-
-        await this.loadBlogPost(postSlug);
+        // Initialize sharing functionality (static pages have content pre-rendered)
         this.initializeSharing();
-    }
-
-    // Extract post slug from URL path: /blog/slug-name
-    getPostSlugFromUrl() {
-        const path = window.location.pathname;
         
-        // Extract slug from new path-based format (/blog/slug)
-        if (path.includes('/blog/') && path !== '/blog' && path !== '/blog/') {
-            const slug = path.split('/blog/')[1];
-            return slug ? slug.replace(/\/$/, '') : null; // Remove trailing slash
-        }
-        
-        // Fallback for old format (for backwards compatibility)
-        if (path.includes('/blog-post/')) {
-            const slug = path.split('/blog-post/')[1];
-            return slug ? slug.replace(/\/$/, '') : null; // Remove trailing slash
-        }
-        
-        return null;
-    }
-
-    async loadBlogPost(slug) {
-        const loadingElement = document.getElementById('loading-post');
-        const postNotFoundElement = document.getElementById('post-not-found');
-        const postContentElement = document.getElementById('blog-post-content');
-
-        // Add null checks for DOM elements
-        if (!loadingElement || !postNotFoundElement || !postContentElement) {
-            console.error('Required DOM elements not found');
-            return;
-        }
-
-        try {
-            if (!markdownBlogCMS) {
-                throw new Error('Blog system not initialized');
-            }
-
-            // Load the blog post
-            const post = await markdownBlogCMS.getBlogPost(slug);
-            
-            if (!post) {
-                throw new Error('Post not found');
-            }
-
-            // Hide loading, show content
-            loadingElement.style.display = 'none';
-            postContentElement.style.display = 'block';
-
-            // Update page metadata
-            this.updatePageMetadata(post);
-
-            // Populate post content
-            this.populatePostContent(post);
-
-        } catch (error) {
-            console.error('Error loading blog post:', error);
-            this.showPostNotFound();
-        }
-    }
-
-    updatePageMetadata(post) {
-        // Update page title
-        document.title = `${post.title} - Aman Abdullayev`;
-        document.getElementById('post-title').textContent = document.title;
-        
-        // Update meta description
-        if (post.excerpt) {
-            const metaDescription = document.getElementById('post-description');
-            metaDescription.setAttribute('content', post.excerpt);
-            
-            // Update Open Graph tags
-            const ogTitle = document.getElementById('og-title');
-            const ogDescription = document.getElementById('og-description');
-            if (ogTitle) ogTitle.setAttribute('content', document.title);
-            if (ogDescription) ogDescription.setAttribute('content', post.excerpt);
-            
-            // Update Twitter Card tags
-            const twitterTitle = document.getElementById('twitter-title');
-            const twitterDescription = document.getElementById('twitter-description');
-            if (twitterTitle) twitterTitle.setAttribute('content', document.title);
-            if (twitterDescription) twitterDescription.setAttribute('content', post.excerpt);
-        }
-        
-        // Update canonical URL
-        const canonicalUrl = document.getElementById('canonical-url');
-        if (canonicalUrl) {
-            canonicalUrl.setAttribute('href', window.location.href);
-        }
-    }
-
-    populatePostContent(post) {
-        // Post title
-        document.getElementById('blog-post-title').textContent = post.title;
-
-        // Author info - simple name only
-        if (post.author) {
-            document.getElementById('author-name').textContent = post.author.name;
-        }
-
-        // Post date
-        const formattedDate = markdownBlogCMS.formatDate(post.date);
-        document.getElementById('post-date').textContent = formattedDate;
-        document.getElementById('post-date').setAttribute('datetime', post.date);
-
-        // Tags
-        this.populateTags(post.tags);
-
-        // Post content
-        document.getElementById('blog-post-body').innerHTML = post.content;
-
-        // Enhanced code highlighting with fallback and retry logic
+        // Initialize code highlighting
         this.initializeCodeHighlighting();
-
-        // Update sharing links
-        this.updateSharingLinks(post);
     }
 
     // Initialize code highlighting with robust error handling
     initializeCodeHighlighting() {
-        // Function to apply highlighting with better error handling
-        const applyHighlighting = () => {
-            if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-                try {
-                    // Ensure Prism is fully loaded before highlighting
-                    if (Prism.plugins && Prism.plugins.autoloader) {
-                        // Wait a bit for autoloader to finish if it's still loading
-                        setTimeout(() => {
-                            try {
-                                Prism.highlightAll();
-                                console.log('Prism.js highlighting applied successfully');
-                            } catch (error) {
-                                console.warn('Prism.js highlighting failed:', error);
-                                this.applyFallbackCodeStyling();
-                            }
-                        }, 100);
-                    } else {
-                        // Direct highlighting if autoloader is not used
-                        Prism.highlightAll();
-                        console.log('Prism.js highlighting applied successfully');
-                    }
-                } catch (error) {
-                    console.warn('Prism.js highlighting failed:', error);
-                    this.applyFallbackCodeStyling();
-                }
-            } else {
-                console.log('Prism.js not available, using fallback styling');
+        // Enhanced code highlighting initialization
+        if (typeof Prism !== 'undefined') {
+            try {
+                // Re-highlight all code blocks
+                Prism.highlightAll();
+            } catch (error) {
+                // Fallback if Prism fails
                 this.applyFallbackCodeStyling();
             }
-        };
-
-        // Try immediate highlighting
-        applyHighlighting();
-
-        // Retry after a delay to handle CDN loading
-        setTimeout(applyHighlighting, 500);
-        
-        // Final retry after longer delay
-        setTimeout(applyHighlighting, 2000);
+        } else {
+            // Prism.js not loaded, apply fallback styling
+            this.applyFallbackCodeStyling();
+        }
     }
 
     // Apply fallback styling when Prism.js is not available
     applyFallbackCodeStyling() {
-        document.querySelectorAll('pre code').forEach(block => {
-            if (!block.classList.contains('language-')) {
-                block.style.color = 'var(--text-primary)';
-                block.style.fontFamily = 'Monaco, Menlo, Ubuntu Mono, Courier New, monospace';
-                block.style.fontSize = '0.9rem';
-                block.style.lineHeight = '1.6';
-            }
+        const codeBlocks = document.querySelectorAll('pre code');
+        codeBlocks.forEach(block => {
+            block.style.display = 'block';
+            block.style.padding = '1rem';
+            block.style.backgroundColor = '#f5f5f5';
+            block.style.borderRadius = '6px';
+            block.style.fontFamily = 'Consolas, Monaco, "Andale Mono", monospace';
+            block.style.fontSize = '0.9rem';
+            block.style.lineHeight = '1.5';
+            block.style.overflow = 'auto';
         });
-    }
-
-    populateTags(tags) {
-        const tagsContainer = document.getElementById('post-tags');
-        
-        if (tags && tags.length > 0) {
-            const tagsHtml = tags.map(tag => {
-                const colorIndex = getTagColorIndex(tag);
-                return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
-            }).join('');
-            tagsContainer.innerHTML = tagsHtml;
-        } else {
-            tagsContainer.style.display = 'none';
-        }
-    }
-
-    updateSharingLinks(post) {
-        const postUrl = encodeURIComponent(window.location.href);
-        const postTitle = encodeURIComponent(post.title);
-        
-        // Twitter share
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${postTitle}&url=${postUrl}`;
-        document.getElementById('share-twitter').href = twitterUrl;
-
-        // LinkedIn share
-        const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${postUrl}`;
-        document.getElementById('share-linkedin').href = linkedinUrl;
     }
 
     initializeSharing() {
         // Copy link functionality
-        document.getElementById('share-copy').addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                // Show feedback
-                const copyBtn = e.target;
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = '✅ Copied!';
+        const copyBtn = document.getElementById('share-copy');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 
-                setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                // Fallback: select the URL
-                const tempInput = document.createElement('input');
-                tempInput.value = window.location.href;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                
-                const copyBtn = e.target;
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = '✅ Copied!';
-                
-                setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                }, 2000);
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    // Show feedback
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback: select the URL
+                    const tempInput = document.createElement('input');
+                    tempInput.value = window.location.href;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                });
             });
-        });
-    }
-
-    showPostNotFound() {
-        document.getElementById('loading-post').style.display = 'none';
-        document.getElementById('post-not-found').style.display = 'block';
-        
-        // Update page title
-        document.title = 'Post Not Found - Aman Abdullayev';
-    }
-}
-
-// Function to initialize blog post with a specific slug (for router use)
-async function initializeBlogPost(slug) {
-    try {
-        console.log('initializeBlogPost: Starting with slug:', slug);
-        
-        // Ensure markdownBlogCMS is available
-        if (!markdownBlogCMS) {
-            console.error('initializeBlogPost: markdownBlogCMS not available');
-            return;
         }
-        
-        console.log('initializeBlogPost: Creating BlogPostPage instance');
-        const blogPost = new BlogPostPage();
-        
-        console.log('initializeBlogPost: Loading blog post');
-        await blogPost.loadBlogPost(slug);
-        
-        console.log('initializeBlogPost: Initializing sharing');
-        blogPost.initializeSharing();
-        
-        console.log('initializeBlogPost: Completed successfully');
-    } catch (error) {
-        console.error('initializeBlogPost: Error occurred:', error);
     }
 }
 
 // Initialize blog post page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Prevent double initialization
-    if (window.blogPostPageInitialized) {
-        return;
-    }
-    window.blogPostPageInitialized = true;
-    
-    try {
-        // Only initialize if we're on the old blog-post path
-        const path = window.location.pathname;
-        if (path.includes('/blog-post/')) {
-            new BlogPostPage();
-        }
-    } catch (error) {
-        console.error('Failed to initialize blog post page:', error);
+    // Only initialize on static blog post pages (pages that have the blog post structure)
+    if (document.querySelector('.blog-post')) {
+        new BlogPostPage();
     }
 });

@@ -41,3 +41,5 @@ blog-posts/00_blog_template.md
 
 # Example blog post (template)
 blog/example-blog-post-slug/
+
+tests/

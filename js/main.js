@@ -9,15 +9,6 @@ function getTagColorIndex(tagName) {
     return Math.abs(hash) % 10; // Return index between 0-9
 }
 
-// Test function to verify tag color consistency (can be removed in production)
-function testTagColors() {
-    const testTags = ['data-science', 'marketing-analytics', 'javascript', 'react', 'python', 'web-dev'];
-    console.log('Tag color mapping:');
-    testTags.forEach(tag => {
-        console.log(`${tag}: color-${getTagColorIndex(tag)}`);
-    });
-}
-
 // Initialize Counter.dev analytics
 function initAnalytics() {
     // Check if analytics is enabled in config
@@ -87,9 +78,6 @@ class Portfolio {
         
         // Load page-specific content
         this.loadPageContent();
-        
-        // Load contact links
-        this.loadContactLinks();
         
         // Initialize navigation
         this.initNavigation();
@@ -165,28 +153,6 @@ class Portfolio {
         return null; // Home page or unknown
     }
 
-    // Load contact links from config
-    loadContactLinks() {
-        if (typeof CONFIG === 'undefined') return;
-        
-        const contactLinksContainer = document.getElementById('contact-links');
-        if (!contactLinksContainer) return; // Element doesn't exist on this page
-        
-        contactLinksContainer.innerHTML = '';
-        
-        CONFIG.contact.forEach(contact => {
-            const link = document.createElement('a');
-            link.href = contact.url;
-            link.className = 'contact-link';
-            link.target = contact.url.startsWith('mailto:') ? '_self' : '_blank';
-            link.innerHTML = `
-                <span>${contact.icon}</span>
-                <span>${contact.name}</span>
-            `;
-            contactLinksContainer.appendChild(link);
-        });
-    }
-
     // Initialize smooth scrolling navigation
     initNavigation() {
         // Smooth scrolling for navigation links
@@ -241,9 +207,9 @@ class Portfolio {
             });
         }, observerOptions);
 
-        // Observe elements that should animate on scroll (only contact-links for now)
-        // Other page-specific animations are handled by their respective page scripts
-        document.querySelectorAll('.contact-links').forEach(el => {
+        // Observe elements that should animate on scroll
+        // Page-specific animations are handled by their respective page scripts
+        document.querySelectorAll('.fade-in-on-scroll').forEach(el => {
             observer.observe(el);
         });
     }
