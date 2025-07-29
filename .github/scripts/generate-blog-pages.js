@@ -397,6 +397,9 @@ function createBlogPostTemplate(post, renderedContent) {
     <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
     <meta name="theme-color" content="#2563eb">
     
+    <!-- Content Security Policy to allow Prism.js fonts -->
+    <meta http-equiv="Content-Security-Policy" content="font-src 'self' data: https://gc.zgo.at static.zgo.at https://cdnjs.cloudflare.com;">
+    
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
     <link rel="stylesheet" href="../../styles/layout.css">
@@ -505,7 +508,13 @@ function createBlogPostTemplate(post, renderedContent) {
     
     <!-- Prism.js for syntax highlighting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
     
     <!-- GoatCounter visitor count for individual blog posts -->
     <script>
