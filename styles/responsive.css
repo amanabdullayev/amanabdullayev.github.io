@@ -70,8 +70,8 @@
     }
     
     .tech-logo {
-        width: 36px;
-        height: 36px;
+        width: 42px;
+        height: 42px;
     }
     
     .tech-name {
@@ -196,7 +196,7 @@
     }
 }
 
-/* Mobile Styles */
+/* ***********************************************Mobile Styles */
 @media (max-width: 480px) {
     /* Container */
     .container {
@@ -279,8 +279,8 @@
     }
     
     .tech-logo {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
     }
     
     .tech-name {
