@@ -515,23 +515,18 @@ function createBlogPostTemplate(post, renderedContent) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
     
-    <!-- Fetch page views from GoatCounter -->
+    <!-- Simple page view counter -->
     <script>
-        // Fetch page views for this blog post
         fetch('https://amanabdullayev.goatcounter.com/counter/blog/${post.slug}/.json')
             .then(response => response.json())
             .then(data => {
-                const pageViewsElement = document.getElementById('page-views');
-                if (pageViewsElement && data.count) {
-                    pageViewsElement.textContent = '📊 ' + data.count + ' views';
+                const el = document.getElementById('page-views');
+                if (el && data.count) {
+                    el.textContent = '📊 ' + data.count + ' views';
                 }
             })
-            .catch(error => {
-                // Silently fail and hide the view count if there's an error
-                const pageViewsElement = document.getElementById('page-views');
-                if (pageViewsElement) {
-                    pageViewsElement.style.display = 'none';
-                }
+            .catch(() => {
+                document.getElementById('page-views').style.display = 'none';
             });
     </script>
 </body>

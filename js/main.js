@@ -9,6 +9,15 @@ function getTagColorIndex(tagName) {
     return Math.abs(hash) % 10; // Return index between 0-9
 }
 
+// Load GoatCounter analytics script
+(function() {
+    const script = document.createElement('script');
+    script.setAttribute('data-goatcounter', 'https://amanabdullayev.goatcounter.com/count');
+    script.async = true;
+    script.src = '//gc.zgo.at/count.js';
+    document.head.appendChild(script);
+})();
+
 // Main JavaScript file for portfolio functionality
 class Portfolio {
     constructor() {
