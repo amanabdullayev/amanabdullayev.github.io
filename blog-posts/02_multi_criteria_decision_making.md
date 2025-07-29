@@ -90,16 +90,11 @@ Here's a brief overview of some common decision-making algorithms:
 
 | Algorithm | Overview |
 | --- | --- |
-| Decision Trees | • Graphical representation of decisions and their outcomes
-• Useful for sequential decision-making processes |
-| Analytic Hierarchy Process (AHP) | • Breaks down complex decisions into hierarchies
-• Uses pairwise comparisons to establish priorities
- |
+| Decision Trees | • Graphical representation of decisions and their outcomes • Useful for sequential decision-making processes |
+| Analytic Hierarchy Process (AHP) | • Breaks down complex decisions into hierarchies • Uses pairwise comparisons to establish priorities |
 | TOPSIS (Technique for Order Preference by Similarity to Ideal Solution) | Chooses alternatives closest to ideal solution and farthest from the negative-ideal solution |
-| PROMETHEE (Preference Ranking Organization Method for Enrichment Evaluations) | • Outranking method using pairwise comparisons of alternatives
-• Considers preference functions for each criterion |
-| ELECTRE (Elimination and Choice Expressing Reality) | • Family of outranking methods
-• Uses concordance and discordance indices |
+| PROMETHEE (Preference Ranking Organization Method for Enrichment Evaluations) | • Outranking method using pairwise comparisons of alternatives • Considers preference functions for each criterion |
+| ELECTRE (Elimination and Choice Expressing Reality) | • Family of outranking methods • Uses concordance and discordance indices |
 
 Each algorithm has its strengths and is suited to different types of decision problems. The choice of algorithm depends on the specific context, data availability, and complexity of the decision at hand.
 
