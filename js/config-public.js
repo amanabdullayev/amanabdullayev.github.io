@@ -5,13 +5,14 @@ const CONFIG = {
         name: "Aman Abdullayev",
         title: "Applied Scientist",
         homeIntro: `
-            <p><strong>Welcome to my digital space!</strong> I'm an Applied Scientist passionate about turning data into actionable insights and building meaningful connections through technology.</p>
-            <p>Here you'll discover my journey at the intersection of machine learning and marketing analytics, along with thoughts on mentoring, personal growth, and the evolving world of data science.</p>
-            <p>Feel free to explore my latest projects, read my blog posts, and connect with me if you'd like to collaborate or just have a chat about data, technology, or life in general.</p>
+            <p><strong>Welcome to my digital space!</strong> I'm Aman Abdullayev, an Applied (Data) Scientist passionate about turning data into actionable insights and fostering meaningful connections through technology.</p>
+            <p>Here, you’ll find my journey—from education to professional experiences—along with reflections on mentoring, personal growth, and the ever-evolving world of data science.</p>
+            <p>Feel free to explore my latest blog posts and reach out if you’d like to collaborate or simply chat about data, tech, or life in general.</p>
         `,
         aboutMe: `
-            <p><strong>I'm Aman, a data scientist and researcher based in Berlin.</strong> With a background spanning environmental science and machine learning, I love turning complex data into actionable insights—especially in the marketing world.</p>
-            <p>I currently work as an Applied Scientist at Zalando, focusing on performance marketing measurement and steering. My past roles include building attribution models, geo-experiments, and customer value predictions.</p>
+            <p><strong>I'm Aman, a data scientist based in Berlin.</strong> With a background in environmental science, materials science, and data science, I enjoy turning complex problems into actionable insights in a simplified way — currently focusing on the world of marketing analytics.</p>
+            <p>I'm currently an Applied Scientist at Zalando, working on performance marketing measurement and steering. My work includes building attribution models, geo-experiments, customer value predictions, marketing mix models (MMM), time series forecasting, and more.</p>
+
         `
     },
 
@@ -36,7 +37,7 @@ const CONFIG = {
         {
             icon: "💻",
             title: "Active Projects",
-            description: "Currently working on 3 exciting projects"
+            description: "Cooming Soon"
         },
         {
             icon: "📝",
