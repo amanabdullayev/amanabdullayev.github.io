@@ -277,6 +277,4 @@ In the age of data, it's easy to find relevant information on both alternatives 
 2. Gather as much information as possible for each.
 3. Use ranking algorithms to guide your decision-making.
 
-> ***Do not value anything more than it deserves. Either you will lose it or you will ruin yourself.*
-                                                                                    *Rumi***
->
+> *Do not value anything more than it deserves. Either you will lose it or you will ruin yourself.* **Rumi**
