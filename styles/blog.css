@@ -218,6 +218,11 @@
     color: var(--text-secondary);
 }
 
+.page-views iframe {
+    border: none !important;
+    background: transparent !important;
+}
+
 .post-author {
     display: flex;
     align-items: center;

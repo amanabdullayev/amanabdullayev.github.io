@@ -448,7 +448,11 @@ function createBlogPostTemplate(post, renderedContent) {
                 <div class="post-tags">${tagsHtml}</div>
                 <div class="blog-post-meta">
                     <time datetime="${post.date}">${formattedDate}</time>
-                    <div id="page-views" class="page-views"></div>
+                    <div class="page-views">
+                        <iframe src="https://amanabdullayev.goatcounter.com/counter/blog/${post.slug}/.html?no_branding=1&style=div{font-size:0.875rem;color:%23666;border:none;background:none;padding:0;margin:0;display:inline-flex;align-items:center;gap:0.25rem;}%23gcvc-for{display:none;}%23gcvc-views{color:%23666;font-weight:500;}%23gcvc-views:before{content:'👁%20';}" 
+                                width="100" height="20" frameborder="0" scrolling="no" 
+                                style="border:none;background:transparent;"></iframe>
+                    </div>
                 </div>
             </header>
 
@@ -515,40 +519,6 @@ function createBlogPostTemplate(post, renderedContent) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
-    
-    <!-- GoatCounter visitor count for individual blog posts -->
-    <script>
-        // Wait for GoatCounter to load, then add visitor count
-        var pageViewsInterval = setInterval(function() {
-            if (window.goatcounter && window.goatcounter.visit_count) {
-                clearInterval(pageViewsInterval);
-                window.goatcounter.visit_count({
-                    append: '#page-views',
-                    type: 'html',
-                    no_branding: true,
-                    style: \`
-                        div { 
-                            font-size: 0.875rem; 
-                            color: var(--text-secondary); 
-                            border: none; 
-                            background: none; 
-                            padding: 0; 
-                            margin: 0;
-                            display: inline-flex;
-                            align-items: center;
-                            gap: 0.25rem;
-                        }
-                        #gcvc-for { display: none; }
-                        #gcvc-views { 
-                            color: var(--text-secondary);
-                            font-weight: 500;
-                        }
-                        #gcvc-views:before { content: '👁 '; }
-                    \`
-                });
-            }
-        }, 100);
-    </script>
 </body>
 </html>`;
 }
