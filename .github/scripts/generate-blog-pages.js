@@ -272,10 +272,24 @@ if (!fs.existsSync(blogIndexPath)) {
 const blogPosts = JSON.parse(fs.readFileSync(blogIndexPath, 'utf8'));
 const markdownProcessor = new NodeMarkdownProcessor();
 
+// Utility function to generate consistent colors for tags (same as main.js)
+function getTagColorIndex(tagName) {
+    let hash = 0;
+    for (let i = 0; i < tagName.length; i++) {
+        const char = tagName.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash) % 10; // Return index between 0-9
+}
+
 // Template function for blog post index.html
 function createBlogPostTemplate(post, renderedContent) {
     const formattedDate = markdownProcessor.formatDate(post.date);
-    const tagsHtml = post.tags ? post.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
+    const tagsHtml = post.tags ? post.tags.map(tag => {
+        const colorIndex = getTagColorIndex(tag);
+        return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
+    }).join('') : '';
     
     return `<!DOCTYPE html>
 <html lang="en">
