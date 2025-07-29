@@ -9,7 +9,7 @@ function getTagColorIndex(tagName) {
     return Math.abs(hash) % 10; // Return index between 0-9
 }
 
-// Initialize Counter.dev analytics
+// Initialize GoatCounter analytics
 function initAnalytics() {
     // Check if analytics is enabled in config
     if (typeof CONFIG !== 'undefined' && !CONFIG.settings.enableAnalytics) {
@@ -18,31 +18,30 @@ function initAnalytics() {
     }
     
     // Check if script already exists to prevent duplicates
-    if (document.querySelector('script[data-id="0d04bd09-31ab-4270-8229-a8691744db89"]')) {
+    if (document.querySelector('script[data-goatcounter]')) {
         console.log('Analytics already loaded');
         return;
     }
     
     const script = document.createElement('script');
-    script.src = 'https://cdn.counter.dev/script.js';
-    script.setAttribute('data-id', '0d04bd09-31ab-4270-8229-a8691744db89');
-    script.setAttribute('data-utcoffset', '2');
+    script.src = '//gc.zgo.at/count.js';
+    script.setAttribute('data-goatcounter', 'https://amanabdullayev.goatcounter.com/count');
     script.async = true;
     
     // Add load event listener for debugging
     script.onload = function() {
-        console.log('Counter.dev analytics loaded successfully');
+        console.log('GoatCounter analytics loaded successfully');
     };
     
     script.onerror = function() {
-        console.error('Failed to load Counter.dev analytics');
+        console.error('Failed to load GoatCounter analytics');
     };
     
     document.head.appendChild(script);
-    console.log('Counter.dev script added to head');
+    console.log('GoatCounter script added to head');
 }
 
-// Initialize Counter.dev analytics - single, clean initialization
+// Initialize GoatCounter analytics - single, clean initialization
 (function() {
     // Wait for CONFIG to load before initializing analytics
     function waitForConfigAndInitAnalytics() {
