@@ -397,9 +397,6 @@ function createBlogPostTemplate(post, renderedContent) {
     <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
     <meta name="theme-color" content="#2563eb">
     
-    <!-- Content Security Policy to allow Prism.js fonts -->
-    <meta http-equiv="Content-Security-Policy" content="font-src 'self' data: https://gc.zgo.at static.zgo.at https://cdnjs.cloudflare.com;">
-    
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
     <link rel="stylesheet" href="../../styles/layout.css">

@@ -9,59 +9,6 @@ function getTagColorIndex(tagName) {
     return Math.abs(hash) % 10; // Return index between 0-9
 }
 
-// Initialize GoatCounter analytics
-function initAnalytics() {
-    // Check if analytics is enabled in config
-    if (typeof CONFIG !== 'undefined' && !CONFIG.settings.enableAnalytics) {
-        console.log('Analytics disabled in config');
-        return;
-    }
-    
-    // Check if script already exists to prevent duplicates
-    if (document.querySelector('script[data-goatcounter]')) {
-        console.log('Analytics already loaded');
-        return;
-    }
-    
-    const script = document.createElement('script');
-    script.src = '//gc.zgo.at/count.js';
-    script.setAttribute('data-goatcounter', 'https://amanabdullayev.goatcounter.com/count');
-    script.async = true;
-    
-    // Add load event listener for debugging
-    script.onload = function() {
-        console.log('GoatCounter analytics loaded successfully');
-    };
-    
-    script.onerror = function() {
-        console.error('Failed to load GoatCounter analytics');
-    };
-    
-    document.head.appendChild(script);
-    console.log('GoatCounter script added to head');
-}
-
-// Initialize GoatCounter analytics - single, clean initialization
-(function() {
-    // Wait for CONFIG to load before initializing analytics
-    function waitForConfigAndInitAnalytics() {
-        if (typeof CONFIG !== 'undefined') {
-            initAnalytics();
-        } else {
-            // Wait a bit longer for CONFIG to load
-            setTimeout(waitForConfigAndInitAnalytics, 100);
-        }
-    }
-    
-    // Simple, single initialization strategy
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', waitForConfigAndInitAnalytics);
-    } else {
-        // DOM is already ready
-        waitForConfigAndInitAnalytics();
-    }
-})();
-
 // Main JavaScript file for portfolio functionality
 class Portfolio {
     constructor() {
