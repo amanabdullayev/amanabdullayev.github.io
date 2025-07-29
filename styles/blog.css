@@ -358,20 +358,33 @@
 
 /* Enhanced Markdown Content Styles */
 
-/* Code Block Styles - Enhanced with fallbacks */
+/* Code Block Styles - Enhanced with Prism.js compatibility */
 .code-block, pre[class*="language-"], pre {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace;
+    font-size: 14px; /* Use px for crisp monospace rendering */
+    line-height: 1.6;
+    position: relative;
+    white-space: pre;
+    /* Enhanced font rendering for crisp text */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Prevent font boosting on mobile */
+    -webkit-text-size-adjust: 100%;
+    /* Better pixel alignment */
+    font-feature-settings: "liga" 0;
+}
+
+/* Only override background and layout, let Prism.js handle colors */
+pre[class*="language-"] {
     background: var(--bg-secondary) !important;
     border: 1px solid var(--border-color) !important;
-    border-radius: 8px !important;
-    padding: 1.5rem !important;
-    margin: 1.5rem 0 !important;
-    overflow-x: auto !important;
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace !important;
-    font-size: 0.9rem !important;
-    line-height: 1.6 !important;
-    position: relative !important;
-    white-space: pre !important;
-    color: var(--text-primary) !important;
 }
 
 .code-block code, pre[class*="language-"] code, pre code {
@@ -379,11 +392,17 @@
     padding: 0 !important;
     margin: 0 !important;
     font-size: inherit !important;
-    color: inherit !important;
     display: block !important;
     white-space: pre !important;
     font-family: inherit !important;
     border: none !important;
+    /* Let Prism.js handle text colors */
+    color: inherit;
+    /* Enhanced font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Better pixel alignment for code */
+    font-feature-settings: "liga" 0;
 }
 
 .code-block::before {
@@ -612,12 +631,13 @@
     color: var(--text-primary);
 }
 
-/* Dark theme adjustments */
+/* Dark theme adjustments - Compatible with Prism.js */
 [data-theme="dark"] .code-block,
-[data-theme="dark"] pre {
+[data-theme="dark"] pre,
+[data-theme="dark"] pre[class*="language-"] {
     background: #1e1e1e !important;
-    color: #f8f8f2 !important;
     border-color: #404040 !important;
+    /* Let Prism.js handle text colors in dark mode */
 }
 
 [data-theme="dark"] .inline-code,

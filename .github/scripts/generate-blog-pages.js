@@ -56,15 +56,7 @@ class NodeMarkdownProcessor {
         // Process blockquotes
         html = this.processBlockquotes(html);
         
-        // Process paragraphs
-        html = this.processParagraphs(html);
-        
-        // Restore inline code
-        inlineCodes.forEach((code, index) => {
-            html = html.replace(`__INLINE_CODE_${index}__`, `<code class="inline-code">${this.escapeHtml(code)}</code>`);
-        });
-
-        // Restore code blocks
+        // Restore code blocks BEFORE processing paragraphs
         codeBlocks.forEach((block, index) => {
             const langClass = block.lang ? ` class="language-${block.lang}"` : '';
             const langAttribute = block.lang ? ` data-language="${block.lang}"` : '';
@@ -72,6 +64,14 @@ class NodeMarkdownProcessor {
             
             html = html.replace(`__CODE_BLOCK_${index}__`, 
                 `<pre class="${preClass}"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>`);
+        });
+        
+        // Process paragraphs (after code blocks are restored)
+        html = this.processParagraphs(html);
+        
+        // Restore inline code
+        inlineCodes.forEach((code, index) => {
+            html = html.replace(`__INLINE_CODE_${index}__`, `<code class="inline-code">${this.escapeHtml(code)}</code>`);
         });
 
         return html;
@@ -245,8 +245,13 @@ class NodeMarkdownProcessor {
                 block = block.trim();
                 if (!block) return '';
                 
-                // Don't wrap headers, tables, lists, blockquotes, images, or code blocks in paragraphs
+                // Don't wrap headers, tables, lists, blockquotes, images, code blocks, or placeholders in paragraphs
                 if (block.match(/^<(h[1-6]|table|[uo]l|blockquote|figure|pre|div)/)) {
+                    return block;
+                }
+                
+                // Don't wrap code block placeholders
+                if (block.match(/^__CODE_BLOCK_\d+__$/)) {
                     return block;
                 }
                 
@@ -405,8 +410,8 @@ function createBlogPostTemplate(post, renderedContent) {
     <link rel="stylesheet" href="../../styles/pages.css">
     <link rel="stylesheet" href="../../styles/responsive.css">
     
-    <!-- Prism.js CSS for syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
     <header>

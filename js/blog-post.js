@@ -14,21 +14,34 @@ class BlogPostPage {
 
     // Initialize code highlighting with robust error handling
     initializeCodeHighlighting() {
-        // Wait for Prism to load completely
-        if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-            try {
-                // Small delay to ensure DOM is ready
-                setTimeout(() => {
+        // Function to apply Prism highlighting
+        const applyPrismHighlighting = () => {
+            if (typeof Prism !== 'undefined' && Prism.highlightAll) {
+                try {
                     Prism.highlightAll();
-                }, 100);
-            } catch (error) {
-                console.warn('Prism highlighting failed, using fallback');
+                    console.log('Prism.js syntax highlighting applied successfully');
+                    
+                    // Additional optimization: ensure proper font rendering
+                    const codeBlocks = document.querySelectorAll('pre[class*="language-"]');
+                    codeBlocks.forEach(block => {
+                        // Force repaint for better rendering
+                        block.style.transform = 'translateZ(0)';
+                    });
+                } catch (error) {
+                    console.warn('Prism highlighting failed:', error);
+                    this.applyFallbackCodeStyling();
+                }
+            } else {
+                console.warn('Prism.js not available, applying fallback styling');
                 this.applyFallbackCodeStyling();
             }
-        } else {
-            // Prism.js not loaded, apply fallback styling
-            this.applyFallbackCodeStyling();
-        }
+        };
+
+        // Try immediate highlighting
+        applyPrismHighlighting();
+        
+        // Also try after a short delay for late-loaded scripts
+        setTimeout(applyPrismHighlighting, 200);
     }
 
     // Apply fallback styling when Prism.js is not available
@@ -37,13 +50,18 @@ class BlogPostPage {
         codeBlocks.forEach(block => {
             block.style.display = 'block';
             block.style.padding = '1rem';
-            block.style.backgroundColor = '#f5f5f5';
-            block.style.borderRadius = '6px';
-            block.style.fontFamily = 'Consolas, Monaco, "Andale Mono", monospace';
-            block.style.fontSize = '0.9rem';
-            block.style.lineHeight = '1.5';
+            block.style.backgroundColor = '#f8f8f8';
+            block.style.border = '1px solid #e5e7eb';
+            block.style.borderRadius = '8px';
+            block.style.fontFamily = '"SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace';
+            block.style.fontSize = '14px';
+            block.style.lineHeight = '1.6';
             block.style.overflow = 'auto';
+            block.style.webkitFontSmoothing = 'antialiased';
+            block.style.mozOsxFontSmoothing = 'grayscale';
+            block.style.textRendering = 'optimizeLegibility';
         });
+        console.log('Applied fallback code styling');
     }
 
     initializeSharing() {

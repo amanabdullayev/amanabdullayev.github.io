@@ -49,6 +49,10 @@ body {
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg-primary);
+    /* Enhanced font rendering for crisp text */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 

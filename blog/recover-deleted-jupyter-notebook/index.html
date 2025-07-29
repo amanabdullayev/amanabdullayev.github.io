@@ -50,8 +50,8 @@
     <link rel="stylesheet" href="../../styles/pages.css">
     <link rel="stylesheet" href="../../styles/responsive.css">
     
-    <!-- Prism.js CSS for syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
     <header>
@@ -120,25 +120,19 @@
 
 <p>Once you're in the <code class="inline-code">.ipython/profile_default</code> directory, you should see the <code class="inline-code">history.sqlite</code> file. This is where all your executed Jupyter Notebook code cells are stored. You can explore this database using any database explorer or terminal commands to inspect its tables and content. However, the following intuitive Jupyter Notebook code will also help you do this:</p>
 
-<p><pre class="code-block language-python" data-language="python"><code class="language-python">import sqlite3 as sql  # necessary to load/read your database
+<pre class="code-block language-python" data-language="python"><code class="language-python">import sqlite3 as sql  # necessary to load/read your database
 import pandas as pd    # necessary to view/manipulate tables
-import nbformat as nbf # necessary to recover/nicely format back your recovered code cells</code></pre></p>
+import nbformat as nbf # necessary to recover/nicely format back your recovered code cells</code></pre>
 
 <p>Once you've imported the required packages (if they're not installed, use <code class="inline-code">pip install nbformat</code> or so), all you need to do is provide the correct path to your <code class="inline-code">history.sqlite</code> file. Knowing when you last executed the lost Jupyter Notebook can help you more easily find the right code.</p>
 
-<p><pre class="code-block language-python" data-language="python"><code class="language-python">path_to_sqlite_database = &#39;~/.ipython/profile_default/history.sqlite&#39;
+<pre class="code-block language-python" data-language="python"><code class="language-python">path_to_sqlite_database = &#39;~/.ipython/profile_default/history.sqlite&#39;
 start_date = &#39;2024-09-24 09:00:00&#39;
 end_date = &#39;2024-09-24 10:00:00&#39;
 
-conn = sql.connect(path_to_sqlite_database )
+<p>conn = sql.connect(path_to_sqlite_database )</p>
 
-df = pd.read_sql_query(f&quot;&quot;&quot;
-	select 
-		s.session, s.start, s.end, h.source
-	from sessions as s
-	join history  as h using (session)
-	where s.start between {start_date} and {end_date}&quot;&quot;&quot;, conn)
-df.head()</code></pre></p>
+<p>df = pd.read_sql_query(f&quot;&quot;&quot;<br>	select <br>		s.session, s.start, s.end, h.source<br>	from sessions as s<br>	join history  as h using (session)<br>	where s.start between {start_date} and {end_date}&quot;&quot;&quot;, conn)<br>df.head()</code></pre></p>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_01_img_01.png"
@@ -150,12 +144,12 @@ class="responsive-image">
 
 <p>Now, explore the dataframe and locate your code snippets in the "source" column. Once you find a snippet, note the corresponding session number from the "session" column—this reflects each time you start or restart the Jupyter Kernel. Remember this session number for the next step.</p>
 
-<p><pre class="code-block language-python" data-language="python"><code class="language-python">my_sessions = 6000
+<pre class="code-block language-python" data-language="python"><code class="language-python">my_sessions = 6000
 df_session_content = pd.read_sql_query(f&quot;&quot;&quot;
 	select *    
 	from history 
 	where session = {my_session}&quot;&quot;&quot;, conn)
-df_session_content.head()</code></pre></p>
+df_session_content.head()</code></pre>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_01_img_02.png"
@@ -167,21 +161,13 @@ class="responsive-image">
 
 <p>After creating the above dataframe, filter it to include only distinct rows based on the "source" column. This ensures that running the code cell multiple times within the same session doesn't result in duplicate rows. Finally, use the <code class="inline-code">nbformat</code> package to write the required rows from the "source" column into a new Jupyter Notebook, as shown below:</p>
 
-<p><pre class="code-block language-python" data-language="python"><code class="language-python">df_session_content= df_session_content.drop_duplicates(subset=&#39;source&#39;)
+<pre class="code-block language-python" data-language="python"><code class="language-python">df_session_content= df_session_content.drop_duplicates(subset=&#39;source&#39;)
 # Create a new Jupyter Notebook
 nb = nbf.v4.new_notebook()
 
-# Add each row in df[&#39;source&#39;] as a new cell
-cells = []
-for row in df_session_content[&#39;source&#39;]:
-    cell = nbf.v4.new_code_cell(row)
-    cells.append(cell)
+<p># Add each row in df[&#39;source&#39;] as a new cell<br>cells = []<br>for row in df_session_content[&#39;source&#39;]:<br>    cell = nbf.v4.new_code_cell(row)<br>    cells.append(cell)</p>
 
-nb[&#39;cells&#39;] = cells
-# Save the notebook to a file
-with open(&#39;new_notebook.ipynb&#39;, &#39;w&#39;) as f:
-    nbf.write(nb, f)
-print(&quot;Jupyter Notebook created successfully.&quot;)</code></pre></p>
+<p>nb[&#39;cells&#39;] = cells<br># Save the notebook to a file<br>with open(&#39;new_notebook.ipynb&#39;, &#39;w&#39;) as f:<br>    nbf.write(nb, f)<br>print(&quot;Jupyter Notebook created successfully.&quot;)</code></pre></p>
 
 <p>Voilà! You have recovered the code cells of your Jupyter Notebook. However, you'll need to manually input all markdown cells if you had them before.</p>
 
