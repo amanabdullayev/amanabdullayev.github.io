@@ -14,13 +14,15 @@ class BlogPostPage {
 
     // Initialize code highlighting with robust error handling
     initializeCodeHighlighting() {
-        // Enhanced code highlighting initialization
-        if (typeof Prism !== 'undefined') {
+        // Wait for Prism to load completely
+        if (typeof Prism !== 'undefined' && Prism.highlightAll) {
             try {
-                // Re-highlight all code blocks
-                Prism.highlightAll();
+                // Small delay to ensure DOM is ready
+                setTimeout(() => {
+                    Prism.highlightAll();
+                }, 100);
             } catch (error) {
-                // Fallback if Prism fails
+                console.warn('Prism highlighting failed, using fallback');
                 this.applyFallbackCodeStyling();
             }
         } else {

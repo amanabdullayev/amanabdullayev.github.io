@@ -15,6 +15,9 @@ function getTagColorIndex(tagName) {
     script.setAttribute('data-goatcounter', 'https://amanabdullayev.goatcounter.com/count');
     script.async = true;
     script.src = '//gc.zgo.at/count.js';
+    script.onload = function() {
+        console.log('goatcounter loaded successfully');
+    };
     document.head.appendChild(script);
 })();
 
@@ -273,20 +276,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle errors gracefully
 window.addEventListener('error', (e) => {
-    // Provide more detailed error information
-    const errorInfo = {
+    // Skip empty script errors and Prism.js errors
+    if (!e.message || e.message === 'Script error.' || 
+        (e.filename && e.filename.includes('prism'))) {
+        return;
+    }
+    
+    // Only log meaningful errors
+    console.error('Portfolio error:', {
         message: e.message,
         filename: e.filename,
-        lineno: e.lineno,
-        colno: e.colno,
-        error: e.error
-    };
-    console.error('Portfolio error:', errorInfo);
-    
-    // Don't flood console with Prism.js errors
-    if (e.filename && e.filename.includes('prism')) {
-        console.warn('Prism.js error detected - this is usually non-critical for syntax highlighting');
-    }
+        lineno: e.lineno
+    });
 });
 
 // Add some utility functions
