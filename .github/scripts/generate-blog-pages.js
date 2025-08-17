@@ -527,7 +527,15 @@ function createBlogPostTemplate(post, renderedContent) {
             <div class="blog-post-nav">
                 <a href="../" class="back-to-blog">← Back to Blog</a>
             </div>
-
+            <!-- Cover image banner -->
+            ${post.coverImage ? `
+            <div class="blog-post-cover">
+                <img src="../../blog-posts/${post.coverImage}" 
+                     alt="${post.title}" 
+                     class="cover-image"
+                     loading="lazy">
+            </div>
+            ` : ''}
             <!-- Post header -->
             <header class="blog-post-header">
                 <div class="post-author-pin">
@@ -543,16 +551,6 @@ function createBlogPostTemplate(post, renderedContent) {
                     </div>
                 </div>
             </header>
-
-            <!-- Cover image banner -->
-            ${post.coverImage ? `
-            <div class="blog-post-cover">
-                <img src="../../blog-posts/${post.coverImage}" 
-                     alt="${post.title}" 
-                     class="cover-image"
-                     loading="lazy">
-            </div>
-            ` : ''}
 
             <!-- Post content -->
             <div class="blog-post-body">

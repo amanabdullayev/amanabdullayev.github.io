@@ -107,11 +107,11 @@
     
     /* Blog post cover images responsive */
     .blog-post-cover .cover-image {
-        height: 250px;
+        height: 167px;
     }
     
     .post-cover-image {
-        height: 180px;
+        height: 120px;
     }
     
     /* Timeline */
@@ -209,11 +209,11 @@
 @media (max-width: 600px) {
     /* Blog post cover images for medium mobile screens */
     .blog-post-cover .cover-image {
-        height: 200px;
+        height: 133px;
     }
     
     .post-cover-image {
-        height: 150px;
+        height: 100px;
     }
     
     .blog-post-cover {
@@ -397,7 +397,7 @@
     }
     
     .blog-post-cover .cover-image {
-        height: 150px;
+        height: 100px;
     }
     
     .post-cover {
@@ -406,7 +406,7 @@
     }
     
     .post-cover-image {
-        height: 120px;
+        height: 80px;
     }
     
     /* Timeline mobile adjustments */
@@ -497,7 +497,7 @@
     }
     
     .post-tags {
-        margin: 0.5rem 0;
+        margin: 0.3rem 0;
     }
     
     /* Share buttons stack on mobile */

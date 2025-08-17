@@ -94,7 +94,7 @@
 
 .post-title {
     font-size: 1.25rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     font-weight: 600;
     color: var(--text-primary);
 }
@@ -112,7 +112,7 @@
 .post-excerpt {
     color: var(--text-secondary);
     line-height: 1.6;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     flex-grow: 1;
 }
 
@@ -213,7 +213,7 @@
 }
 
 .post-tags {
-    margin: 0.75rem 0;
+    margin: 0.4rem 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem;
