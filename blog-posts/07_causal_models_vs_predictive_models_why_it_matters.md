@@ -231,10 +231,6 @@ r2 = r2_score(y_test, y_pred)
 print(f"Root Mean Squared Error: {rmse:.2f}")
 print(f"R-squared: {r2:.2f}")
 
->>>ouput
-Root Mean Squared Error: 2.22
-R-squared: 1.00
-
 ##################### Step 2: Set app_user=1 for all users #######################
 X_all = pd.concat([X_train, X_test], axis=0)
 y_all = pd.concat([y_train, y_test], axis=0)
@@ -258,6 +254,12 @@ df_customers_analysis["treatment_effect"] = (
     - df_customers_analysis["clv_if_all_non_app_users"]
 )
 df_customers_analysis.head()
+```
+
+```python
+>>>ouput
+Root Mean Squared Error: 2.22
+R-squared: 1.00
 ```
 
 If we add the new prediction columns to our original dataset, it will look like this: we now have the estimated CLV for each individual under both scenarios—**using the app** or **not using the app**.
