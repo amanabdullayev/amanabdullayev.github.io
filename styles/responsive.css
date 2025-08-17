@@ -347,6 +347,18 @@
         font-size: 1.25rem;
     }
     
+    .blog-post-body h4 {
+        font-size: 1.125rem;
+    }
+    
+    .blog-post-body h5 {
+        font-size: 1rem;
+    }
+    
+    .blog-post-body h6 {
+        font-size: 0.9rem;
+    }
+    
     /* Timeline mobile adjustments */
     .timeline {
         padding-left: 1rem;

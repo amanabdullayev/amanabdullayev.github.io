@@ -272,6 +272,15 @@
     font-size: 1.25rem;
 }
 
+.blog-post-body h5 {
+    font-size: 1.125rem;
+}
+
+.blog-post-body h6 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
 /* Blog Content Elements */
 .blog-post-body blockquote {
     border-left: 4px solid var(--accent-primary);
