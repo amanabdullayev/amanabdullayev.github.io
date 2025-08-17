@@ -38,6 +38,7 @@ async function generateBlogIndex() {
       const excerpt = frontMatter.excerpt || extractExcerptFromContent(content);
       const date = frontMatter.date || extractDateFromContent(content) || new Date().toISOString();
       const tags = frontMatter.tags || extractTagsFromContent(content) || [];
+      const coverImage = frontMatter.coverImage || null;
       const postSlug = frontMatter.slug || fileSlug; // Use custom slug if available, fallback to filename
       
       blogPosts.push({
@@ -48,6 +49,7 @@ async function generateBlogIndex() {
         date,
         tags: Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()),
         url: `blog/${postSlug}`,
+        coverImage,
         author: {
           name: 'Aman Abdullayev',
           url: 'https://github.com/amanabdullayev'
@@ -96,6 +98,11 @@ function parseManualMetadata(content) {
       const slugMatch = line.match(/\*\*Slug:\*\*\s+(.+)/);
       if (slugMatch) {
         metadata.slug = slugMatch[1].trim();
+      }
+    } else if (line.startsWith('**Cover Image Path:**')) {
+      const coverImageMatch = line.match(/\*\*Cover Image Path:\*\*\s+(.+)/);
+      if (coverImageMatch) {
+        metadata.coverImage = coverImageMatch[1].trim();
       }
     }
   }
