@@ -10,7 +10,7 @@
 
 Bayesian inference, a statistical method that updates beliefs about a hypothesis as more evidence becomes available, can be simplified using conjugate priors. This approach was demonstrated with a Python script simulating an e-commerce website's conversion rate. Using a Bernoulli trial and a Beta distribution as the conjugate prior, the Bayesian approach provided a probability interval for the conversion rate, offering a more probabilistic decision-making tool than the single-point estimate of the Frequentist approach.
 
-# Quick Recap of Bayesian Statistics
+## Quick Recap of Bayesian Statistics
 
 Bayesian inference is a statistical method where we update our beliefs about a hypothesis as more evidence or information becomes available. It's like making an educated guess that is refined as you gather more data. You can find a simplified explanation with examples in [my previous post](https://amanabdullayev.me/blog/bayesian-stat101/).
 
@@ -31,7 +31,7 @@ The hardest part to calculate in this equation is typically the marginal likelih
 
 This is where the use of **conjugate priors/posteriors** comes in. Conjugate priors are chosen because they simplify the calculation of the posterior distribution.
 
-# Conjugate priors
+## Conjugate priors
 
 Conjugate priors may seem complicated, but they're really just a tool to make Bayesian statistics easier. You can think of them as a shortcut.
 
@@ -45,7 +45,7 @@ You can find a list of conjugate priors for most of the discrete and continuous 
 
 Let’s take one example from the above Wikipedia table and apply it to a real-life problem.
 
-# Conjugate Priors to Estimate Conversion Rate
+## Conjugate Priors to Estimate Conversion Rate
 
 Let's say you run an e-commerce website where visitors browse various products, and some of them make a purchase. You're interested in the conversion rate, a Key Performance Indicator (KPI) that shows the proportion of visitors who make a purchase.
 
@@ -156,7 +156,7 @@ array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
        0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])
 ```
 
-# Conclusion
+## Conclusion
 
 If you adopt a probabilistic mindset, you can accurately express a 10% conversion rate by stating, "The actual conversion rate lies between 9.4% and 20.8%." 
 
