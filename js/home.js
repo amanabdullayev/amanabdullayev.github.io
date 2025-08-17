@@ -79,8 +79,8 @@ class HomePage {
             loadingElement.style.display = 'none';
             postsGrid.style.display = 'grid';
             
-            // Render posts
-            postsGrid.innerHTML = latestPosts.map(post => this.createPostCard(post)).join('');
+            // Render posts using shared utility function
+            postsGrid.innerHTML = latestPosts.map(post => createPostCard(post, 'home')).join('');
             
             // Add animation classes with stagger
             document.querySelectorAll('.post-card').forEach((card, index) => {
@@ -93,31 +93,6 @@ class HomePage {
             console.error('Error loading latest posts:', error);
             loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your blog system configuration.</p>';
         }
-    }
-
-    // Create HTML for a blog post card
-    createPostCard(post) {
-        const formattedDate = blogIndex ? blogIndex.formatDate(post.date) : post.date;
-        const tagsHtml = post.tags.slice(0, 3).map(tag => {
-            const colorIndex = getTagColorIndex(tag);
-            return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
-        }).join(''); // Limit tags on home page
-        
-        // Use simple HTML link instead of JavaScript onclick
-        const postUrl = `blog/${post.slug}/`;
-        
-        return `
-            <article class="post-card">
-                <a href="${postUrl}" style="text-decoration: none; color: inherit; display: block;">
-                    <h3 class="post-title">${post.title}</h3>
-                    <div class="post-tags">${tagsHtml}</div>
-                    <p class="post-excerpt">${post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt}</p>
-                    <div class="post-meta">
-                        <span class="post-date">${formattedDate}</span>
-                    </div>
-                </a>
-            </article>
-        `;
     }
 }
 

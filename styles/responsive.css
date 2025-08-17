@@ -205,6 +205,28 @@
     }
 }
 
+/* Medium Mobile Styles (larger phones) */
+@media (max-width: 600px) {
+    /* Blog post cover images for medium mobile screens */
+    .blog-post-cover .cover-image {
+        height: 200px;
+    }
+    
+    .post-cover-image {
+        height: 150px;
+    }
+    
+    .blog-post-cover {
+        margin: 1.25rem -1rem;
+        border-radius: 10px;
+    }
+    
+    .post-cover {
+        margin: -1rem -1rem 1rem -1rem;
+        border-radius: 10px 10px 0 0;
+    }
+}
+
 /* ***********************************************Mobile Styles */
 @media (max-width: 480px) {
     /* Container */
@@ -368,23 +390,23 @@
         font-size: 0.9rem;
     }
     
-    /* Blog post cover images mobile */
+    /* Blog post cover images for very small mobile screens */
     .blog-post-cover {
-        margin: 1.5rem -1rem;
-        border-radius: 8px;
+        margin: 1rem -0.75rem;
+        border-radius: 6px;
     }
     
     .blog-post-cover .cover-image {
-        height: 200px;
+        height: 150px;
     }
     
     .post-cover {
-        margin: -1rem -1rem 1rem -1rem;
-        border-radius: 8px 8px 0 0;
+        margin: -0.75rem -0.75rem 0.75rem -0.75rem;
+        border-radius: 6px 6px 0 0;
     }
     
     .post-cover-image {
-        height: 160px;
+        height: 120px;
     }
     
     /* Timeline mobile adjustments */

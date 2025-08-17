@@ -196,8 +196,8 @@ class BlogPage {
         const endIndex = startIndex + this.postsPerPage;
         const postsToShow = this.filteredPosts.slice(startIndex, endIndex);
         
-        // Render posts
-        postsGrid.innerHTML = postsToShow.map(post => this.createPostCard(post)).join('');
+        // Render posts using shared utility function
+        postsGrid.innerHTML = postsToShow.map(post => createPostCard(post, 'blog')).join('');
         
         // Add animation classes with stagger
         document.querySelectorAll('.post-card').forEach((card, index) => {
@@ -205,43 +205,6 @@ class BlogPage {
                 card.classList.add('fade-in');
             }, index * 100);
         });
-    }
-
-    // Create HTML for a blog post card
-    createPostCard(post) {
-        const formattedDate = blogIndex ? blogIndex.formatDate(post.date) : post.date;
-        const tagsHtml = post.tags ? post.tags.map(tag => {
-            const colorIndex = getTagColorIndex(tag);
-            return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
-        }).join('') : '';
-        
-        // Use simple HTML link instead of JavaScript onclick
-        const postUrl = `${post.slug}/`;
-        
-        // Handle cover image
-        const coverImageHtml = post.coverImage ? 
-            `<div class="post-cover">
-                <img src="../blog-posts/${post.coverImage}" 
-                     alt="${post.title}" 
-                     class="post-cover-image"
-                     loading="lazy">
-            </div>` : '';
-        
-        return `
-            <article class="post-card">
-                <a href="${postUrl}" style="text-decoration: none; color: inherit; display: block;">
-                    ${coverImageHtml}
-                    <div class="post-content">
-                        <h3 class="post-title">${post.title}</h3>
-                        <div class="post-tags">${tagsHtml}</div>
-                        <p class="post-excerpt">${post.excerpt}</p>
-                        <div class="post-meta">
-                            <span class="post-date">${formattedDate}</span>
-                        </div>
-                    </div>
-                </a>
-            </article>
-        `;
     }
 
     // Setup pagination

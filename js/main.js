@@ -9,6 +9,44 @@ function getTagColorIndex(tagName) {
     return Math.abs(hash) % 10; // Return index between 0-9
 }
 
+// Shared utility function to create blog post cards - eliminates code duplication
+function createPostCard(post, context = 'home') {
+    const formattedDate = blogIndex ? blogIndex.formatDate(post.date) : post.date;
+    const tagsHtml = post.tags ? post.tags.map(tag => {
+        const colorIndex = getTagColorIndex(tag);
+        return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
+    }).join('') : '';
+    
+    // Determine URL and image paths based on context
+    const postUrl = context === 'home' ? `blog/${post.slug}/` : `${post.slug}/`;
+    const imagePath = context === 'home' ? 'blog-posts/' : '../blog-posts/';
+    
+    // Handle cover image
+    const coverImageHtml = post.coverImage ? 
+        `<div class="post-cover">
+            <img src="${imagePath}${post.coverImage}" 
+                 alt="${post.title}" 
+                 class="post-cover-image"
+                 loading="lazy">
+        </div>` : '';
+    
+    return `
+        <article class="post-card">
+            <a href="${postUrl}" style="text-decoration: none; color: inherit; display: block;">
+                ${coverImageHtml}
+                <div class="post-content">
+                    <h3 class="post-title">${post.title}</h3>
+                    <div class="post-tags">${tagsHtml}</div>
+                    <p class="post-excerpt">${post.excerpt}</p>
+                    <div class="post-meta">
+                        <span class="post-date">${formattedDate}</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+    `;
+}
+
 // Load GoatCounter analytics script
 (function() {
     const script = document.createElement('script');
