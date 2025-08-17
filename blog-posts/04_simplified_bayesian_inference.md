@@ -22,7 +22,7 @@ Conditional probability is a fundamental concept in probability theory and stati
 
 Let's consider a an example to understand this concept better:
 
-#### Example : Drawing a Card
+### **Example : Drawing a Card**
 
 Suppose I have a deck of 52 cards in my hand. I pick one card at random and ask you: What is the probability that the card I picked is "red colored 6 heart"? Given that I've provided no other information and have chosen the card randomly from the 52, the probability is 1/52, or 1.9%. This can be written as $P(Six\ Heart)=1.9\%$ .
 
@@ -102,13 +102,13 @@ Now, the crucial question arises: What is the likelihood that the patient is **a
 
 So, here is our numbers:
 
-`*P(sick) = 0.01%` (this is our prior belief!)*
+`P(sick) = 0.01%` *(this is our prior belief!)*
 
-`*P(not sick) = 100% - P(sick)= 99.99%*`
+`P(not sick) = 100% - P(sick)= 99.99%`
 
-`*P(positive|not sick) = 1%*`
+`P(positive|not sick) = 1%`
 
-`*P(positive|sick) = 100% - P(positive|not sick) = 99%`* 
+`P(positive|sick) = 100% - P(positive|not sick) = 99%` 
 
 Great, we have all the necessary numbers at hand. Let's proceed with the calculation to determine the likelihood of the patient being ill.
 
@@ -130,15 +130,15 @@ However, the patient is now uncertain due to the positive test result and subseq
 
 The patient requests a repetition of the same test for confirmation. Unfortunately, the result is again positive. With this new information, let's recalculate. We can use the previous test's posterior as the prior for our new calculation, as we already have this data. Previously, our calculations were based on the disease's frequency in the general population.
 
-`*P(sick) = 0.98%` (this is our new belief!)*
+`P(sick) = 0.98%` *(this is our new belief!)*
 
-`*P(not sick) = 100% - P(sick)= 99.02%`* 
+`P(not sick) = 100% - P(sick)= 99.02%` 
 
 since it is the same test, specifications are the same:
 
-`*P(positive|not sick) = 1%*`
+`P(positive|not sick) = 1%`
 
-`*P(positive|sick) = 100% - P(positive|not sick) = 99%*`
+`P(positive|sick) = 100% - P(positive|not sick) = 99%`
 
 $$
 P(sick|positive) = \frac{0.98\% \cdot 99\% }{0.98\% \cdot 99\%  + 99.02\% \cdot 1\% }
@@ -172,5 +172,4 @@ The beauty of Bayesian inference lies in its ability to draw sound conclusions a
 
 However, another strength lies in the fact that regardless of your initial belief, if you have a large amount of data (evidence), your subsequent belief (posterior) will favor the data. This implies that you should be cautious about the news you follow and the videos you watch, or friends you are spending time with. If you consume misinformation over a long period, your beliefs may shift towards that information, even if it is incorrect, according to Bayesian theory.
 
-> ***Be careful with whom you travel, with whom you make friends. Because the nightingale leads to the rose and the crow leads to the garbage dump. 
-(Rumi)***
+> ***Be careful with whom you travel, with whom you make friends. Because the nightingale leads to the rose and the crow leads to the garbage dump. (Rumi)***
