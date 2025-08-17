@@ -63,6 +63,12 @@ class NodeMarkdownProcessor {
                 return this.processImage(alt, src);
             })
             
+            // YouTube video previews (process before general links)
+            // Supports: youtube.com/watch?v=ID, youtu.be/ID, youtube.com/shorts/ID, youtube.com/embed/ID
+            .replace(/\[([^\]]+)\]\((https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)(?:[?&][^\)]*)?)\)/g, (match, title, url, videoId) => {
+                return this.processYouTubeLink(title, url, videoId);
+            })
+            
             // Links
             .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
@@ -118,6 +124,18 @@ class NodeMarkdownProcessor {
                  class="responsive-image">
             ${alt ? `<figcaption class="image-caption">${this.escapeHtml(alt)}</figcaption>` : ''}
         </figure>`;
+    }
+
+    processYouTubeLink(title, url, videoId) {
+        return `<div class="youtube-video">
+            <iframe src="https://www.youtube.com/embed/${videoId}" 
+                    title="${this.escapeHtml(title)}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+            <p class="video-title">${this.escapeHtml(title)}</p>
+        </div>`;
     }
 
     processTables(content) {
