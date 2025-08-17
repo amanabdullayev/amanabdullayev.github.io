@@ -36,8 +36,7 @@ By taking these precautions, you can ensure that experimenting at home remains a
 ### Color Explosion
 
 > **Caution:** Pretty Safe.
-**Difficulty:** Easy to conduct.
-> 
+> **Difficulty:** Easy to conduct.
 
 #### Ingredients:
 
@@ -57,7 +56,7 @@ By taking these precautions, you can ensure that experimenting at home remains a
 
 This experiment demonstrates how soap affects fat molecules in the milk, creating a colorful reaction!
 
-[https://youtu.be/yuRsn5tWVAo](https://youtu.be/yuRsn5tWVAo)
+[Color Burst with Milk and Food Coloring](https://youtu.be/yuRsn5tWVAo)
 
 You can explore different versions of this experiment along with a detailed explanation of the science behind [it here](https://www.acs.org/education/whatischemistry/adventures-in-chemistry/experiments/colors-move.html).
 
@@ -66,8 +65,7 @@ You can explore different versions of this experiment along with a detailed expl
 ### Color Generation
 
 > **Caution:** Pretty Safe.
-**Difficulty:** Easy to conduct.
-> 
+> **Difficulty:** Easy to conduct.
 
 #### Ingredients:
 
@@ -93,15 +91,14 @@ Try experimenting with other color combinations to see what new colors you can c
 
 For added fun, turn off the lights in the room and use your phone's flashlight to create a "party lights" effect at home, adding a vibrant and playful atmosphere to the experiment as in the video below:
 
-[https://youtube.com/shorts/D4GAaEmszWM?feature=share](https://youtube.com/shorts/D4GAaEmszWM?feature=share)
+[Party Lights with Food Coloring](https://youtube.com/shorts/D4GAaEmszWM?feature=share)
 
 ---
 
 ### Glowing Clementine
 
 > **Caution:** Fire and burn hazard! Handle with care.
-**Difficulty:** Easy to conduct.
-> 
+> **Difficulty:** Easy to conduct.
 
 #### Ingredients:
 
@@ -116,6 +113,6 @@ For added fun, turn off the lights in the room and use your phone's flashlight t
 4. Light the sparkler from the bottom side (the part sticking out beneath the clementine). Be cautious, as sparklers burn at very high temperatures and the leftover wire can become extremely hot. Avoid touching the wire until it has completely cooled down. Additionally, keep children at least 1 meter away from the experiment, as sparks can spread out during the burning process.
 5. Watch as the sparkler burns and moves upward. Once the burning part of the sparkler reaches inside the clementine, the fruit will begin to glow, creating a fascinating effect.
 
-[https://youtu.be/l6u0musF5JE?si=bOlfw76LKp8q2fMB](https://youtu.be/l6u0musF5JE?si=bOlfw76LKp8q2fMB)
+[Glowing Clementine](https://youtu.be/l6u0musF5JE?si=bOlfw76LKp8q2fMB)
 
 **Safety Note:** Always handle sparklers carefully and ensure children are supervised during this experiment to avoid any fire or burn hazards.

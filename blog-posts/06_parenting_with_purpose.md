@@ -39,4 +39,4 @@ Let’s strive to raise "humane" generations—children who are not just "money 
 
 I recently listened to an incredible podcast with Erica Komisar that deeply resonated with me, and I wanted to share it with all the parents and future parents out there. It’s a reminder of the profound impact we have on our children’s lives and the importance of embracing our roles with intention and love. Let’s build a brighter future, one child at a time. 💛
 
-[https://www.youtube.com/watch?v=cialLfVZqm4&t=2819s](https://www.youtube.com/watch?v=cialLfVZqm4&t=2819s)
+[The Diary Of A CEO - Child Attachment Expert](https://www.youtube.com/watch?v=cialLfVZqm4&t=2819s)
