@@ -538,10 +538,6 @@ function createBlogPostTemplate(post, renderedContent) {
             ` : ''}
             <!-- Post header -->
             <header class="blog-post-header">
-                <div class="post-author-pin">
-                    <div class="author-pin-icon">📝</div>
-                    <span class="author-pin-name">Aman Abdullayev</span>
-                </div>
                 <h1 class="blog-post-title">${post.title}</h1>
                 <div class="post-tags">${tagsHtml}</div>
                 <div class="blog-post-meta">
@@ -549,6 +545,13 @@ function createBlogPostTemplate(post, renderedContent) {
                     <div class="page-views" id="page-views">
                         📊 Loading...
                     </div>
+                </div>
+                <div class="post-author-pin">
+                    <img src="../../images/personal_avatar_1.png" 
+                         alt="Aman Abdullayev" 
+                         class="author-avatar"
+                         loading="lazy">
+                    <span class="author-pin-name">Aman Abdullayev</span>
                 </div>
             </header>
 

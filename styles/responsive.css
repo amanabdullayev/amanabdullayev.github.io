@@ -361,6 +361,11 @@
         margin-bottom: 0.5rem;
     }
     
+    .author-avatar {
+        width: 28px;
+        height: 28px;
+    }
+    
     .blog-post-body {
         font-size: 0.95rem;
         line-height: 1.7;
