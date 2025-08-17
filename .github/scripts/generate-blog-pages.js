@@ -27,13 +27,13 @@ class NodeMarkdownProcessor {
         // Protect display math ($$...$$) first
         content = content.replace(/\$\$([\s\S]*?)\$\$/g, (match, equation) => {
             mathEquations.push(match);
-            return `__MATH_EQUATION_${mathIndex++}__`;
+            return `\n<!--MATHJAX_DISPLAY_${mathIndex++}-->\n`;
         });
         
         // Protect inline math ($...$) 
         content = content.replace(/\$([^$\n\r]+)\$/g, (match, equation) => {
             mathEquations.push(match);
-            return `__MATH_EQUATION_${mathIndex++}__`;
+            return `<!--MATHJAX_INLINE_${mathIndex++}-->`;
         });
 
         // Extract and temporarily replace inline code
@@ -90,9 +90,10 @@ class NodeMarkdownProcessor {
             html = html.replace(`__INLINE_CODE_${index}__`, `<code class="inline-code">${this.escapeHtml(code)}</code>`);
         });
 
-        // Restore math equations (preserve as-is for MathJax)
+        // Restore math equations (preserve as-is for MathJax) - do this LAST
         mathEquations.forEach((equation, index) => {
-            html = html.replace(`__MATH_EQUATION_${index}__`, equation);
+            html = html.replace(`<!--MATHJAX_DISPLAY_${index}-->`, equation);
+            html = html.replace(`<!--MATHJAX_INLINE_${index}-->`, equation);
         });
 
         return html;
@@ -276,6 +277,11 @@ class NodeMarkdownProcessor {
                     return block;
                 }
                 
+                // Don't wrap MathJax placeholders
+                if (block.match(/^<!--MATHJAX_\w+_\d+-->$/)) {
+                    return block;
+                }
+                
                 const processedBlock = block.replace(/\n/g, '<br>');
                 return `<p>${processedBlock}</p>`;
             })
@@ -435,23 +441,39 @@ function createBlogPostTemplate(post, renderedContent) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     
     <!-- MathJax for LaTeX equation rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         window.MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
                 displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true,
-                processEnvironments: true
+                processEnvironments: true,
+                tags: 'ams'
             },
             options: {
                 skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
                 ignoreHtmlClass: 'tex2jax_ignore',
                 processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                pageReady: () => {
+                    console.log('MathJax configuration loaded');
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        console.log('MathJax page ready');
+                        // Force a re-render for GitHub Pages
+                        if (window.MathJax && window.MathJax.typesetPromise) {
+                            return window.MathJax.typesetPromise();
+                        }
+                    });
+                }
+            },
+            loader: {
+                load: ['[tex]/ams']
             }
         };
     </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <header>
