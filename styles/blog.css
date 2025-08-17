@@ -223,6 +223,32 @@
     background: transparent !important;
 }
 
+/* Blog Post Cover Image */
+.blog-post-cover {
+    margin: 2rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-post-cover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.blog-post-cover .cover-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.blog-post-cover:hover .cover-image {
+    transform: scale(1.02);
+}
+
 .post-author {
     display: flex;
     align-items: center;

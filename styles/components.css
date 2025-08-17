@@ -148,6 +148,31 @@
     -ms-user-select: none;
 }
 
+/* Post Card Cover Image Styles */
+.post-cover {
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+}
+
+.post-cover-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-cover-image {
+    transform: scale(1.05);
+}
+
+.post-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Stat Card Styles */
 .stat-card {
     background: var(--bg-secondary);

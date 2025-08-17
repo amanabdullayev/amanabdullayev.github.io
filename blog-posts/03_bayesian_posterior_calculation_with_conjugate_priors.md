@@ -4,6 +4,7 @@
 **Tags:** Statistics, Bayesian, Python
 **Excerpt:** This article discusses the concept of Bayesian inference and how it can be simplified using conjugate priors, through the practical example of estimating an e-commerce website's conversion rate. It highlights the advantage of the Bayesian approach in providing a probability interval, offering a more probabilistic decision-making tool, especially when working with limited data.
 **Slug:** bayesian-stat102
+**Cover Image Path:** blog_images/blog_03_01.png
 
 ---
 # Bayesian Posterior Calculation with Conjugate Priors

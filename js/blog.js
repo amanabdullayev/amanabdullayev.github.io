@@ -218,14 +218,26 @@ class BlogPage {
         // Use simple HTML link instead of JavaScript onclick
         const postUrl = `${post.slug}/`;
         
+        // Handle cover image
+        const coverImageHtml = post.coverImage ? 
+            `<div class="post-cover">
+                <img src="../blog-posts/${post.coverImage}" 
+                     alt="${post.title}" 
+                     class="post-cover-image"
+                     loading="lazy">
+            </div>` : '';
+        
         return `
             <article class="post-card">
                 <a href="${postUrl}" style="text-decoration: none; color: inherit; display: block;">
-                    <h3 class="post-title">${post.title}</h3>
-                    <div class="post-tags">${tagsHtml}</div>
-                    <p class="post-excerpt">${post.excerpt}</p>
-                    <div class="post-meta">
-                        <span class="post-date">${formattedDate}</span>
+                    ${coverImageHtml}
+                    <div class="post-content">
+                        <h3 class="post-title">${post.title}</h3>
+                        <div class="post-tags">${tagsHtml}</div>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <div class="post-meta">
+                            <span class="post-date">${formattedDate}</span>
+                        </div>
                     </div>
                 </a>
             </article>

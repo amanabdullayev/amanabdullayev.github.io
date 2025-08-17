@@ -347,6 +347,11 @@ class NodeMarkdownProcessor {
                 if (slugMatch) {
                     metadata.slug = slugMatch[1].trim();
                 }
+            } else if (line.startsWith('**Cover Image Path:**')) {
+                const coverImageMatch = line.match(/\*\*Cover Image Path:\*\*\s+(.+)/);
+                if (coverImageMatch) {
+                    metadata.coverImage = coverImageMatch[1].trim();
+                }
             } else if (line === '---' && i > 0) {
                 contentStart = i + 1;
                 break;
@@ -539,6 +544,16 @@ function createBlogPostTemplate(post, renderedContent) {
                 </div>
             </header>
 
+            <!-- Cover image banner -->
+            ${post.coverImage ? `
+            <div class="blog-post-cover">
+                <img src="../../blog-posts/${post.coverImage}" 
+                     alt="${post.title}" 
+                     class="cover-image"
+                     loading="lazy">
+            </div>
+            ` : ''}
+
             <!-- Post content -->
             <div class="blog-post-body">
                 ${renderedContent}
@@ -669,7 +684,8 @@ blogPosts.forEach(post => {
             slug: post.slug,
             date: metadata.date || post.date,
             excerpt: metadata.excerpt || post.excerpt,
-            tags: metadata.tags || post.tags
+            tags: metadata.tags || post.tags,
+            coverImage: metadata.coverImage || post.coverImage
         };
         
         // Render markdown to HTML

@@ -4,6 +4,7 @@
 **Tags:** Statistics, Bayesian
 **Excerpt:** This article gently introduce to Bayesian Inference with a real-life example.
 **Slug:** bayesian-stat101
+**Cover Image Path:** blog_images/blog_04_01.jpg
 
 ---
 # Simplified Bayesian Inference

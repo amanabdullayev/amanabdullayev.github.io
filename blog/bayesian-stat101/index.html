@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplified Bayesian Inference - Aman Abdullayev</title>
+    <meta name="description" content="This article gently introduce to Bayesian Inference with a real-life example.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Simplified Bayesian Inference - Aman Abdullayev">
+    <meta property="og:description" content="This article gently introduce to Bayesian Inference with a real-life example.">
+    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="article:author" content="Aman Abdullayev">
+    <meta property="article:published_time" content="2024-03-08T23:00:00.000Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Simplified Bayesian Inference - Aman Abdullayev">
+    <meta name="twitter:description" content="This article gently introduce to Bayesian Inference with a real-life example.">
+    <meta name="twitter:creator" content="@amanabdullayev">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://amanabdullayev.me/blog/bayesian-stat101/">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="manifest" href="../../public/manifest.json">
+    <meta name="msapplication-TileColor" content="#2563eb">
+    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Core styles -->
+    <link rel="stylesheet" href="../../styles/core.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/blog.css">
+    <link rel="stylesheet" href="../../styles/pages.css">
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- MathJax for LaTeX equation rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayMath: [['$$', '$$'], ['\[', '\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                tags: 'ams'
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                pageReady: () => {
+                    console.log('MathJax configuration loaded');
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        console.log('MathJax page ready');
+                        // Force a re-render for GitHub Pages
+                        if (window.MathJax && window.MathJax.typesetPromise) {
+                            return window.MathJax.typesetPromise();
+                        }
+                    });
+                }
+            },
+            loader: {
+                load: ['[tex]/ams']
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../../" class="logo">
+                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
+                    Aman's Space
+                </a>
+                <div class="nav-buttons">
+                    <a href="../../about" class="nav-btn">About</a>
+                    <a href="../../blog" class="nav-btn active">Blog</a>
+                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="blog-post">
+            <!-- Back to blog link -->
+            <div class="blog-post-nav">
+                <a href="../" class="back-to-blog">← Back to Blog</a>
+            </div>
+
+            <!-- Post header -->
+            <header class="blog-post-header">
+                <div class="post-author-pin">
+                    <div class="author-pin-icon">📝</div>
+                    <span class="author-pin-name">Aman Abdullayev</span>
+                </div>
+                <h1 class="blog-post-title">Simplified Bayesian Inference</h1>
+                <div class="post-tags"><span class="tag" data-color="7">Statistics</span><span class="tag" data-color="2">Bayesian</span></div>
+                <div class="blog-post-meta">
+                    <time datetime="2024-03-08T23:00:00.000Z">Mar 9, 2024</time>
+                    <div class="page-views" id="page-views">
+                        📊 Loading...
+                    </div>
+                </div>
+            </header>
+
+            <!-- Cover image banner -->
+            
+            <div class="blog-post-cover">
+                <img src="../../blog-posts/blog_images/blog_04_01.jpg" 
+                     alt="Simplified Bayesian Inference" 
+                     class="cover-image"
+                     loading="lazy">
+            </div>
+            
+
+            <!-- Post content -->
+            <div class="blog-post-body">
+                <h1>Simplified Bayesian Inference</h1>
+
+<h2>Brief Introduction</h2>
+
+<p>Bayesian inference, named after Thomas Bayes, has its roots in the 18th century, but it was not until the 20th century that its practical application really took off. It is a method of statistical inference that has been extensively used in various fields, such as science, engineering, and philosophy.</p>
+
+<p>It is called "inference" because we are inferring or drawing conclusions from data. In the context of Bayesian inference, we are using data to update our prior beliefs and make predictions about future events. This updating process, where we infer the <em><strong>posterior</strong></em> probability from the <em><strong>prior</strong></em> and the <em><strong>evidence</strong></em>, is why it's called <em><strong>Bayesian inference</strong></em>.</p>
+
+<h3>Conditional Probability</h3>
+
+<p>Before get into Bayesian we need to get concept of conditional probability, which is a backbone of the Bayesian inference.</p>
+
+<p>Conditional probability is a fundamental concept in probability theory and statistics. It is the probability of an event given the occurrence of another event. For instance, the probability of event A happening given that event B has occurred is represented as $P(A|B).$</p>
+
+<p>Let's consider a an example to understand this concept better:</p>
+
+<h3><strong>Example : Drawing a Card</strong></h3>
+
+<p>Suppose I have a deck of 52 cards in my hand. I pick one card at random and ask you: What is the probability that the card I picked is "red colored 6 heart"? Given that I've provided no other information and have chosen the card randomly from the 52, the probability is 1/52, or 1.9%. This can be written as $P(Six\ Heart)=1.9\%$ .</p>
+
+<p>However, if I provide additional information (data, evidence, whatever you call it), the probability will change. For instance, if I say, "The card I selected has a heart on it," you would know that there 13 cards with hearts on them. Therefore, if a card has a heart on it, there's a 1/13 or 7.7% chance it's a six heart. Mathematically, this is represented as $P(Six\ Heart|Heart) = 7.7%$%﻿﻿ (which is read as "the probability of six heart <strong>GIVEN</strong> the number heart on it”)  However, if I say "The card I chose has the number 6 on it," you would know that there are four cards with the number 6, one out of which are the 6 heart. Consequently, the probability of the selected card being red is 1/4, or 25%. Statistically, we represent this scenario as $P(Six\ Heart|Six) = 25\%$.</p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_04_01.jpg"
+alt="Probability of Cards With Some Knowledge"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Probability of Cards With Some Knowledge</figcaption>
+</figure>
+
+<p>Did you notice how probability changed by just giving an extra piece of information (or based on the condition). At first it was only 1.9% then raised to 7.7% and in the last case it is 25%.</p>
+
+<h2>Bayesian Inference</h2>
+
+<p>Bayesian inference is a method of statistical inference that uses Bayes' theorem to update the probability of a hypothesis as more evidence or information becomes available. In Bayesian inference, the degree of belief in a hypothesis is updated as more evidence becomes available, using the principle of conditional probability. This results in the conversion of a <strong>prior</strong> probability into a <strong>posterior</strong> probability, which is a more accurate estimate based on updated evidence.</p>
+
+<h2>Bayesian in Plain English</h2>
+
+<p>Bayesian theory, in its simplest form, is all about updating our initial beliefs based on evidence or data. Let's consider several real-life examples to understand it better.</p>
+
+<h3>Car Accidents</h3>
+
+<p>Let's consider one more example involving the probability of a car accident. Suppose you believe that the chance of a car accident occurring is quite low, say 2%. This is your prior belief.</p>
+
+<p>Now, let's assume you start driving at a significantly high speed, say 200km/hour. High speed driving is often a strong indicator of increased risk of a car accident. Upon knowing this, you would naturally update your belief about the probability of an accident. You might now think that there is a 60% chance of a car accident. This updated probability is your posterior belief.</p>
+
+<p>In Bayesian terms, the initial 2% is the <em><strong>prior</strong></em>, the high speed driving is the <em><strong>evidence</strong></em>, and the updated 60% is the <em><strong>posterior</strong></em>. The process of updating your belief from the prior to the posterior, based on the evidence, is Bayesian inference.</p>
+
+<h3>Fire and Smoke</h3>
+
+<p>Let's consider another real-life example involving the probability of a fire in a building. Suppose you believe that the chance of a fire breaking out in a building is quite low, say 1%. This is your prior belief.</p>
+
+<p>Now, let's assume you see smoke coming out of the building. Smoke is often a strong indicator of a fire. Upon seeing this, you would naturally update your belief about the probability of a fire. You might now think that there is a 70% chance of a fire. This updated probability is your posterior belief.</p>
+
+<p>In Bayesian terms, the initial 1% is the <em><strong>prior</strong></em>, the smoke is the <em><strong>evidence</strong></em>, and the updated 70% is the <em><strong>posterior</strong></em>. The process of updating your belief from the prior to the posterior, based on the evidence, is Bayesian inference.</p>
+
+<h3>Sickness</h3>
+
+<p>Suppose a person goes to a doctor for a blood test and tests <em><strong>positive</strong></em>, indicating sickness. However, there's a possibility that the test could be <em><strong>false positive</strong></em>, meaning the person is not actually sick. Conversely, the test could return a <em><strong>negative</strong></em> result, suggesting the person is healthy. But there's a chance that the person is actually sick, a situation referred to as a <em><strong>false negative</strong></em>.</p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_04_02.png"
+alt="Probaility Decision Tree"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Probaility Decision Tree</figcaption>
+</figure>
+
+<p>In the diagram above, a true positive represents the probability of testing positive <em><strong>when</strong></em> the person is indeed sick. However, a doctor typically works in reverse, determining the probability of a person being sick <em><strong>given</strong></em> a positive test result, because doctor don’t know if a patient is a sick or not at the beginning. All evidence the doctor has is the test result. So, the doctor need to infer/conclude if the patient is sick or not based on the fact/evidence on her hand. This method involves drawing conclusions (<em><strong>inferencing</strong></em>) from available data, which is referred to as Bayesian inference.</p>
+
+<h2>Bayesian in Mathematical Terms</h2>
+
+<p>Now, let's look at how this change of beliefs happening under the hood.</p>
+
+<p>The fundamental formula of Bayesian statistics is expressed as follows:</p>
+
+$
+P(sick|positive) = \frac{P(positive|sick) \cdot P(sick)}{P(positive)}
+$
+
+<p>For our sick and not sick scenario, it would be:</p>
+
+$
+P(sick|positive) = \frac{P(sick) \cdot P(positive|sick) }{P(positive)}
+$
+
+<p>The above formula can actually be expressed in terms of false positive and false negative terms as follows:</p>
+
+$
+P(sick|positive) = \frac{P(sick) \cdot P(true \ positive) }{P(sick) \cdot P(true\ positive) + P(not \ sick) \cdot P(false\ positive)}
+$
+
+<p>Alternatively, we can express it as follows: the numerator represents the true positive rate multiplied by the probability of sickness (likelihood or frequency of observing the sickness in the world, often challenging to ascertain initially). The denominator, on the other hand, represents true positive multiplied by sickness probability (as in the numerator), plus false negatives multiplied by the probability of not being sick outcomes. The denominator serves as a normalization factor, ensuring that when multiplying probabilities, which are real numbers between 0 and 1, the resulting posterior probability also falls within the range of 0 to 1.</p>
+
+<p>---</p>
+
+<h2>Concept with Numbers</h2>
+
+<p>Now, let's perform a brief calculation to demonstrate how this scenario unfolds with real numbers.</p>
+
+<p>A patient visits a doctor and undergoes a blood test, revealing the presence of a rare disease. Given the rarity of this illness, it affects only 0.01% of the population (1 person in 10,000).</p>
+
+<p>The test falsely identifies 1% of cases where a person does not have the disease (false positives) according to the manufacturer.</p>
+
+<p>Now, the crucial question arises: What is the likelihood that the patient is <strong>actually sick</strong>?</p>
+
+<p>So, here is our numbers:</p>
+
+<p><code class="inline-code">P(sick) = 0.01%</code> <em>(this is our prior belief!)</em></p>
+
+<p><code class="inline-code">P(not sick) = 100% - P(sick)= 99.99%</code></p>
+
+<p><code class="inline-code">P(positive|not sick) = 1%</code></p>
+
+<p><code class="inline-code">P(positive|sick) = 100% - P(positive|not sick) = 99%</code></p>
+
+<p>Great, we have all the necessary numbers at hand. Let's proceed with the calculation to determine the likelihood of the patient being ill.</p>
+
+$
+P(sick|positive) = \frac{P(sick) \cdot P(true \ positive) }{P(sick) \cdot P(true\ positive) + P(not \ sick) \cdot P(false\ positive)}
+$
+
+$
+P(sick|positive) = \frac{0.01\% \cdot 99\% }{0.01\% \cdot 99\%  + 99.99\% \cdot 1\% }
+$
+
+$
+P(sick|positive) = 0.98\%
+$
+
+<p>---</p>
+
+<p>However, the patient is now uncertain due to the positive test result and subsequent calculations indicating a 0.98% probability of having the disease. While this probability is relatively small, it marks a significant increase from the initial 0.01% likelihood. In fact, the disease is nearly 10 times more probable now.</p>
+
+<p>The patient requests a repetition of the same test for confirmation. Unfortunately, the result is again positive. With this new information, let's recalculate. We can use the previous test's posterior as the prior for our new calculation, as we already have this data. Previously, our calculations were based on the disease's frequency in the general population.</p>
+
+<p><code class="inline-code">P(sick) = 0.98%</code> <em>(this is our new belief!)</em></p>
+
+<p><code class="inline-code">P(not sick) = 100% - P(sick)= 99.02%</code></p>
+
+<p>since it is the same test, specifications are the same:</p>
+
+<p><code class="inline-code">P(positive|not sick) = 1%</code></p>
+
+<p><code class="inline-code">P(positive|sick) = 100% - P(positive|not sick) = 99%</code></p>
+
+$
+P(sick|positive) = \frac{0.98\% \cdot 99\% }{0.98\% \cdot 99\%  + 99.02\% \cdot 1\% }
+$
+
+$
+P(sick|positive) = 49.5\%
+$
+
+<p>Unfortunately, there's a significant shift in our confidence level, from an initial 0.01% to 0.98%, and then abruptly to 49.5%.</p>
+
+<p>Are you curious about what the final number would be if we repeated the test a third time?</p>
+
+<p>It would then be 98.9% likely that the patient has the disease.</p>
+
+<p>---</p>
+
+<h2>Proof of the Concept</h2>
+
+<p>You might be wondering how this could happen, right? Let's clarify what we mean by probabilities.</p>
+
+<p>Initially, we stated that the disease frequency, or likelihood, is 1 in 10,000 people. This means that only one person actually has the disease. However, the test has a 1% false negative rate. This means it incorrectly identifies 1% of the remaining 9,999 people as having the disease. On average, about 100 people will receive a false positive result even though they are healthy.</p>
+
+<p>So, if we narrow our focus to only the 1 actual and 100 falsely identified people, there is only a 1 in 101 chance that the patient is the one correctly identified. This gives us a 0.99% chance, equals to the probability we calculated after the 1st test.</p>
+
+<p>---</p>
+
+<h2>Closing Words</h2>
+
+<p>The beauty of Bayesian inference lies in its ability to draw sound conclusions about a hypothesis, even with a small amount of data.</p>
+
+<p>However, another strength lies in the fact that regardless of your initial belief, if you have a large amount of data (evidence), your subsequent belief (posterior) will favor the data. This implies that you should be cautious about the news you follow and the videos you watch, or friends you are spending time with. If you consume misinformation over a long period, your beliefs may shift towards that information, even if it is incorrect, according to Bayesian theory.</p>
+
+<blockquote><em><strong>Be careful with whom you travel, with whom you make friends. Because the nightingale leads to the rose and the crow leads to the garbage dump. (Rumi)</strong></em></blockquote>
+            </div>
+
+            <!-- Post footer -->
+            <footer class="blog-post-footer">
+                <div class="post-sharing">
+                    <h4>Share this post:</h4>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text=Simplified%20Bayesian%20Inference&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat101%2F" target="_blank" class="share-btn twitter">
+                            🐦 Twitter
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat101%2F" target="_blank" class="share-btn linkedin">
+                            💼 LinkedIn
+                        </a>
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
+                            📋 Copy Link
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="post-navigation">
+                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../">Home</a>
+                    <a href="../../about">About</a>
+                    <a href="../../blog">Blog</a>
+                    <a href="../../contact">Contact</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Scripts -->
+    <script src="../../js/env-config.js"></script>
+    <script src="../../js/config-public.js"></script>
+    <script src="../../js/main.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    
+    <!-- Blog post functionality - load after Prism -->
+    <script src="../../js/blog-post.js"></script>
+    
+    <!-- Simple page view counter -->
+    <script>
+        fetch('https://amanabdullayev.goatcounter.com/counter/blog/bayesian-stat101/.json')
+            .then(response => response.json())
+            .then(data => {
+                const el = document.getElementById('page-views');
+                if (el && data.count) {
+                    el.textContent = '📊 ' + data.count + ' views';
+                }
+            })
+            .catch(() => {
+                document.getElementById('page-views').style.display = 'none';
+            });
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@
 **Tags:** Kids Curiosity, Science is Fun
 **Excerpt:** Fun and educational experiments you can easily do at home with your kids to spark their curiosity and encourage hands-on learning.
 **Slug:** experiments-at-home-for-kids
+**Cover Image Path:** blog_images/blog_05_01.png
 
 ---
 # Experiments at home - fun and science with kids

@@ -105,6 +105,15 @@
         font-size: 1rem;
     }
     
+    /* Blog post cover images responsive */
+    .blog-post-cover .cover-image {
+        height: 250px;
+    }
+    
+    .post-cover-image {
+        height: 180px;
+    }
+    
     /* Timeline */
     .timeline {
         max-width: 100%;
@@ -357,6 +366,25 @@
     
     .blog-post-body h6 {
         font-size: 0.9rem;
+    }
+    
+    /* Blog post cover images mobile */
+    .blog-post-cover {
+        margin: 1.5rem -1rem;
+        border-radius: 8px;
+    }
+    
+    .blog-post-cover .cover-image {
+        height: 200px;
+    }
+    
+    .post-cover {
+        margin: -1rem -1rem 1rem -1rem;
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .post-cover-image {
+        height: 160px;
     }
     
     /* Timeline mobile adjustments */

@@ -4,6 +4,7 @@
 **Tags:** Python, Research, Decision Making  
 **Excerpt:** Decision-making means choosing the best option based on goals and trade-offs. MCDM adds complexity by balancing multiple factors. Tools like Python and models (e.g., WSM, TOPSIS) help make objective, data-driven choices.
 **Slug:** multi-criteria-decision-making-python
+**Cover Image Path:** blog_images/blog_02_cover.png
 
 ---
 
