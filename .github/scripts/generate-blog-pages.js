@@ -423,15 +423,21 @@ function createBlogPostTemplate(post, renderedContent) {
     <meta property="og:type" content="article">
     <meta property="og:title" content="${post.title} - Aman Abdullayev">
     <meta property="og:description" content="${post.excerpt || 'A blog post by Aman Abdullayev'}">
+    <meta property="og:url" content="https://amanabdullayev.me/blog/${post.slug}/">
     <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    ${post.coverImage ? `<meta property="og:image" content="https://amanabdullayev.me/blog-posts/${post.coverImage}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">` : '<meta property="og:image" content="https://amanabdullayev.me/images/logo.png">'}
     <meta property="article:author" content="Aman Abdullayev">
     <meta property="article:published_time" content="${post.date}">
     
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="${post.coverImage ? 'summary_large_image' : 'summary'}">
     <meta name="twitter:title" content="${post.title} - Aman Abdullayev">
     <meta name="twitter:description" content="${post.excerpt || 'A blog post by Aman Abdullayev'}">
     <meta name="twitter:creator" content="@amanabdullayev">
+    ${post.coverImage ? `<meta name="twitter:image" content="https://amanabdullayev.me/blog-posts/${post.coverImage}">` : '<meta name="twitter:image" content="https://amanabdullayev.me/images/logo.png">'}
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://amanabdullayev.me/blog/${post.slug}/">
