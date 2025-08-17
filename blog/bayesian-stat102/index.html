@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayesian Posterior Calculation with Conjugate Priors - Aman Abdullayev</title>
+    <meta name="description" content="This article discusses the concept of Bayesian inference and how it can be simplified using conjugate priors, through the practical example of estimating an e-commerce website's conversion rate. It highlights the advantage of the Bayesian approach in providing a probability interval, offering a more probabilistic decision-making tool, especially when working with limited data.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Bayesian Posterior Calculation with Conjugate Priors - Aman Abdullayev">
+    <meta property="og:description" content="This article discusses the concept of Bayesian inference and how it can be simplified using conjugate priors, through the practical example of estimating an e-commerce website's conversion rate. It highlights the advantage of the Bayesian approach in providing a probability interval, offering a more probabilistic decision-making tool, especially when working with limited data.">
+    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="article:author" content="Aman Abdullayev">
+    <meta property="article:published_time" content="2024-03-24T23:00:00.000Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Bayesian Posterior Calculation with Conjugate Priors - Aman Abdullayev">
+    <meta name="twitter:description" content="This article discusses the concept of Bayesian inference and how it can be simplified using conjugate priors, through the practical example of estimating an e-commerce website's conversion rate. It highlights the advantage of the Bayesian approach in providing a probability interval, offering a more probabilistic decision-making tool, especially when working with limited data.">
+    <meta name="twitter:creator" content="@amanabdullayev">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://amanabdullayev.me/blog/bayesian-stat102/">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="manifest" href="../../public/manifest.json">
+    <meta name="msapplication-TileColor" content="#2563eb">
+    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Core styles -->
+    <link rel="stylesheet" href="../../styles/core.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/blog.css">
+    <link rel="stylesheet" href="../../styles/pages.css">
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- MathJax for LaTeX equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayMath: [['$$', '$$'], ['\[', '\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../../" class="logo">
+                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
+                    Aman's Space
+                </a>
+                <div class="nav-buttons">
+                    <a href="../../about" class="nav-btn">About</a>
+                    <a href="../../blog" class="nav-btn active">Blog</a>
+                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="blog-post">
+            <!-- Back to blog link -->
+            <div class="blog-post-nav">
+                <a href="../" class="back-to-blog">← Back to Blog</a>
+            </div>
+
+            <!-- Post header -->
+            <header class="blog-post-header">
+                <div class="post-author-pin">
+                    <div class="author-pin-icon">📝</div>
+                    <span class="author-pin-name">Aman Abdullayev</span>
+                </div>
+                <h1 class="blog-post-title">Bayesian Posterior Calculation with Conjugate Priors</h1>
+                <div class="post-tags"><span class="tag" data-color="7">Statistics</span><span class="tag" data-color="2">Bayesian</span><span class="tag" data-color="4">Python</span></div>
+                <div class="blog-post-meta">
+                    <time datetime="2024-03-24T23:00:00.000Z">Mar 25, 2024</time>
+                    <div class="page-views" id="page-views">
+                        📊 Loading...
+                    </div>
+                </div>
+            </header>
+
+            <!-- Post content -->
+            <div class="blog-post-body">
+                <h1>Bayesian Posterior Calculation with Conjugate Priors</h1>
+
+<p>Bayesian inference, a statistical method that updates beliefs about a hypothesis as more evidence becomes available, can be simplified using conjugate priors. This approach was demonstrated with a Python script simulating an e-commerce website's conversion rate. Using a Bernoulli trial and a Beta distribution as the conjugate prior, the Bayesian approach provided a probability interval for the conversion rate, offering a more probabilistic decision-making tool than the single-point estimate of the Frequentist approach.</p>
+
+<h1>Quick Recap of Bayesian Statistics</h1>
+
+<p>Bayesian inference is a statistical method where we update our beliefs about a hypothesis as more evidence or information becomes available. It's like making an educated guess that is refined as you gather more data. You can find a simplified explanation with examples in <a href="https://amanabdullayev.me/blog/bayesian-stat101/" target="_blank" rel="noopener">my previous post</a>.</p>
+
+<p>The formula for Bayesian statistics is:</p>
+
+<p>$
+P(H|E) = \frac{P(E|H) \cdot P(H)}{P(E)}
+$</p>
+
+<p>Where:</p>
+
+<ul class="markdown-list"><li><code class="inline-code">P(H|E)</code> is the posterior probability - the probability of hypothesis H given the evidence E.</li><li><code class="inline-code">P(E|H)</code> is the likelihood - the probability of the evidence given that the hypothesis is true.</li><li><code class="inline-code">P(H)</code> is the prior probability - the probability of the hypothesis before we see any evidence.</li><li><code class="inline-code">P(E)</code> is the marginal likelihood - the total probability of the evidence.</li></ul>
+
+<p>The hardest part to calculate in this equation is typically the marginal likelihood, <strong><code class="inline-code">P(E)</code></strong>. This is because it requires integrating over all possible values of H, which can be computationally complex or even impossible, particularly in high-dimensional problems.</p>
+
+<p>This is where the use of <strong>conjugate priors/posteriors</strong> comes in. Conjugate priors are chosen because they simplify the calculation of the posterior distribution.</p>
+
+<h1>Conjugate priors</h1>
+
+<p>Conjugate priors may seem complicated, but they're really just a tool to make Bayesian statistics easier. You can think of them as a shortcut.</p>
+
+<p>In Bayesian statistics, we start with a 'prior' guess about what we think the answer will be. Then we collect some data, and we want to update our guess based on this new data. The updated guess is called the 'posterior'.</p>
+
+<p>Now, the math to go from the prior to the posterior can be really hard. But here's the trick: if we choose our prior in a special way, it makes the math much easier. This special kind of prior is called a '<strong>conjugate prior</strong>'.</p>
+
+<p>So, when we use a conjugate prior, we're making a smart choice about our initial guess to make the math easier down the line.</p>
+
+<p>You can find a list of conjugate priors for most of the discrete and continuous distributions on <a href="https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions" target="_blank" rel="noopener">Wikipedia</a>.</p>
+
+<p>Let’s take one example from the above Wikipedia table and apply it to a real-life problem.</p>
+
+<h1>Conjugate Priors to Estimate Conversion Rate</h1>
+
+<p>Let's say you run an e-commerce website where visitors browse various products, and some of them make a purchase. You're interested in the conversion rate, a Key Performance Indicator (KPI) that shows the proportion of visitors who make a purchase.</p>
+
+<p>We can categorize visitors as follows: a visitor who doesn't make a purchase is denoted as <code class="inline-code">0</code> and a visitor who makes a purchase is denoted as <code class="inline-code">1</code>. This can be treated as a Bernoulli experiment. We can simulate this scenario with a Python script for 100 visitors, as follows:</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
+
+<p>number_of_visitors = 100<br>website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)</p>
+
+<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre></p>
+
+<p>In the above code, I intentionally hide the probability argument of Bernoulli's random variable generation with the <code class="inline-code">real_conversion_rate</code> variable, since we are going to estimate it. (read until the end if you want to see the value 🙃)</p>
+
+<p>First, let’s count out of 100 people above, how many conversions we have:</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">import numpy as np
+# Count the unique values in the numpy array
+unique, counts = np.unique(website_visitors, return_counts=True)
+
+<p># Print the unique values and their counts<br>for u, c in zip(unique, counts):<br>    print(f&quot;{u}: {c}&quot;)<br>  <br>&gt;&gt;&gt;&gt;output:<br>0: 86<br>1: 14</code></pre></p>
+
+<p>In this case, 14 people out of 100 made a purchase. If you apply the Frequentist approach, your conversion rate would be:</p>
+
+<p>$
+Conversion\:rate = \frac{Made\: Purchase}{All\:visitors} = \frac{14}{100}=0.14 \: or \:14\%
+$</p>
+
+<p>Remember that with the Bayesian approach, we start with a prior belief (an initial assumption about the conversion rate). Then, we use the data (evidence) to update our belief about the conversion rate (posterior).</p>
+
+<p>Given that this situation involves a Bernoulli trial, the conjugate prior for a Bernoulli distribution is a Beta distribution. You can refer to <a href="https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions" target="_blank" rel="noopener">this Wikipedia table for more information</a>.</p>
+
+<p>If you don't have any initial idea about the conversion rate, there's no need to worry. You can use a broad or flat distribution, where you assume that the conversion rate is a number between 0 and 1. This translates to a Beta distribution with parameters: a=1 and b=1, or <code class="inline-code">Beta(a=1, b=1)</code>.</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python"># plot a KDE plot with beta distribution a=1 and b=1
+prior = stats.beta(a=1, b=1)
+sns.kdeplot(data=prior.rvs(size=100_000), color=&quot;tab:red&quot;, label=&quot;Prior&quot;)
+plt.title(&quot;Conversion Rate&quot;)
+plt.show()</code></pre>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_03_01.png"
+alt="Conversion Rate Without Initial Knowledge"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Conversion Rate Without Initial Knowledge</figcaption>
+</figure>
+
+<p>Initially, we believe that our conversion rate can range between 0 and 100%.</p>
+
+<p>Now, let's use our observed data to find a posterior. According to conjugate priors, for a Beta prior with parameters <code class="inline-code">a</code> and <code class="inline-code">b</code>, posterior will Beta distribution with parameters: <code class="inline-code">a+number of successes</code>, <code class="inline-code">b+number of failures</code>. In our case, a success is a purchase and a failure is a non-purchase.</p>
+
+<p>Plugging in our 14 purchases and 86 non-purchases, our posterior becomes <code class="inline-code">Beta(a=15, b=87)</code>:</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python"># plot a KDE plot with beta distribution a=1 and b=1
+prior = stats.beta(a=1, b=1)
+posterior = stats.beta(a=1 + 14, b=1 + 86)
+sns.kdeplot(data=prior.rvs(size=100_000), color=&quot;tab:red&quot;, label=&quot;Prior&quot;)
+sns.kdeplot(data=posterior.rvs(size=100_000), color=&quot;tab:green&quot;, label=&quot;Posterior&quot;)
+plt.title(&quot;Conversion Rate&quot;)
+plt.show()</code></pre>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_03_02.png"
+alt="Conversion Rate After 100 Events"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Conversion Rate After 100 Events</figcaption>
+</figure>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">posterior_mean = np.round(posterior.mean(), 3)
+posterior_q5, posterior_q95 = posterior.interval(0.9)
+print(f&quot;Posterior mean: {posterior_mean}&quot;)
+print(f&quot;Posterior 90% credible interval: ({posterior_q5:.3f}, {posterior_q95:.3f})&quot;)
+
+<p>&gt;&gt;&gt;&gt;output:<br>Posterior mean: 0.147<br>Posterior 90% credible interval: (0.094, 0.208)</code></pre></p>
+
+<p>In the Bayesian approach, we consider an entire distribution for our conversion rate, unlike the Frequentist approach, where we only have a single point (14%). This allows us to make a more probabilistic decision by considering, for example, a 90% interval where the real conversion rate might be.</p>
+
+<p>Why would you choose the Bayesian approach over the Frequentist, even though their estimates are quite close (14.7% vs 14%)? Well, the Bayesian approach provides a probability interval. For example, it states that there is a 90% chance that the real conversion rate lies between 9.4% and 20.8%.</p>
+
+<p><strong>In fact, I initially used a 10% probability to generate Bernoulli ones and zeros in my code:</strong></p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
+
+<p>**real_conversion_rate = 0.1**</p>
+
+<p>number_of_visitors = 100<br>website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)</p>
+
+<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre></p>
+
+<h1>Conclusion</h1>
+
+<p>If you adopt a probabilistic mindset, you can accurately express a 10% conversion rate by stating, "The actual conversion rate lies between 9.4% and 20.8%."</p>
+
+<p>Moreover, we can determine the true conversion rate with just 100 visitors. This is a key advantage of Bayesian inference, which works well with limited data. For instance, if we apply the previous simulations to a sample of 1000 people instead of 100, the following happens:</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">Frequentist : 0.108
+Posterior mean: 0.109
+Posterior 90% credible interval: (0.093, 0.125)</code></pre>
+
+<p>In addition, we began with a flat prior, which was a uniform distribution. If we had prior knowledge or a hypothesis about the conversion rate, we could incorporate it into our simulations. For instance, if you had previous knowledge or a gut feeling that the "conversion rate is definitely less than 50%, perhaps around 20%", then with only 100 people, our distributions and final values would look somewhat different. We can use Beta(a=2, b=11) as our prior now. The 90% interval would be slightly lower than before, and the mean would be closer to the frequentist value.</p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_03_03.png"
+alt="Conversion Rate With Prior Knowledge"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Conversion Rate With Prior Knowledge</figcaption>
+</figure>
+
+<p>Finally, the Bayesian posterior distribution can be easily calculated for not only the Bernoulli distribution, but also for other distributions such as Normal, Poisson, and Gamma, among others. These calculations use their conjugate priors and observed data, eliminating the need for the marginal likelihood. Simply choose your distribution and insert your values to get your posterior distribution.</p>
+
+<blockquote><em><strong>Everyone can look at what you can look at, but can everyone see what you can see?</strong></em></blockquote>
+            </div>
+
+            <!-- Post footer -->
+            <footer class="blog-post-footer">
+                <div class="post-sharing">
+                    <h4>Share this post:</h4>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text=Bayesian%20Posterior%20Calculation%20with%20Conjugate%20Priors&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat102%2F" target="_blank" class="share-btn twitter">
+                            🐦 Twitter
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat102%2F" target="_blank" class="share-btn linkedin">
+                            💼 LinkedIn
+                        </a>
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
+                            📋 Copy Link
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="post-navigation">
+                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../">Home</a>
+                    <a href="../../about">About</a>
+                    <a href="../../blog">Blog</a>
+                    <a href="../../contact">Contact</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Scripts -->
+    <script src="../../js/env-config.js"></script>
+    <script src="../../js/config-public.js"></script>
+    <script src="../../js/main.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    
+    <!-- Blog post functionality - load after Prism -->
+    <script src="../../js/blog-post.js"></script>
+    
+    <!-- Simple page view counter -->
+    <script>
+        fetch('https://amanabdullayev.goatcounter.com/counter/blog/bayesian-stat102/.json')
+            .then(response => response.json())
+            .then(data => {
+                const el = document.getElementById('page-views');
+                if (el && data.count) {
+                    el.textContent = '📊 ' + data.count + ' views';
+                }
+            })
+            .catch(() => {
+                document.getElementById('page-views').style.display = 'none';
+            });
+    </script>
+</body>
+</html>

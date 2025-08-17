@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Criteria Decision-Making using Python - Aman Abdullayev</title>
+    <meta name="description" content="Decision-making means choosing the best option based on goals and trade-offs. MCDM adds complexity by balancing multiple factors. Tools like Python and models (e.g., WSM, TOPSIS) help make objective, data-driven choices.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Multi-Criteria Decision-Making using Python - Aman Abdullayev">
+    <meta property="og:description" content="Decision-making means choosing the best option based on goals and trade-offs. MCDM adds complexity by balancing multiple factors. Tools like Python and models (e.g., WSM, TOPSIS) help make objective, data-driven choices.">
+    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="article:author" content="Aman Abdullayev">
+    <meta property="article:published_time" content="2024-10-05T22:00:00.000Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Multi-Criteria Decision-Making using Python - Aman Abdullayev">
+    <meta name="twitter:description" content="Decision-making means choosing the best option based on goals and trade-offs. MCDM adds complexity by balancing multiple factors. Tools like Python and models (e.g., WSM, TOPSIS) help make objective, data-driven choices.">
+    <meta name="twitter:creator" content="@amanabdullayev">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://amanabdullayev.me/blog/multi-criteria-decision-making-python/">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="manifest" href="../../public/manifest.json">
+    <meta name="msapplication-TileColor" content="#2563eb">
+    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Core styles -->
+    <link rel="stylesheet" href="../../styles/core.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/blog.css">
+    <link rel="stylesheet" href="../../styles/pages.css">
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- MathJax for LaTeX equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayMath: [['$$', '$$'], ['\[', '\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../../" class="logo">
+                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
+                    Aman's Space
+                </a>
+                <div class="nav-buttons">
+                    <a href="../../about" class="nav-btn">About</a>
+                    <a href="../../blog" class="nav-btn active">Blog</a>
+                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="blog-post">
+            <!-- Back to blog link -->
+            <div class="blog-post-nav">
+                <a href="../" class="back-to-blog">← Back to Blog</a>
+            </div>
+
+            <!-- Post header -->
+            <header class="blog-post-header">
+                <div class="post-author-pin">
+                    <div class="author-pin-icon">📝</div>
+                    <span class="author-pin-name">Aman Abdullayev</span>
+                </div>
+                <h1 class="blog-post-title">Multi-Criteria Decision-Making using Python</h1>
+                <div class="post-tags"><span class="tag" data-color="4">Python</span><span class="tag" data-color="9">Research</span><span class="tag" data-color="9">Decision Making</span></div>
+                <div class="blog-post-meta">
+                    <time datetime="2024-10-05T22:00:00.000Z">Oct 6, 2024</time>
+                    <div class="page-views" id="page-views">
+                        📊 Loading...
+                    </div>
+                </div>
+            </header>
+
+            <!-- Post content -->
+            <div class="blog-post-body">
+                <h1>Introduction to Decision-Making</h1>
+
+<h2>Decision Making</h2>
+
+<p><em>When faced with multiple options, each with its own pros and cons, how do you choose the best one? This is where decision-making comes into play.</em></p>
+
+<p><em><strong>Decision-making</strong></em> is the process of choosing a course of action from various alternatives to achieve a desired outcome. It involves evaluating options, weighing the consequences, and selecting the best path forward based on available information and your goals.</p>
+
+<p>In daily life, we make many important decisions, such as:</p>
+
+<ul class="markdown-list"><li>Should you make a purchase or not?</li><li>Should you pursue a master's degree or enter the workforce after completing your bachelor's?</li><li>Should you accept a job offer or decline it?</li></ul>
+
+<p>Generally, the decision-making process follows these steps:</p>
+
+<p>Take, for example, deciding whether to accept a job offer. The process might look like this:</p>
+
+<ol class="markdown-list"><li><strong>Identify alternatives:</strong> Accept or decline the offer.</li><li><strong>Gather information:</strong> Consider salary, benefits, job responsibilities, company culture, etc.</li><li><strong>Evaluate options:</strong> Weigh the pros and cons of accepting versus declining.</li><li><strong>Consider consequences:</strong> Think about how each choice impacts your career and life.</li><li><strong>Make a choice:</strong> Select the option that aligns best with your goals and values.</li></ol>
+
+<p>This approach can be applied to anything from everyday choices to complex personal or business decisions. The key is to systematically analyze the options and their outcomes before making your final decision.</p>
+
+<h2>Multi-Criteria Decision-Making</h2>
+
+<p>In both daily life and business, decision-making can get complicated because we often need to choose from several options (alternatives), each based on multiple criteria (attributes, information).</p>
+
+<p>Let’s revisit the job offer example and make it more realistic. Suppose you have offers from five different companies. Now, you have to compare their salaries, benefits, company size, culture, proximity to home, and alignment with your previous experience, among other factors. Which one will you choose? Will you base your decision solely on one criterion, like salary? Many of us tend to do this, but it can cause us to overlook great opportunities.</p>
+
+<p><em><strong>Multi-criteria decision-making (MCDM)</strong></em> is the process of evaluating multiple, often conflicting criteria to reach the best possible decision.</p>
+
+<p><em><strong>For example: Choosing a new smartphone:</strong></em></p>
+
+<p><em><strong>Criteria:</strong></em> <em>Price,  Weight, Battery Life, Storage capacity, RAM</em></p>
+
+<p><em><strong>Alternatives:</strong></em> Phone A<em>, Phone B, Phone C, Phone D</em></p>
+
+<table class="markdown-table"><tr><th>Phone</th><th>Price (EUR)</th><th>Weight (Gram)</th><th>Batter Life (Hour)</th><th>Stogare (GB)</th><th>RAM (GB)</th></tr><tr><td>A</td><td>💵💵</td><td>🎱🎱</td><td>⌛⌛</td><td>💿</td><td>💽💽💽</td></tr><tr><td>B</td><td>💵💵</td><td>🎱🎱</td><td>⌛</td><td>💿💿</td><td>💽💽</td></tr><tr><td>C</td><td>💵</td><td>🎱🎱🎱</td><td>⌛⌛</td><td>💿💿💿</td><td>💽💽</td></tr><tr><td>D</td><td>💵💵💵</td><td>🎱</td><td>⌛⌛⌛</td><td>💿</td><td>💽</td></tr></table>
+
+<p>In the table above, Option C has the lowest price, while Option D has the lightest and the longest battery life. Option B is average across most criteria but needs more battery life, and Option A has excellent RAM. So, which one should you choose?</p>
+
+<p>In this scenario, you'd evaluate each phone option based on these criteria, potentially assigning weights to each factor depending on its importance to you. You could use a scoring system or a decision matrix to compare the options more systematically.</p>
+
+<p>The "best" choice will depend on how you prioritize and balance these factors based on your needs and preferences. Multi-criteria decision-making (MCDM) helps structure this process, enabling a more objective and thorough evaluation of the available options.</p>
+
+<h1>Multi-Criteria Decision-Making Implementation using Python</h1>
+
+<p>There are online tools that simplify the decision-making process. However, implementing Multi-Criteria Decision-Making (MCDM) in Python can help you automate and streamline your decisions for free! But if you still prefer using ready-made tools, here are some free and paid decision-making options:</p>
+
+<p><a href="https://people.revoledu.com/kardi/tutorial/AHP/MCDM_Calculator.html" target="_blank" rel="noopener">Free MCDM Calculator</a></p>
+
+<p><a href="https://www.1000minds.com/decision-making/what-is-mcdm-mcda" target="_blank" rel="noopener">Paid MCDM Calculator</a></p>
+
+<h2>Different MCDM Algorithms</h2>
+
+<p>Decision-making algorithms are systematic methods designed to assist individuals or systems in choosing among alternatives. They aim to:</p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_02_img_01.png"
+alt="Decision Making Algo Summary"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Decision Making Algo Summary</figcaption>
+</figure>
+
+<p>These algorithms can be either quantitative or qualitative, drawing on disciplines such as mathematics, statistics, economics, and computer science. They vary from simple rule-based approaches to sophisticated machine learning models.</p>
+
+<p>Key features of many decision-making algorithms include:</p>
+
+<ul class="markdown-list"><li>Processing large amounts of data</li><li>Considering multiple, often conflicting, criteria</li><li>Incorporating stakeholder preferences</li><li>Managing uncertainty and probabilistic outcomes</li><li>Scaling to handle different problem sizes and complexities</li></ul>
+
+<p>The choice of algorithm depends on the problem’s nature, the available data, computational resources, and the desired balance between simplicity and accuracy. While these algorithms provide valuable insights and recommendations, they typically serve as tools to support human decision-makers, rather than replacing human judgment altogether.</p>
+
+<p>Here's a brief overview of some common decision-making algorithms:</p>
+
+<table class="markdown-table"><tr><th>Algorithm</th><th>Overview</th></tr><tr><td>Decision Trees</td><td>• Graphical representation of decisions and their outcomes • Useful for sequential decision-making processes</td></tr><tr><td>Analytic Hierarchy Process (AHP)</td><td>• Breaks down complex decisions into hierarchies • Uses pairwise comparisons to establish priorities</td></tr><tr><td>TOPSIS (Technique for Order Preference by Similarity to Ideal Solution)</td><td>Chooses alternatives closest to ideal solution and farthest from the negative-ideal solution</td></tr><tr><td>PROMETHEE (Preference Ranking Organization Method for Enrichment Evaluations)</td><td>• Outranking method using pairwise comparisons of alternatives • Considers preference functions for each criterion</td></tr><tr><td>ELECTRE (Elimination and Choice Expressing Reality)</td><td>• Family of outranking methods • Uses concordance and discordance indices</td></tr></table>
+
+<p>Each algorithm has its strengths and is suited to different types of decision problems. The choice of algorithm depends on the specific context, data availability, and complexity of the decision at hand.</p>
+
+<h2>MCDM Implementation Using Python</h2>
+
+<p>There are many Python packages available for implementing MCDM. One of the most popular is <a href="https://scikit-criteria.quatrope.org/en/latest/" target="_blank" rel="noopener">scikit-criteria</a> , which provides implementations of various decision-making algorithms. Below, we’ll use this Python package to apply MCDM to a real-life scenario - <em><strong>buying a smartphone</strong></em>.</p>
+
+<p>Let’s begin by importing all the necessary Python packages. If any are missing, you can easily install them using the command: <code class="inline-code">pip install package_name</code>.</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">import pandas as pd
+import skcriteria as skc
+from skcriteria.pipeline import mkpipe
+from skcriteria.preprocessing.invert_objectives import InvertMinimize, NegateMinimize
+from skcriteria.preprocessing.scalers import SumScaler, VectorScaler
+from skcriteria.agg.simple import WeightedProductModel, WeightedSumModel
+from skcriteria.agg.similarity import TOPSIS</code></pre>
+
+<p>Now, let's create our dataframe. The indices will represent the alternatives—smartphones we are considering buying—and the columns will be the various criteria we will use for comparison:</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">data = {
+    &quot;Phone&quot;: [&quot;Samsung Galaxy S24&quot;, &quot;Google Pixel 9&quot;, &quot;Xiaomi 14&quot;, &quot;Apple iPhone 15&quot;],
+    &quot;Price (EUR)&quot;: [611, 830, 700, 700],
+    &quot;Weight (Gram)&quot;: [168, 198, 193, 171],
+    &quot;Battery Life (Hour)&quot;: [12, 13, 12, 13.5],
+    &quot;Storage (GB)&quot;: [128, 128, 512, 128],
+    &quot;RAM (GB)&quot;: [8, 12, 12, 6],
+}
+df_phones = pd.DataFrame(data).set_index(&quot;Phone&quot;)
+df_phones</code></pre>
+
+<table class="markdown-table"><tr><th><strong>Phone</strong></th><th><strong>Price (EUR)</strong></th><th><strong>Weight (Gram)</strong></th><th><strong>Battery Life (Hour)</strong></th><th><strong>Storage (GB)</strong></th><th><strong>RAM (GB)</strong></th></tr><tr><td>Samsung Galaxy S24</td><td>611</td><td>168</td><td>12.0</td><td>128</td><td>8</td></tr><tr><td>Google Pixel 9</td><td>830</td><td>198</td><td>13.0</td><td>128</td><td>12</td></tr><tr><td>Xiaomi 14</td><td>700</td><td>193</td><td>12.0</td><td>512</td><td>12</td></tr><tr><td>Apple iPhone 15</td><td>700</td><td>171</td><td>13.5</td><td>128</td><td>6</td></tr></table>
+
+<p>We have 4 smartphone options with 5 criteria. The next step is to create a special data format for <code class="inline-code">scikit-criteria</code>, called a <code class="inline-code">DecisionMatrix</code>. For this, we’ll provide our core data (the options and criteria), specify which are alternatives (the options), and define the criteria.</p>
+
+<p>Next, we need to specify the objective for each criterion. For example, in the smartphone comparison, we aim to <strong>minimize</strong> the cost while <strong>maximizing</strong> storage capacity.</p>
+
+<p>Optionally, we can assign weights to each criterion. If no weights are provided, all criteria will have equal importance. However, if certain criteria matter more, you can adjust the weights. For instance, you might give more weight to the price, considering it more important than RAM, while battery life may also be more critical than storage capacity.</p>
+
+<p>Here’s how you can create your <code class="inline-code">DecisionMatrix</code> from the Pandas DataFrame:</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">dm = skc.mkdm(
+    df_phones,
+    alternatives=df_phones.index,
+    criteria=df_phones.columns,
+    objectives=[&quot;min&quot;, &quot;min&quot;, &quot;max&quot;, &quot;max&quot;, &quot;max&quot;],
+    weights=[5, 3, 3, 2,1],
+)
+dm</code></pre>
+
+<table class="markdown-table"><tr><th></th><th><strong>Price (EUR)[▼ 5.0]</strong></th><th><strong>Weight (Gram)[▼ 3.0]</strong></th><th><strong>Battery Life (Hour)[▲ 3.0]</strong></th><th><strong>Storage (GB)[▲ 2.0]</strong></th><th><strong>RAM (GB)[▲ 1.0]</strong></th></tr><tr><td>Samsung Galaxy S24</td><td>611</td><td>168</td><td>12.0</td><td>128</td><td>8</td></tr><tr><td>Google Pixel 9</td><td>830</td><td>198</td><td>13.0</td><td>128</td><td>12</td></tr><tr><td>Xiaomi 14</td><td>700</td><td>193</td><td>12.0</td><td>512</td><td>12</td></tr><tr><td>Apple iPhone 15</td><td>700</td><td>171</td><td>13.5</td><td>128</td><td>6</td></tr></table>
+
+<p><em>4 Alternatives x 5 Criteria</em></p>
+
+<p>As you can see, the <code class="inline-code">DecisionMatrix</code> is very similar to our Pandas DataFrame. The only noticeable difference is the upward and downward arrows in the column headers, indicating the objective for each criterion. These arrows show whether we aim to <strong>maximize</strong> or <strong>minimize</strong> a criterion.</p>
+
+<p>For example, an upward arrow (↑) means we're trying to <strong>maximize</strong> that criterion (e.g., storage), while a downward arrow (↓) means we're aiming to <strong>minimize</strong> it (e.g., cost).</p>
+
+<p>Now that our decision matrix is ready, we can use our preferred algorithm to rank the alternatives. For simplicity, let’s start with the <strong>Weighted Sum Model</strong> (WSM).</p>
+
+<p>---</p>
+
+<h3>Quick Intro to Weighted Sum Model</h3>
+
+<p>The <strong>Weighted Sum Model (WSM)</strong> is a straightforward multi-criteria decision-making technique used to rank alternatives based on multiple criteria. Here’s a brief overview:</p>
+
+<ol class="markdown-list"><li><strong>Purpose:</strong> WSM helps to evaluate different options by scoring them against several criteria and aggregating these scores into a single overall score for each alternative.</li><li><strong>Process:</strong></li><li><strong>Criteria Weighting:</strong> Each criterion is assigned a weight based on its importance relative to the other criteria.</li><li><strong>Score Calculation:</strong> Each alternative is scored for each criterion.</li><li><strong>Weighted Scores:</strong> The scores for each criterion are multiplied by their respective weights.</li><li><strong>Aggregation:</strong> The weighted scores are summed to produce an overall score for each alternative.</li><li><strong>Decision Making:</strong> The alternative with the highest overall score is considered the best option.</li><li><strong>Assumptions:</strong> WSM assumes that all criteria are commensurable and can be compared directly, which may not always be true in real-world scenarios.</li><li><strong>Limitations:</strong> While simple and intuitive, WSM may not effectively handle criteria with different units or non-linear relationships.</li></ol>
+
+<p>Overall, the Weighted Sum Model is popular due to its ease of use and straightforward implementation, making it a good starting point for multi-criteria decision-making.</p>
+
+<p>---</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">ws_pipe = mkpipe(
+    InvertMinimize(),
+    SumScaler(target=&quot;both&quot;),
+    WeightedSumModel(),
+)
+df_ws_ranks = ws_pipe.evaluate(dm).to_series().to_frame(&quot;Rank&quot;).sort_values(&quot;Rank&quot;)
+df_ws_ranks</code></pre>
+
+<table class="markdown-table"><tr><th></th><th><strong>Rank</strong></th></tr><tr><td><strong>Alternatives</strong></td><td></td></tr><tr><td>Xiaomi 14</td><td>1</td></tr><tr><td>Samsung Galaxy S24</td><td>2</td></tr><tr><td>Apple iPhone 15</td><td>3</td></tr><tr><td>Google Pixel 9</td><td>4</td></tr></table>
+
+<p>Sweet and quick! 🙂 The Weighted Sum Model has ranked our smartphone options, and the <strong>Xiaomi 14</strong> emerges as the “best” choice among the four alternatives, despite not having the lowest price. Its storage capacity played a significant role in securing the top rank.</p>
+
+<p>Logically, this makes sense—nowadays, it’s easy to fill up device storage quickly, leading many users to subscribe to cloud services for extra space. It’s quite frustrating that in 2024, brands continue to release devices with relatively low storage capacities. Are they planning to push us toward their cloud services to boost their income?</p>
+
+<blockquote>Disclaimer: I am not affiliated with any of the brands mentioned above. Prices and phone specifications were quickly sourced from the internet for demonstration purposes only!<br></blockquote>
+
+<h3>Ranking Using Various Algorithms</h3>
+
+<p>While the Weighted Sum Model (WSM) is a useful starting point, more sophisticated models can offer additional insights in MCDM. The <code class="inline-code">scikit-criteria</code> library implements several advanced models, making it easier to apply and compare different MCDM techniques. Let's explore two alternatives to WSM:</p>
+
+<ol class="markdown-list"><li><em><strong>Weighted Product Model (WPM)</strong></em>: Another relatively simple model that uses multiplication instead of addition.</li><li><em><strong>Technique for Order of Preference by Similarity to Ideal Solution (TOPSIS)</strong></em>: A popular model that considers the distance from both ideal and negative-ideal solutions.</li></ol>
+
+<p>Key differences in implementation:</p>
+
+<ul class="markdown-list"><li>For WSM and WPM, we can continue using the SumScaler for normalization.</li><li>TOPSIS, being based on distance calculations, requires the use of VectorScaler instead of SumScaler.</li><li>Apart from this change in scaler, the implementation process remains similar across all three models.</li></ul>
+
+<p>To get a comprehensive view of our decision problem, let's apply all three models (WSM, WPM, and TOPSIS) and add their rankings to our initial dataframe.</p>
+
+<pre class="code-block language-python" data-language="python"><code class="language-python">ws_pipe = mkpipe(
+    InvertMinimize(),
+    SumScaler(target=&quot;both&quot;),
+    WeightedSumModel(),
+)
+wp_pipe = mkpipe(
+    InvertMinimize(),
+    SumScaler(target=&quot;both&quot;),
+    WeightedProductModel(),
+)
+tp_pipe = mkpipe(
+    NegateMinimize(),
+    SumScaler(target=&quot;weights&quot;),
+    VectorScaler(target=&quot;matrix&quot;),
+    TOPSIS(),
+)
+df_ws_ranks = ws_pipe.evaluate(dm).to_series().to_frame(&quot;Weigthet Sum Rank&quot;)
+df_wp_ranks = wp_pipe.evaluate(dm).to_series().to_frame(&quot;Weighted Product Rank&quot;)
+df_tp_ranks = tp_pipe.evaluate(dm).to_series().to_frame(&quot;TOPSIS Rank&quot;)
+
+<p>df_final = pd.concat([df_ws_ranks, df_wp_ranks, df_tp_ranks], axis=1)<br>df_final = df_final.merge(df_phones, left_index=True, right_index=True)<br>df_final = df_final.sort_values(&quot;Weigthet Sum Rank&quot;)<br>df_final</code></pre></p>
+
+<table class="markdown-table"><tr><th></th><th><strong>Weigthet Sum Rank</strong></th><th><strong>Weighted Product Rank</strong></th><th><strong>TOPSIS Rank</strong></th><th><strong>Price (EUR)</strong></th><th><strong>Weight (Gram)</strong></th><th><strong>Battery Life (Hour)</strong></th><th><strong>Storage (GB)</strong></th><th><strong>RAM (GB)</strong></th></tr><tr><td><strong>Phone</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Xiaomi 14</td><td>1</td><td>1</td><td>1</td><td>700</td><td>193</td><td>12.0</td><td>512</td><td>12</td></tr><tr><td>Samsung Galaxy S24</td><td>2</td><td>2</td><td>2</td><td>611</td><td>168</td><td>12.0</td><td>128</td><td>8</td></tr><tr><td>Apple iPhone 15</td><td>3</td><td>3</td><td>3</td><td>700</td><td>171</td><td>13.5</td><td>128</td><td>6</td></tr><tr><td>Google Pixel 9</td><td>4</td><td>4</td><td>4</td><td>830</td><td>198</td><td>13.0</td><td>128</td><td>12</td></tr></table>
+
+<p>Since our dataset is small and has few features, all models currently rank the alternatives the same way. However, in real-world scenarios, you may have dozens or even hundreds of alternatives with many more criteria. In those cases, different models can produce varying rankings. You can either choose a model based on its specific logic or take an average of several models' rankings for a more balanced approach.</p>
+
+<h1>Conclusion</h1>
+
+<p>Taking decisions and shaping our future is in our hands—this is the free will of humanity from the beginning. Decisions can lead to either flourishing or punishing consequences, so we should strive to make the best possible choices. Ideally, we shouldn't base decisions on a single criterion. It's wise to consider multiple factors. However, managing many criteria and alternatives can quickly become overwhelming, leading to biased decisions. To avoid these traps, data-driven decision-making and specialized algorithms can save time and help us make optimal choices.</p>
+
+<p>In the age of data, it's easy to find relevant information on both alternatives and their criteria. So, next time you're making an important decision, follow these three simple steps to avoid missed opportunities:</p>
+
+<ol class="markdown-list"><li>List all alternatives (options).</li><li>Gather as much information as possible for each.</li><li>Use ranking algorithms to guide your decision-making.</li></ol>
+
+<blockquote><em>Do not value anything more than it deserves. Either you will lose it or you will ruin yourself.</em> <strong>Rumi</strong></blockquote>
+            </div>
+
+            <!-- Post footer -->
+            <footer class="blog-post-footer">
+                <div class="post-sharing">
+                    <h4>Share this post:</h4>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text=Multi-Criteria%20Decision-Making%20using%20Python&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fmulti-criteria-decision-making-python%2F" target="_blank" class="share-btn twitter">
+                            🐦 Twitter
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fmulti-criteria-decision-making-python%2F" target="_blank" class="share-btn linkedin">
+                            💼 LinkedIn
+                        </a>
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
+                            📋 Copy Link
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="post-navigation">
+                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../">Home</a>
+                    <a href="../../about">About</a>
+                    <a href="../../blog">Blog</a>
+                    <a href="../../contact">Contact</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Scripts -->
+    <script src="../../js/env-config.js"></script>
+    <script src="../../js/config-public.js"></script>
+    <script src="../../js/main.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    
+    <!-- Blog post functionality - load after Prism -->
+    <script src="../../js/blog-post.js"></script>
+    
+    <!-- Simple page view counter -->
+    <script>
+        fetch('https://amanabdullayev.goatcounter.com/counter/blog/multi-criteria-decision-making-python/.json')
+            .then(response => response.json())
+            .then(data => {
+                const el = document.getElementById('page-views');
+                if (el && data.count) {
+                    el.textContent = '📊 ' + data.count + ' views';
+                }
+            })
+            .catch(() => {
+                document.getElementById('page-views').style.display = 'none';
+            });
+    </script>
+</body>
+</html>

@@ -20,6 +20,22 @@ class NodeMarkdownProcessor {
             return `\n__CODE_BLOCK_${codeBlockIndex++}__\n`;
         });
 
+        // Protect LaTeX equations
+        const mathEquations = [];
+        let mathIndex = 0;
+        
+        // Protect display math ($$...$$) first
+        content = content.replace(/\$\$([\s\S]*?)\$\$/g, (match, equation) => {
+            mathEquations.push(match);
+            return `__MATH_EQUATION_${mathIndex++}__`;
+        });
+        
+        // Protect inline math ($...$) 
+        content = content.replace(/\$([^$\n\r]+)\$/g, (match, equation) => {
+            mathEquations.push(match);
+            return `__MATH_EQUATION_${mathIndex++}__`;
+        });
+
         // Extract and temporarily replace inline code
         const inlineCodes = [];
         let inlineCodeIndex = 0;
@@ -72,6 +88,11 @@ class NodeMarkdownProcessor {
         // Restore inline code
         inlineCodes.forEach((code, index) => {
             html = html.replace(`__INLINE_CODE_${index}__`, `<code class="inline-code">${this.escapeHtml(code)}</code>`);
+        });
+
+        // Restore math equations (preserve as-is for MathJax)
+        mathEquations.forEach((equation, index) => {
+            html = html.replace(`__MATH_EQUATION_${index}__`, equation);
         });
 
         return html;
@@ -412,6 +433,25 @@ function createBlogPostTemplate(post, renderedContent) {
     
     <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- MathJax for LaTeX equation rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
 </head>
 <body>
     <header>
