@@ -141,7 +141,7 @@ Let’s say we want to measure the effect of **app usage** on CLV. If it turns o
 
 But here’s the catch: before acting, we need to know the **causal effect** of app usage on CLV.
 
-Suppose we look at a regression and see that the coefficient for `app_user` is **+19.6**. That means app users bring, $19.6 more in CLV.
+Suppose we look at a regression and see that the coefficient for `app_user` is **+19.6**. That means app users bring, USD 19.6 more in CLV.
 
 But is that really a **causal effect**—or just a correlation?
 
@@ -165,7 +165,7 @@ importance
 
 ### Avg CLV: App Users vs. Non-App Users
 
-Now, let’s make a simple comparison: compare the average CLV of app users vs non-app users. Surprisingly, the difference is `$46.5`.
+Now, let’s make a simple comparison: compare the average CLV of app users vs non-app users. Surprisingly, the difference is `USD 46.5`.
 
 ```python
 app_user_mean = df.query("app_user == 1")["clv_365"].mean()
@@ -176,12 +176,12 @@ difference = app_user_mean - non_app_user_mean
 ![Avg CLV comparison of App users vs Non-App users](blog_images/blog_07_03.png)
 
 
-So, what’s the **true effect**—$19.6 or $46.5? Why does the estimated effect of app usage vary so much?
+So, what’s the **true effect**—USD 19.6 or USD 46.5? Why does the estimated effect of app usage vary so much?
 
 This matters because it directly affects your marketing decisions.
 
-- If you spend $46.5 per app install but the true effect is only $19.6, you’re losing money.
-- Conversely, if you spend $19.6 and the true effect is $46.5, you could afford to push even more app installs.
+- If you spend USD 46.5 per app install but the true effect is only USD 19.6, you’re losing money.
+- Conversely, if you spend USD 19.6 and the true effect is USD 46.5, you could afford to push even more app installs.
 
 Knowing the **causal effect** helps you make decisions that actually move the needle.
 
@@ -230,22 +230,18 @@ rmse = np.sqrt(mse)
 r2 = r2_score(y_test, y_pred)
 print(f"Root Mean Squared Error: {rmse:.2f}")
 print(f"R-squared: {r2:.2f}")
-
-##################### Step 2: Set app_user=1 for all users #######################
+##################### Step 2: Set app_user=1 for all users ####################
 X_all = pd.concat([X_train, X_test], axis=0)
 y_all = pd.concat([y_train, y_test], axis=0)
 model_3.fit(X_all, y_all)
 # X_all treated
 X_all["app_user"] = 1  # Set all customers to treatment (app user)
 y_pred_treated = model_3.predict(X_all)
-
-##################### Step 3: Set app_user=0 for all users #######################
+##################### Step 3: Set app_user=0 for all users #####################
 # X_all control
 X_all["app_user"] = 0  # Set all customers to control (non-app user)
 y_pred_control = model_3.predict(X_all)
-
 ##################### Step 4: CATE calculation #######################
-# Calculate the treatment effect
 df_customers_analysis = df_customers.copy()
 df_customers_analysis["clv_if_all_app_users"] = y_pred_treated.round(2)
 df_customers_analysis["clv_if_all_non_app_users"] = y_pred_control.round(2)
@@ -276,23 +272,23 @@ The difference between these two values represents the **heterogeneous effect of
 
 Let’s visualize the results.
 
-- In the **left chart**, you can see the distribution of treatment effects, centered around **$40**.
+- In the **left chart**, you can see the distribution of treatment effects, centered around **USD 40**.
 - In the **right chart**, each customer’s actual CLV is shown alongside their hypothetical CLV if their app usage status were reversed: **red dots** indicate CLV if they were *not* app users, and **green dots** if they were app users.
 
 ![Causal Model Results](blog_images/blog_07_05.png)
 
-The average of all individual CATEs gives the **Average Treatment Effect (ATE)**—the expected uplift in CLV **per app user** on average. In our case, it is **`$40`**
+The average of all individual CATEs gives the **Average Treatment Effect (ATE)**—the expected uplift in CLV **per app user** on average. In our case, it is **`USD 40`**
 
 ## Conclusion
 
-Using the **S-learner** approach (essentially a slightly adapted predictive ML model), we estimate the **average treatment effect (ATE)** of app usage on CLV to be **$40**.
+Using the **S-learner** approach (essentially a slightly adapted predictive ML model), we estimate the **average treatment effect (ATE)** of app usage on CLV to be **USD 40**.
 
 Compare this to:
 
-- **Linear regression coefficient:** $19.6 (underestimates the effect)
-- **Raw group difference:** $46.5 (overestimates the effect)
+- **Linear regression coefficient:** USD 19.6 (underestimates the effect)
+- **Raw group difference:** USD 46.5 (overestimates the effect)
 
-For reference, when we generated the data, the true effect was **$40**, confirming that the S-learner estimate is accurate.
+For reference, when we generated the data, the true effect was **USD 40**, confirming that the S-learner estimate is accurate.
 
 This example highlights the power of causal models: if you want to **understand** and **influence** outcomes—not just predict them—they’re essential.
 
