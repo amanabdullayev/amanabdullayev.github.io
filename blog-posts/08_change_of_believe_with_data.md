@@ -22,11 +22,11 @@ However, the *type of information* we consume is crucial—it either shifts our 
 - If we expose ourselves to new or contradictory information, our beliefs may shift—or even overturn completely. The extent and frequency of exposure matter a lot in determining how quickly this shift happens.  
 
 Consider this example:  
-- Suppose you believe that Muslims are terrorists (shaped, perhaps, by Western media or events like 9/11). You then consume arguments reinforcing this idea—books, videos, and friends who support the same worldview. Over time, your belief hardens so much that no one can convince you otherwise.  
+- Suppose you believe that Muslims are terrorists (*shaped, perhaps, by Western media or events like 9/11*). You then consume arguments reinforcing this idea—books, videos, and friends who support the same worldview. Over time, your belief hardens so much that no one can convince you otherwise.  
 - But if you step outside that bubble and engage with neutral arguments (e.g., *maybe terrorists, maybe not*), you might reach a middle ground—neither fully supporting nor rejecting the idea.  
 - If you continue to consume arguments disproving the stereotype—making Muslim friends, reading different books, watching alternative perspectives—eventually your earlier belief fades. At some point, you might even come to admire Islam deeply enough to embrace it.  
 
-This isn’t just theory. There are real-life examples, such as [Joram Jaron van Klaveren](https://en.wikipedia.org/wiki/Joram_van_Klaveren), a former Dutch parliament member who was initially outspoken against Islam. He even began writing an anti-Islam book to show the world how “evil” Islam supposedly was. Yet, during his research, he encountered evidence that changed his mind. He converted to Islam and began spreading the truth he had discovered through his books and *dawah*.  
+This isn’t just theory. There are real-life examples, such as [Joram Jaron van Klaveren](https://en.wikipedia.org/wiki/Joram_van_Klaveren), a former Dutch parliament member who was initially outspoken against Islam. He even began writing an anti-Islam book to show the world how “evil” Islam supposedly was. Yet, during his research, he encountered evidence that changed his mind. He converted to Islam and began spreading the truth he had discovered through his book.  
 
 This dynamic shift in belief is exactly what **Bayes’ theorem** models mathematically. It shows, in formal terms, how beliefs can update as new data comes in.
 
