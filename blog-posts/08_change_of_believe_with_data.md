@@ -91,6 +91,8 @@ For example: [**2015 Knowledge Neglect Study**](https://www.apa.org/pubs/journal
 
 This effect is heavily exploited by mass media and political campaigns: falsehoods are repeated until they are accepted as fact. We see this today—constant propaganda conditions people to justify atrocities, occupations, ethnic cleansing, and even genocide against civilians simply because repeated misinformation has shaped their worldview.  
 
+![Narrative with Facts](blog_images/blog_08_cover.png)
+
 **Takeaway:** Be intentional about what you consume—news, books, movies, and even the company you keep. Repetition shapes belief far more than we often realize.  
 
 
