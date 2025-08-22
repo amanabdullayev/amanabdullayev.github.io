@@ -2,7 +2,7 @@
 
 **Published:** August 22, 2025 
 **Tags:** Bayesian, Lifestyle
-**Excerpt:** In this blog, I gave an overview of how beliefs evolve with evidence, as explained by Bayes’ theorem, and how repetition can make false information feel true - Illusionary Truth Effect, sometimes even justifying unjustifiable actions today.
+**Excerpt:** False information, repeated often enough, starts to feel true. We see this today when people try to ‘justify the unjustifiable.’ In this blog, I unpack how repetition shapes belief—the Illusionary Truth Effect—and connect it with the Bayesian way our minds update evidence.
 **Slug:** illusionary-truth-effect
 **Cover Image Path:** blog_images/blog_08_cover.png
 
