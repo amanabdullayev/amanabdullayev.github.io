@@ -156,8 +156,8 @@ Your blog content here using standard markdown...
 
 
 ## Improvement Ideas
-- Cover images for each blog post
-- Ensure full excerpt is shown as preview of a blog
+- ~~Cover images for each blog post~~
+- ~~Ensure full excerpt is shown as preview of a blog~~
 - ~~Analytics integration~~ ✅ **COMPLETED** GoatCounter
 - ~~Blog view counter~~ ✅ **COMPLETED** get GoatCounter stats
 - Fix Social link sharing preview images
