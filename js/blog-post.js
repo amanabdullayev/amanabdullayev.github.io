@@ -31,8 +31,8 @@ class BlogPostPage {
                         block.style.transform = 'translateZ(0)';
                     });
                     
-                    // Initialize code block toggles after syntax highlighting
-                    setTimeout(() => this.initializeCodeBlockToggles(), 100);
+                    // Initialize code block toggles after syntax highlighting with longer delay for stability
+                    setTimeout(() => this.initializeCodeBlockToggles(), 200);
                 } catch (error) {
                     console.warn('Prism highlighting failed:', error);
                     this.applyFallbackCodeStyling();
@@ -126,12 +126,14 @@ class BlogPostPage {
                 if (container.classList.contains('collapsed')) {
                     container.classList.remove('collapsed');
                     container.classList.add('expanded');
+                    container.style.display = 'block'; // Show the code block
                     button.setAttribute('aria-expanded', 'true');
                     button.textContent = button.textContent.replace('Show code', 'Hide code');
                     console.log("Expanded code block");
                 } else {
                     container.classList.remove('expanded');
                     container.classList.add('collapsed');
+                    container.style.display = 'none'; // Hide the code block
                     button.setAttribute('aria-expanded', 'false');
                     button.textContent = button.textContent.replace('Hide code', 'Show code');
                     console.log("Collapsed code block");
@@ -142,8 +144,10 @@ class BlogPostPage {
             const container = button.closest('.code-block-wrapper').querySelector('.code-block-container');
             if (container.classList.contains('collapsed')) {
                 button.setAttribute('aria-expanded', 'false');
+                container.style.display = 'none'; // Ensure it's hidden
             } else if (container.classList.contains('expanded')) {
                 button.setAttribute('aria-expanded', 'true');
+                container.style.display = 'block'; // Ensure it's shown
             }
         });
     }
