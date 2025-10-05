@@ -137,10 +137,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-
-    
 ![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_6_0.png)
-    
 
 
 ### Sampling Distribution: The Power of Sample Means
@@ -191,7 +188,6 @@ mean_of_sample_means = df_samples_mean["weight"].mean()
 std_of_sample_means = df_samples_mean["weight"].std()
 true_population_mean = df_population["weight"].mean()
 plt.figure(figsize=(8, 5))
-
 # Plot histogram with KDE of sample means
 sns.histplot(
     data=df_samples_mean,
@@ -204,7 +200,6 @@ sns.histplot(
     edgecolor="white",
     label=f"Mean of Sample Means ({mean_of_sample_means:.1f}) ± {std_of_sample_means:.2f}",
 )
-
 # Add vertical line for the population mean
 plt.axvline(
     x=true_population_mean,
@@ -241,11 +236,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-
-    
 ![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_11_0.png)
-    
-
 
 ### Single Sample vs. Thousands of Samples: The Magic of Standard Error
 
@@ -344,8 +335,6 @@ sns.despine()
 plt.tight_layout()
 plt.show()
 ```
-
-
     
 ![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_13_0.png)
     
@@ -360,8 +349,6 @@ Additionally, the **uncertainty** we computed around our single sample mean guar
 Sample size is crucial because it appears in the **denominator of the standard error** formula. Small samples may not represent the population well, leading to higher variability.
 
 Increasing the sample size ($n$) **reduces the standard error** and **narrows the confidence interval**, improving the accuracy of our estimate. The simulation below shows how the mean, standard error, and confidence interval change with different sample sizes.
-
-
 
 ```python
 df_stats_by_sample_size = pd.DataFrame(
@@ -448,8 +435,6 @@ sns.despine()
 plt.tight_layout()
 plt.show()
 ```
-
-
     
 ![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_16_0.png)
     
@@ -506,7 +491,6 @@ Imagine a friend from a country called **“Wonderstan”** claims their populat
 * Use our **500-person sample from No Ones Land**
 
 
-
 ```python
 df_no_ones_land_single_sample = (
     df_single_sample.reset_index(drop=True).copy().drop(columns=["sample_id"])
@@ -554,8 +538,6 @@ plt.grid(alpha=0.3)
 sns.despine()
 plt.show()
 ```
-
-
     
 ![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_23_0.png)
     
@@ -609,8 +591,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-
-    
 ![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_25_0.png)
     
 
@@ -676,7 +656,7 @@ print(f"T-Statistic: {t_statistic:.2f}")
     T-Statistic: 2.88
 
 
-We found that the **t-statistic** is $\text{t-statistic} = 2.88$. Now, we can plot a **standard normal distribution** and see where this value falls. As shown in the chart below, the t-statistic lies **outside the 95% range**. Therefore, we **reject $H_0$** — there is a statistically significant difference between the weights of the two countries.
+We found that the **test statistic** is $\text{t-statistic} = 2.88$. Now, we can plot a **standard normal distribution** and see where this value falls. As shown in the chart below, the test statistic lies **outside the 95% range**. Therefore, we **reject $H_0$** — there is a statistically significant difference between the weights of the two countries.
 
 
 ```python
@@ -776,8 +756,6 @@ print(f"Test Statistic (z-score): {t_statistic:.4f}")
 print(f"Critical Values (α = {alpha}): {lower_critical:.2f} and {upper_critical:.2f}")
 print(f"P-value: {p_value:.4f}")
 print("-" * 50)
-
-# Determine if we reject the null hypothesis
 if t_statistic < lower_critical or t_statistic > upper_critical:
     print("Decision: Reject the null hypothesis.")
     print("Conclusion: There is a statistically significant difference")
@@ -872,7 +850,6 @@ for i, group in enumerate(df_summary_stats["country"]):
         capsize=5,
         label=group,
     )
-
 # Customize plot appearance
 plt.title("Obese Rate with 95% Confidence Intervals")
 plt.xlabel("Country")
@@ -950,7 +927,6 @@ lower_critical = stats.norm.ppf(alpha / 2)  # 2.5th percentile
 upper_critical = stats.norm.ppf(1 - alpha / 2)
 # Create the plot
 plt.figure(figsize=(8, 5))
-
 # Plot standard normal distribution curve
 plt.plot(
     x,
@@ -959,7 +935,6 @@ plt.plot(
     color=high_contrast_colors[0],
     linewidth=2,
 )
-
 # Add test statistic vertical line
 plt.vlines(
     t_statistic,
@@ -970,8 +945,6 @@ plt.vlines(
     color=high_contrast_colors[1],
     linewidth=5,
 )
-
-
 # Plot critical values
 plt.vlines(
     lower_critical,
@@ -982,7 +955,6 @@ plt.vlines(
     linewidth=2,
     linestyle="--",
 )
-
 plt.vlines(
     upper_critical,
     ymin=0,
@@ -991,7 +963,6 @@ plt.vlines(
     linewidth=2,
     linestyle="--",
 )
-
 # Fill rejection regions
 plt.fill_between(
     x[x <= lower_critical],
@@ -1008,7 +979,6 @@ plt.fill_between(
     alpha=0.2,
     color=high_contrast_colors[3],
 )
-
 # Add labels and title
 plt.title(
     "Hypothesis Test: Standard Normal Distribution with Test Statistic", fontsize=14
@@ -1021,8 +991,6 @@ sns.despine()
 plt.tight_layout()
 plt.show()
 ```
-
-
     
 ![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_37_0.png)
     
@@ -1035,15 +1003,12 @@ if t_statistic < 0:
     p_value = 2 * stats.norm.cdf(t_statistic)  # Left tail * 2
 else:
     p_value = 2 * (1 - stats.norm.cdf(t_statistic))  # Right tail * 2
-
-
 print(f"Mean Difference: {mean_difference:.4f}")
 print(f"Standard Error of the Difference: {standard_error_of_difference:.4f}")
 print(f"Test Statistic (z-score): {t_statistic:.4f}")
 print(f"Critical Values (α = {alpha}): {lower_critical:.4f} and {upper_critical:.4f}")
 print(f"P-value: {p_value:.8f}")
 print("-" * 50)
-
 # Determine if we reject the null hypothesis
 if t_statistic < lower_critical or t_statistic > upper_critical:
     print("Decision: Reject the null hypothesis.")
@@ -1091,14 +1056,12 @@ no_ones_land_data_points = df_ab_test[df_ab_test["country"] == "No Ones Land"][
 result = stats.ttest_ind(
     no_ones_land_data_points, wonderstan_data_points, equal_var=False
 )  # Welch's t-test (doesn't assume equal variances)
-
 # Display the comprehensive results
 print("Independent Samples T-Test Results:")
 print("-" * 50)
 print(f"T-statistic: {result.statistic:.4f}")
 print(f"P-value: {result.pvalue:.8f}")
 print("-" * 50)
-
 # Interpret results
 alpha = 0.05
 if result.pvalue < alpha:
@@ -1138,7 +1101,6 @@ print("-" * 50)
 print(f"T-statistic: {zscore_:.4f}")
 print(f"P-value: {pvalue:.8f}")
 print("-" * 50)
-
 if pvalue < 0.05:
     print(f"Decision: Reject the null hypothesis (p = {pvalue:.8f} < α = 0.05).")
 else:
