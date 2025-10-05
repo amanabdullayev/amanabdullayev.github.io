@@ -176,7 +176,7 @@ Plotting a histogram of these sample means, we observe that the **distribution i
 
 If we take one more average — the **mean of these sample means** — we get an approximation of the **population mean**, which closely matches the actual mean of our original dataset `df_population`.
 
-Additionally, we can calculate the **standard deviation of the sample means**, which shows how much the sample means tend to vary from the true population mean. *(Teaser: remember this number—we’ll come back to it later.)*
+Additionally, we can calculate the **standard deviation of the sample means**, which shows how much the sample means tend to vary from the true population mean. *( Teaser: remember this number—we’ll come back to it later. )*
 
 We can also determine the range where about **95% of the sample means** are expected to fall — this is known as the **confidence interval**.
 
@@ -456,12 +456,12 @@ Now that we’ve refreshed our understanding of estimating population parameters
 
 Depending on the type of data:
 
-* For **continuous data** (e.g., weight, acquisition cost), we compare **means**.
-* For **binary data** (e.g., conversion rates, success rate), we compare **proportions**.
+* For **continuous data** ( e.g., weight, acquisition cost ), we compare **means**.
+* For **binary data** ( e.g., conversion rates, success rate ), we compare **proportions**.
 
 **General process:**
 
-1. Calculate group statistics with uncertainty (mean/proportion, SE)
+1. Calculate group statistics with uncertainty ( mean/proportion, SE )
 2. Assess whether the observed differences are **statistically significant**
 
 
@@ -470,18 +470,18 @@ Depending on the type of data:
 Here are two approaches to compare two groups. The first is less commonly used directly, while the second is the standard method for A/B testing:
 
 1. **Confidence Interval Overlap**
-   Compute the means (or proportions) and SEs for each group, then build confidence intervals.
+   Compute the means ( or proportions ) and SEs for each group, then build confidence intervals.
 
    * If the **intervals do not overlap**, reject $H_0$ — the groups differ.
 
-2. **Standardized Difference (z-score / t-statistic)**
+2. **Standardized Difference ( z-score / t-statistic )**
    This is the **de facto standard** for A/B testing.
 
    Steps:
 
-   * Compute the **test statistic** ($\text{t-statistic}$) using the sample means and variances. The formula differs slightly for means versus proportions (details follow in the corresponding sections).
+   * Compute the **test statistic** ($\text{t-statistic}$) using the sample means and variances. The formula differs slightly for means versus proportions ( details follow in the corresponding sections ).
    * Check where this ($\text{t-statistic}$) falls in a **standard normal distribution** ($\mu = 0$, $\sigma = 1$); 95% of values lie within ±1.96).
-   * Compute the **p-value** — the probability of observing a result as extreme as the ($\text{t-statistic}$) under $H_0$. Reject $H_0$ if $p < \alpha$ ( commonly 0.05 ).
+   * Compute the **p-value** — the probability of observing a result as extreme as the ($\text{t-statistic}$) under $H_0$. Reject $H_0$ if $p < \alpha$ ( commonly alpha is 0.05 ).
 
 
 ## Practical Example: Comparing Group Means
@@ -543,7 +543,7 @@ plt.show()
     
 
 
-Next, we calculate the **means** for each sample along with the **uncertainty** ( standard deviation → standard error → confidence interval ). Then, we check whether the **confidence intervals overlap** to see if the difference is statistically significant.
+Next, we calculate the **means** for each sample along with the **uncertainty**. Then, we check whether the **confidence intervals overlap** to see if the difference is statistically significant.
 
 
 ```python
