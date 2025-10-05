@@ -52,7 +52,7 @@ Suppose we are tasked with finding the **average weight of people** in a country
 
 Instead, we can **sample people from different locations** across the country to estimate the population mean. For example, we visit **1,000 locations**, and in each location, we ask **500 people** for their weight. These samples are stored in `df_samples` and you can see head of that dataframe below.  
 
-*(Note: This is synthetic data. I generated it using a normally distributed population and randomly selected 1,000 samples of 500 points each. The synthetic population is in `df_population`.)*
+> Note: This is synthetic data. I generated it using a normally distributed population and randomly selected 1,000 samples of 500 points each. The synthetic population is in `df_population`.
 
 
 ```python
@@ -137,7 +137,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_6_0.png)
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_6_0.png)
 
 
 ### Sampling Distribution: The Power of Sample Means
@@ -236,7 +236,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_11_0.png)
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_11_0.png)
 
 ### Single Sample vs. Thousands of Samples: The Magic of Standard Error
 
@@ -336,7 +336,7 @@ plt.tight_layout()
 plt.show()
 ```
     
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_13_0.png)
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_13_0.png)
     
 
 
@@ -436,7 +436,7 @@ plt.tight_layout()
 plt.show()
 ```
     
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_16_0.png)
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_16_0.png)
     
 
 
@@ -481,7 +481,7 @@ Here are two approaches to compare two groups. The first is less commonly used d
 
    * Compute the **test statistic** ($\text{t-statistic}$) using the sample means and variances. The formula differs slightly for means versus proportions (details follow in the corresponding sections).
    * Check where this ($\text{t-statistic}$) falls in a **standard normal distribution** ($\mu = 0$, $\sigma = 1$); 95% of values lie within ±1.96).
-   * Compute the **p-value** — the probability of observing a result as extreme as the ($\text{t-statistic}$) under $H_0$. Reject $H_0$ if $p < \alpha$ (commonly 0.05).
+   * Compute the **p-value** — the probability of observing a result as extreme as the ($\text{t-statistic}$) under $H_0$. Reject $H_0$ if $p < \alpha$ ( commonly 0.05 ).
 
 
 ## Practical Example: Comparing Group Means
@@ -539,11 +539,11 @@ sns.despine()
 plt.show()
 ```
     
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_23_0.png)
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_23_0.png)
     
 
 
-Next, we calculate the **means** for each sample along with the **uncertainty** (standard deviation → standard error → confidence interval). Then, we check whether the **confidence intervals overlap** to see if the difference is statistically significant.
+Next, we calculate the **means** for each sample along with the **uncertainty** ( standard deviation → standard error → confidence interval ). Then, we check whether the **confidence intervals overlap** to see if the difference is statistically significant.
 
 
 ```python
@@ -590,7 +590,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_25_0.png)
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_25_0.png)
     
 
 
@@ -626,7 +626,7 @@ $$
 3. **Decision**
 
    * Compute the **p-value** — the probability of observing a $\text{t-statistic}$ this extreme under $H_0$.
-   * Reject (H_0) if (p < 0.05).
+   * Reject $H_0$ if $p < 0.05$.
 
 
 
@@ -639,7 +639,7 @@ no_ones_land_data_points = df_ab_test[df_ab_test["country"] == "No Ones Land"][
 ].values
 mean_difference = wonderstan_data_points.mean() - no_ones_land_data_points.mean()
 print(
-    f"Mean Difference (Mean of Wonderstan - Mean of No Ones Land): {mean_difference:.2f}"
+    f"Mean Difference: {mean_difference:.2f}"
 )
 standard_error_of_difference = np.sqrt(
     np.var(wonderstan_data_points) / len(wonderstan_data_points)
@@ -650,7 +650,7 @@ t_statistic = mean_difference / standard_error_of_difference
 print(f"T-Statistic: {t_statistic:.2f}")
 ```
 
-    Mean Difference (Mean of Wonderstan - Mean of No Ones Land): 2.62
+    Mean Difference: 2.62
     Standard Error of the Difference: 0.91
     T-Statistic: 2.88
 
@@ -734,8 +734,7 @@ plt.show()
 
 
     
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_29_0.png)
-    
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_29_0.png)
 
 
 For formality, we can calculate the **p-value** as follows and summarize our A/B test comparing the weights of **Wonderstan** and **No Ones Land**:
@@ -862,13 +861,12 @@ plt.show()
 
 
     
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_34_0.png)
-    
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_34_0.png)
 
 
 As we can see, the **confidence intervals overlap**, indicating that there is **no significant difference** between the countries’ obesity rates.
 
-Similar to our comparison of means, we can calculate the **t test statistic (z-statistic for proportions)**, plot it on a standard normal distribution, and check whether it falls within the **95% critical values**. We can then formalize the result by computing the **p-value**.
+Similar to our comparison of means, we can calculate the **t test statistic** (z-statistic for proportions), plot it on a standard normal distribution, and check whether it falls within the **95% critical values**. We can then formalize the result by computing the **p-value**.
 
 **We will use following formula to calculate the test statistic:**
 
@@ -895,7 +893,7 @@ no_ones_land_data_points = df_ab_test[df_ab_test["country"] == "No Ones Land"][
 ].values
 mean_difference = wonderstan_data_points.mean() - no_ones_land_data_points.mean()
 print(
-    f"Mean Difference (Mean of Wonderstan - Mean of No Ones Land): {mean_difference:.2f}"
+    f"Mean Difference: {mean_difference:.2f}"
 )
 pooled_rate = (wonderstan_data_points.sum() + no_ones_land_data_points.sum()) / (
     len(wonderstan_data_points) + len(no_ones_land_data_points)
@@ -910,7 +908,7 @@ t_statistic = mean_difference / standard_error_of_difference
 print(f"T-Statistic: {t_statistic:.2f}")
 ```
 
-    Mean Difference (Mean of Wonderstan - Mean of No Ones Land): -0.04
+    Mean Difference: -0.04
     Standard Error of the Difference: 0.04
     T-Statistic: -1.19
 
@@ -989,7 +987,7 @@ plt.tight_layout()
 plt.show()
 ```
     
-![png](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_37_0.png)
+![ ](blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_37_0.png)
     
 
 
