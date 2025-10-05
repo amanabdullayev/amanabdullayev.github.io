@@ -34,40 +34,18 @@ Let’s begin by understanding **why we sample data** instead of measuring entir
 # Data manipulation libraries
 import pandas as pd
 import numpy as np
-
-# Visualization libraries
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-# Statistical tools
 from scipy import stats
 from statsmodels.stats.proportion import proportions_ztest
-
-# Notebook settings
 import warnings
-
 warnings.filterwarnings("ignore")  # Suppress warnings for cleaner output
-# --- VISUALIZATION SETUP ---
-# Set consistent styling for all plots
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 100
 %config InlineBackend.figure_format = "retina"
 %load_ext jupyter_black
-# Color palettes for consistency across visualizations
-high_contrast_colors = [
-    "#003f5c",
-    "#ff6e54",
-    "#f9f871",
-    "#2db88b",
-    "#955196",
-]  # For primary visuals
-milder_colors = [
-    "#00798c",
-    "#d1495b",
-    "#edae49",
-    "#52a369",
-    "#756ab2",
-]  # For secondary visuals
+high_contrast_colors = ["#003f5c", "#ff6e54", "#f9f871", "#2db88b", "#955196",]  # For primary visuals
+milder_colors = ["#00798c", "#d1495b", "#edae49", "#52a369", "#756ab2",]  # For secondary visuals
 ```
 
 Suppose we are tasked with finding the **average weight of people** in a country named **"No Ones Land"**. The country has a population of **5 million people**, so weighing everyone is impractical.  
@@ -90,63 +68,13 @@ df_population.head()
 
     Shape of Population DataFrame: (5000000, 2)
 
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>weight</th>
-      <th>people_id</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>79.967142</td>
-      <td>person_1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>73.617357</td>
-      <td>person_2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>81.476885</td>
-      <td>person_3</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>90.230299</td>
-      <td>person_4</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>72.658466</td>
-      <td>person_5</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
+|    | weight     | people_id  |
+|---:|-----------:|:-----------|
+| 0  | 79.967142  | person_1   |
+| 1  | 73.617357  | person_2   |
+| 2  | 81.476885  | person_3   |
+| 3  | 90.230299  | person_4   |
+| 4  | 72.658466  | person_5   |
 
 
 ```python
@@ -166,69 +94,13 @@ df_samples.head()
 
     Shape of Samples DataFrame: (500000, 3)
 
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>sample_id</th>
-      <th>person_id</th>
-      <th>weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>sample_0</td>
-      <td>person_1</td>
-      <td>79.967142</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>sample_0</td>
-      <td>person_2</td>
-      <td>73.617357</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>sample_0</td>
-      <td>person_3</td>
-      <td>81.476885</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>sample_0</td>
-      <td>person_4</td>
-      <td>90.230299</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>sample_0</td>
-      <td>person_5</td>
-      <td>72.658466</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
+|    | sample_id | person_id  | weight     |
+|---:|:----------|:-----------|-----------:|
+| 0  | sample_0  | person_1   | 79.967142  |
+| 1  | sample_0  | person_2   | 73.617357  |
+| 2  | sample_0  | person_3   | 81.476885  |
+| 3  | sample_0  | person_4   | 90.230299  |
+| 4  | sample_0  | person_5   | 72.658466  |
 
 ## Examining Sample Distributions
 
@@ -282,62 +154,13 @@ Below is a head of our sample means dataframe, where each row represents the ave
 df_samples_mean = df_samples.groupby("sample_id").weight.mean().reset_index()
 df_samples_mean.head()
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>sample_id</th>
-      <th>weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>sample_0</td>
-      <td>75.068380</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>sample_1</td>
-      <td>75.318261</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>sample_10</td>
-      <td>74.671407</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>sample_100</td>
-      <td>74.977417</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>sample_101</td>
-      <td>74.991249</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
+|    | sample_id   | weight     |
+|---:|:------------|-----------:|
+| 0  | sample_0    | 75.068380  |
+| 1  | sample_1    | 75.318261  |
+| 2  | sample_10   | 74.671407  |
+| 3  | sample_100  | 74.977417  |
+| 4  | sample_101  | 74.991249  |
 
 
 Plotting a histogram of these sample means, we notice the **distribution is narrower** than the original weight distributions. While individual weights lie between 50 and 100 kg, sample means are mostly between **74 and 76 kg**.
@@ -701,69 +524,13 @@ df_ab_test = pd.concat(
 )
 df_ab_test.head()
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>person_id</th>
-      <th>weight</th>
-      <th>country</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>person_1</td>
-      <td>70.679798</td>
-      <td>No Ones Land</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>person_2</td>
-      <td>71.778589</td>
-      <td>No Ones Land</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>person_3</td>
-      <td>85.799607</td>
-      <td>No Ones Land</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>person_4</td>
-      <td>84.839126</td>
-      <td>No Ones Land</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>person_5</td>
-      <td>65.453063</td>
-      <td>No Ones Land</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
+|    | person_id  | weight     | country       |
+|---:|:-----------|-----------:|:-------------|
+| 0  | person_1  | 70.679798  | No Ones Land |
+| 1  | person_2  | 71.778589  | No Ones Land |
+| 2  | person_3  | 85.799607  | No Ones Land |
+| 3  | person_4  | 84.839126  | No Ones Land |
+| 4  | person_5  | 65.453063  | No Ones Land |
 
 First, let’s visualize the data. Plot histograms for each sample. The distributions overlap quite a bit, but the peak for **Wonderstan** is slightly to the right.
 
@@ -1065,87 +832,13 @@ df_ab_test["bmi"] = df_ab_test["weight"] / (df_ab_test["height"] / 100) ** 2
 df_ab_test["is_obese"] = df_ab_test["bmi"] >= 30
 df_ab_test.head()
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>person_id</th>
-      <th>weight</th>
-      <th>country</th>
-      <th>height</th>
-      <th>bmi</th>
-      <th>is_obese</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>person_1</td>
-      <td>70.679798</td>
-      <td>No Ones Land</td>
-      <td>169.967142</td>
-      <td>24.466135</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>person_2</td>
-      <td>71.778589</td>
-      <td>No Ones Land</td>
-      <td>163.617357</td>
-      <td>26.812430</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>person_3</td>
-      <td>85.799607</td>
-      <td>No Ones Land</td>
-      <td>171.476885</td>
-      <td>29.179250</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>person_4</td>
-      <td>84.839126</td>
-      <td>No Ones Land</td>
-      <td>180.230299</td>
-      <td>26.118040</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>person_5</td>
-      <td>65.453063</td>
-      <td>No Ones Land</td>
-      <td>162.658466</td>
-      <td>24.738686</td>
-      <td>False</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
+|    | person_id  | weight     | country       | height      | bmi        | is_obese |
+|---:|:-----------|-----------:|:-------------|-----------:|-----------:|:---------|
+| 0  | person_1  | 70.679798  | No Ones Land | 169.967142 | 24.466135  | False    |
+| 1  | person_2  | 71.778589  | No Ones Land | 163.617357 | 26.812430  | False    |
+| 2  | person_3  | 85.799607  | No Ones Land | 171.476885 | 29.179250  | False    |
+| 3  | person_4  | 84.839126  | No Ones Land | 180.230299 | 26.118040  | False    |
+| 4  | person_5  | 65.453063  | No Ones Land | 162.658466 | 24.738686  | False    |
 
 
 ```python
