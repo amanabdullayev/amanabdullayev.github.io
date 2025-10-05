@@ -97,7 +97,7 @@ class NodeMarkdownProcessor {
                             <span class="code-block-language">${displayLang}</span>
                             <button class="code-block-toggle" aria-expanded="false">Show code (${codeLength} lines)</button>
                         </div>
-                        <div class="code-block-container collapsed">
+                        <div class="code-block-container collapsed" style="display: none;">
                             <pre class="${preClass}"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>
                         </div>
                     </div>`);
@@ -107,7 +107,7 @@ class NodeMarkdownProcessor {
                         <div class="code-block-header">
                             <span class="code-block-language">${displayLang}</span>
                         </div>
-                        <div class="code-block-container">
+                        <div class="code-block-container" style="display: block;">
                             <pre class="${preClass}"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>
                         </div>
                     </div>`);

@@ -935,22 +935,39 @@ p code, li code, td code, th code, .inline-code {
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: inline-block;
 }
 
 .code-block-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Make sure the button is visible and clickable on all browsers */
+.code-block-toggle:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* Ensure the button is tap-friendly on mobile */
+@media (max-width: 768px) {
+    .code-block-toggle {
+        padding: 8px 12px; /* Larger touch target */
+    }
+}
+
 /* Code block container with toggle */
 .code-block-container.collapsed {
+    display: none;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
 }
 
 .code-block-container.expanded {
-    max-height: 2000px; /* Large enough to fit most code blocks */
-    transition: max-height 0.5s ease;
+    display: block;
+    max-height: none; /* Allow any height */
 }
 
 /* Adjust existing code block styles to fit in our new wrapper */

@@ -108,14 +108,19 @@ class BlogPostPage {
 
     // Initialize code block toggles for collapsible code sections
     initializeCodeBlockToggles() {
+        console.log("Initializing code block toggles");
         const toggleButtons = document.querySelectorAll('.code-block-toggle');
+        console.log(`Found ${toggleButtons.length} toggle buttons`);
         
         toggleButtons.forEach(button => {
+            // Add click event listener
             button.addEventListener('click', () => {
                 // Get the parent wrapper
                 const wrapper = button.closest('.code-block-wrapper');
                 // Get the code container
                 const container = wrapper.querySelector('.code-block-container');
+                
+                console.log("Toggle button clicked", container.classList);
                 
                 // Toggle the collapsed/expanded state
                 if (container.classList.contains('collapsed')) {
@@ -123,13 +128,23 @@ class BlogPostPage {
                     container.classList.add('expanded');
                     button.setAttribute('aria-expanded', 'true');
                     button.textContent = button.textContent.replace('Show code', 'Hide code');
+                    console.log("Expanded code block");
                 } else {
                     container.classList.remove('expanded');
                     container.classList.add('collapsed');
                     button.setAttribute('aria-expanded', 'false');
                     button.textContent = button.textContent.replace('Hide code', 'Show code');
+                    console.log("Collapsed code block");
                 }
             });
+            
+            // Ensure initial state is properly set
+            const container = button.closest('.code-block-wrapper').querySelector('.code-block-container');
+            if (container.classList.contains('collapsed')) {
+                button.setAttribute('aria-expanded', 'false');
+            } else if (container.classList.contains('expanded')) {
+                button.setAttribute('aria-expanded', 'true');
+            }
         });
     }
 }
