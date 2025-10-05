@@ -577,7 +577,6 @@ for i, group in enumerate(df_summary_stats["country"]):
         capsize=5,
         label=group,
     )
-
 # Customize plot appearance
 plt.title("Mean Exam Scores with 95% Confidence Intervals")
 plt.xlabel("Class Format")
@@ -1094,7 +1093,6 @@ zscore_, pvalue = proportions_ztest(
     [wonderstan_data_points.sum(), no_ones_land_data_points.sum()],
     [len(wonderstan_data_points), len(no_ones_land_data_points)],
 )
-
 # Display the comprehensive results
 print("Samples Proportions Z-Test Results:")
 print("-" * 50)
