@@ -1,6 +1,6 @@
 # A/B Testing Fundamentals: A Practical Guide for Data Analysis
 
-**Published:** October 22, 2025 
+**Published:** October 05, 2025 
 **Tags:** Statistics, Python
 **Excerpt:** This comprehensive guide walks you through sampling theory basics and hypothesis testing (A/B testing), featuring detailed examples comparing means and proportions between groups, along with intuitive visualizations to make the concepts easy to understand.
 **Slug:** a-b-testing-fundamentals
