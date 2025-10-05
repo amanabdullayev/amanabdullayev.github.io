@@ -348,7 +348,7 @@ Additionally, the **uncertainty** we computed around our single sample mean guar
 
 Sample size is crucial because it appears in the **denominator of the standard error** formula. Small samples may not represent the population well, leading to higher variability.
 
-Increasing the sample size ($n$) **reduces the standard error** and **narrows the confidence interval**, improving the accuracy of our estimate. The simulation below shows how the mean, standard error, and confidence interval change with different sample sizes.
+Increasing the sample size ($\text{n}$) **reduces the standard error** and **narrows the confidence interval**, improving the accuracy of our estimate. The simulation below shows how the mean, standard error, and confidence interval change with different sample sizes.
 
 ```python
 df_stats_by_sample_size = pd.DataFrame(
