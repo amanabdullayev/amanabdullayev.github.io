@@ -1006,4 +1006,18 @@ p code, li code, td code, th code, .inline-code {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+/* ===== MATH EQUATION STYLES ===== */
+.math-display {
+    display: block;
+    overflow-x: auto;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.math-inline {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0.1em;
+}
+
 /* ===== END ADDITIONAL BLOG COMPONENTS ===== */

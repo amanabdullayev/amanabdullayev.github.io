@@ -24,16 +24,22 @@ class NodeMarkdownProcessor {
         const mathEquations = [];
         let mathIndex = 0;
         
-        // Protect display math ($$...$$) first
+        // Protect display math ($$...$$) first - these are block equations
         content = content.replace(/\$\$([\s\S]*?)\$\$/g, (match, equation) => {
             mathEquations.push(match);
             return `\n<!--MATHJAX_DISPLAY_${mathIndex++}-->\n`;
         });
         
-        // Protect inline math ($...$) 
-        content = content.replace(/\$([^$\n\r]+)\$/g, (match, equation) => {
-            mathEquations.push(match);
-            return `<!--MATHJAX_INLINE_${mathIndex++}-->`;
+        // Protect inline math ($...$) using a more precise regex
+        // This ensures we match ONLY $...$ patterns where there are no spaces after opening $ and before closing $
+        // And requires at least one character between the dollar signs
+        content = content.replace(/\$([^\s$][^$]*?[^\s$])\$/g, (match, equation) => {
+            // Only treat as math if it contains mathematical notation using our helper
+            if (this.isMathematicalContent(equation)) {
+                mathEquations.push(match);
+                return `<!--MATHJAX_INLINE_${mathIndex++}-->`;
+            }
+            return match; // Return original if it doesn't look like math
         });
 
         // Extract and temporarily replace inline code
@@ -124,8 +130,8 @@ class NodeMarkdownProcessor {
 
         // Restore math equations (preserve as-is for MathJax) - do this LAST
         mathEquations.forEach((equation, index) => {
-            html = html.replace(`<!--MATHJAX_DISPLAY_${index}-->`, equation);
-            html = html.replace(`<!--MATHJAX_INLINE_${index}-->`, equation);
+            html = html.replace(`<!--MATHJAX_DISPLAY_${index}-->`, `<div class="math-display">${equation}</div>`);
+            html = html.replace(`<!--MATHJAX_INLINE_${index}-->`, `<span class="math-inline">${equation}</span>`);
         });
 
         return html;
@@ -340,6 +346,25 @@ class NodeMarkdownProcessor {
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;');
+    }
+
+    // Helper to determine if a string is likely mathematical content
+    isMathematicalContent(str) {
+        // Check for common mathematical symbols and patterns
+        const mathPatterns = [
+            /[\^_\\]/, // superscript, subscript, or LaTeX commands
+            /\\[a-zA-Z]+/, // LaTeX commands like \alpha, \beta
+            /[{}\[\]]/, // brackets and braces used in math
+            /[+\-*\/=<>~]/, // basic operators
+            /\\left|\\right/, // LaTeX delimiters
+            /\\begin|\\end/, // LaTeX environments
+            /\\frac|\\sqrt/, // Common LaTeX functions
+            /\\sum|\\prod|\\int/, // Common LaTeX symbols
+            /\\mathbf|\\mathcal|\\mathrm/ // Common LaTeX formatting
+        ];
+        
+        // Check if string contains at least one math pattern
+        return mathPatterns.some(pattern => pattern.test(str));
     }
 
     extractMetadata(content) {
