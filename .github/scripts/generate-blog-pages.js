@@ -86,9 +86,32 @@ class NodeMarkdownProcessor {
             const langClass = block.lang ? ` class="language-${block.lang}"` : '';
             const langAttribute = block.lang ? ` data-language="${block.lang}"` : '';
             const preClass = block.lang ? `code-block language-${block.lang}` : 'code-block';
+            const displayLang = block.lang ? block.lang : 'code';
+            const codeLength = block.code.split('\n').length;
             
-            html = html.replace(`__CODE_BLOCK_${index}__`, 
-                `<pre class="${preClass}"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>`);
+            // Only add toggle functionality for code blocks that are more than 10 lines
+            if (codeLength > 10) {
+                html = html.replace(`__CODE_BLOCK_${index}__`, 
+                    `<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">${displayLang}</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (${codeLength} lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed">
+                            <pre class="${preClass}"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>
+                        </div>
+                    </div>`);
+            } else {
+                html = html.replace(`__CODE_BLOCK_${index}__`, 
+                    `<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">${displayLang}</span>
+                        </div>
+                        <div class="code-block-container">
+                            <pre class="${preClass}"${langAttribute}><code${langClass}>${this.escapeHtml(block.code)}</code></pre>
+                        </div>
+                    </div>`);
+            }
         });
         
         // Process paragraphs (after code blocks are restored)

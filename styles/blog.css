@@ -894,4 +894,99 @@ p code, li code, td code, th code, .inline-code {
     }
 }
 
+/* ===== CODE BLOCK STYLES ===== */
+
+/* Code block wrapper and container */
+.code-block-wrapper {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-code);
+}
+
+/* Code block header */
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: var(--bg-code-header, #1e1e1e);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+/* Code language label */
+.code-block-language {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+/* Toggle button */
+.code-block-toggle {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.code-block-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Code block container with toggle */
+.code-block-container.collapsed {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.code-block-container.expanded {
+    max-height: 2000px; /* Large enough to fit most code blocks */
+    transition: max-height 0.5s ease;
+}
+
+/* Adjust existing code block styles to fit in our new wrapper */
+.code-block-container pre.code-block {
+    margin: 0;
+    border-radius: 0;
+    max-height: none;
+}
+
+/* Ensure proper spacing around the code */
+.code-block-container pre code {
+    padding: 16px;
+}
+
+/* Dark mode adjustments */
+:root[data-theme='dark'] .code-block-header {
+    background-color: #2a2a2a;
+}
+
+:root[data-theme='dark'] .code-block-toggle {
+    border-color: #444;
+}
+
+/* Light mode adjustments */
+:root[data-theme='light'] .code-block-header {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+:root[data-theme='light'] .code-block-toggle {
+    color: #333;
+    border-color: #ccc;
+}
+
+:root[data-theme='light'] .code-block-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
 /* ===== END ADDITIONAL BLOG COMPONENTS ===== */

@@ -10,6 +10,9 @@ class BlogPostPage {
         
         // Initialize code highlighting
         this.initializeCodeHighlighting();
+        
+        // Initialize code block toggles
+        this.initializeCodeBlockToggles();
     }
 
     // Initialize code highlighting with robust error handling
@@ -27,6 +30,9 @@ class BlogPostPage {
                         // Force repaint for better rendering
                         block.style.transform = 'translateZ(0)';
                     });
+                    
+                    // Initialize code block toggles after syntax highlighting
+                    setTimeout(() => this.initializeCodeBlockToggles(), 100);
                 } catch (error) {
                     console.warn('Prism highlighting failed:', error);
                     this.applyFallbackCodeStyling();
@@ -41,7 +47,7 @@ class BlogPostPage {
         applyPrismHighlighting();
         
         // Also try after a short delay for late-loaded scripts
-        setTimeout(applyPrismHighlighting, 200);
+        setTimeout(() => applyPrismHighlighting(), 200);
     }
 
     // Apply fallback styling when Prism.js is not available
@@ -98,6 +104,33 @@ class BlogPostPage {
                 });
             });
         }
+    }
+
+    // Initialize code block toggles for collapsible code sections
+    initializeCodeBlockToggles() {
+        const toggleButtons = document.querySelectorAll('.code-block-toggle');
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Get the parent wrapper
+                const wrapper = button.closest('.code-block-wrapper');
+                // Get the code container
+                const container = wrapper.querySelector('.code-block-container');
+                
+                // Toggle the collapsed/expanded state
+                if (container.classList.contains('collapsed')) {
+                    container.classList.remove('collapsed');
+                    container.classList.add('expanded');
+                    button.setAttribute('aria-expanded', 'true');
+                    button.textContent = button.textContent.replace('Show code', 'Hide code');
+                } else {
+                    container.classList.remove('expanded');
+                    container.classList.add('collapsed');
+                    button.setAttribute('aria-expanded', 'false');
+                    button.textContent = button.textContent.replace('Hide code', 'Show code');
+                }
+            });
+        });
     }
 }
 
