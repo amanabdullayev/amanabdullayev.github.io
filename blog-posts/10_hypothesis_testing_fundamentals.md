@@ -747,8 +747,6 @@ if t_statistic < 0:
     p_value = 2 * stats.norm.cdf(t_statistic)  # Left tail * 2
 else:
     p_value = 2 * (1 - stats.norm.cdf(t_statistic))  # Right tail * 2
-
-
 print(f"Mean Difference: {mean_difference:.2f}")
 print(f"Standard Error of the Difference: {standard_error_of_difference:.2f}")
 print(f"Test Statistic (z-score): {t_statistic:.4f}")
