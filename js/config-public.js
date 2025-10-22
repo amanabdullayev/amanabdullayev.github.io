@@ -208,13 +208,13 @@ const CONFIG = {
             description: "Ph.D. scholarship awarded by DAAD to support research in materials science focused on sustainable water filtration solutions."
         },
         {
-            title: "Gold Medal",
+            title: "Gold Medal 🥇",
             organization: "International Mendeleev Chemistry Olympiad (IMChO)",
             year: "2009, Ashgabat, Turkmenistan",
             description: "The International Mendeleev Chemistry Olympiad is a major international competition for high school students in theoretical and experimental chemistry. It started in the USSR as the All-Union Olympiad in Chemistry in 1967. Now more than 30 countries participate in IMChO."
         },
         {
-            title: "Silver Medal",
+            title: "Silver Medal 🥈",
             organization: "International Chemistry Olympiad (IChO)",
             year: "2009",
             description: "The International Chemistry Olympiad (IChO) is a prestigious annual competition for top high school chemists from over 80 countries, featuring challenging theoretical and experimental exams to promote global scientific excellence and collaboration."
