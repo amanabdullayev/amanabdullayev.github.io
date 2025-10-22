@@ -121,6 +121,12 @@
     padding: 1.5rem;
     box-shadow: 0 2px 8px var(--shadow-color);
     border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.education-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .education-degree {
@@ -136,7 +142,7 @@
     margin-bottom: 0.25rem;
 }
 
-.education-date {
+.education-year {
     color: var(--text-muted);
     font-size: 0.9rem;
     margin-bottom: 1rem;
@@ -145,6 +151,33 @@
 .education-description {
     color: var(--text-secondary);
     line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Honors and Publications sections use same grid layout */
+.honors-grid,
+.publications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Publication link styling */
+.publication-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.publication-link:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
 }
 
 /* Contact wrapper and form styles moved to main.css */

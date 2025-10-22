@@ -54,7 +54,9 @@
         justify-content: center;
     }
     
-    .education-grid {
+    .education-grid,
+    .honors-grid,
+    .publications-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
@@ -294,7 +296,9 @@
     .posts-grid,
     .stats-grid,
     .skills-grid,
-    .education-grid {
+    .education-grid,
+    .honors-grid,
+    .publications-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
