@@ -229,21 +229,21 @@ const CONFIG = {
             authors: "Abdullayev et al.",
             venue: "Membranes",
             year: "2019",
-            description: "In water treatment applications, the use of ceramic membranes is associated with numerous advantages relative to polymer-based filtration systems. High-temperature stability, fouling resistance, and low maintenance requirements contribute to lower lifecycle costs in such systems. However, the high production costs of most commercially available ceramic membranes, stemming from raw materials and processing, are uneconomical for such systems in most water treatment applications. For this reason, there is a growing demand for new ceramic membranes based on low-cost raw materials and processes. The use of unrefined mineral feedstocks, clays, cement, sands, and ash as the basis for the fabrication of ceramic membranes offers a promising pathway towards the obtainment of effective filtration systems that can be economically implemented in large volumes. The design of effective ceramic filtration membranes based on low-cost raw materials and energy-efficient processes requires a balance of pore structure, mass flow, and robustness, all of which are highly dependent on the composition of materials used, the inclusion of various pore-forming and binding additives, and the thermal treatments to which membranes are subjected. In this review, we present recent developments in materials and processes for the fabrication of low-cost membranes from unrefined raw materials, including clays, zeolites, apatite, waste products, including fly ash and rice husk ash, and cement. We examine multiple aspects of materials design and address the challenges relating to their further development.",
+            description: "In water treatment applications, the use of ceramic membranes is associated with numerous advantages relative to polymer-based filtration ...",
             url: "https://www.mdpi.com/2077-0375/9/9/105"
         },{
             title: "Low-temperature fluoride-assisted synthesis of mullite whiskers",
             authors: "Abdullayev et al.",
             venue: "RSC Advances",
             year: "2020",
-            description: "Mullite is a promising material for advanced ceramic applications. The synthesis of mullite from oxides requires very high temperatures (T > 1000 °C). Here highly crystalline mullite whiskers with an average length and diameter of 2.37 ± 1.7 μm and 0.18 ± 0.11 μm, respectively, were synthesized by a fluoride-assisted method from aluminium sulfate, aluminium fluoride and fumed silica at a temperature as low as 800 °C.",
+            description: "Mullite is a promising material for advanced ceramic applications. The synthesis of mullite ...",
             url: "https://pubs.rsc.org/en/content/articlehtml/2020/ra/d0ra05997h"
         },{
             title: "AlF3-assisted flux growth of mullite whiskers and their application in fabrication of porous mullite-alumina monoliths",
             authors: "Abdullayev et al.",
             venue: "Open Ceramics",
             year: "2021",
-            description: "Mullite is a promising material with its competitive thermochemical and mechanical properties. Although mullite could be obtained by several synthesis methods, the flux method emerges with its advantages over other methods. However, obtaining mullite whiskers with a high aspect ratio and length for ceramic reinforcements is still challenging. In this work, mullite whiskers were grown from AlF3-assisted flux. The addition of AlF3 to flux salt not only decreases the formation temperature of mullite to as low as 700 ​°C and suppresses the formation of corundum side phase, but also increases the length and aspect ratio of the whiskers. The obtained mullite whiskers were used as reinforcement for porous alumina monoliths prepared by the freeze casting route and subsequent sintering at 1500 ​°C. The fabricated mullite-alumina monoliths show competitive compressive strength of 25.7 ​MPa while having as high as …",
+            description: "Mullite is a promising material with its competitive thermochemical and mechanical ...",
             url: "https://www.sciencedirect.com/science/article/pii/S2666539521000912" 
         },
         {
