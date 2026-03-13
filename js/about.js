@@ -25,7 +25,10 @@ class AboutPage {
         
         // Load publications
         this.loadPublications();
-        
+
+        // Load badges
+        this.loadBadges();
+
         // Initialize animations
         this.initAnimations();
     }
@@ -135,10 +138,10 @@ class AboutPage {
     // Load publications
     loadPublications() {
         if (typeof CONFIG === 'undefined' || !CONFIG.publications) return;
-        
+
         const publicationsGrid = document.getElementById('publications-grid');
         if (!publicationsGrid) return;
-        
+
         publicationsGrid.innerHTML = CONFIG.publications.map(pub => `
             <div class="education-card">
                 <h3 class="education-degree">${pub.title}</h3>
@@ -146,6 +149,23 @@ class AboutPage {
                 <div class="education-year">${pub.venue} (${pub.year})</div>
                 <p class="education-description">${pub.description}</p>
                 ${pub.url ? `<a href="${pub.url}" class="publication-link" target="_blank" rel="noopener noreferrer">View Publication →</a>` : ''}
+            </div>
+        `).join('');
+    }
+
+    // Load badges
+    loadBadges() {
+        if (typeof CONFIG === 'undefined' || !CONFIG.badges) return;
+
+        const badgesContainer = document.getElementById('badges-container');
+        if (!badgesContainer) return;
+
+        badgesContainer.innerHTML = CONFIG.badges.map(badge => `
+            <div class="badge-card">
+                <h3 class="badge-title">${badge.title}</h3>
+                <div class="badge-organization">${badge.organization}</div>
+                <p class="badge-description">${badge.description}</p>
+                ${badge.url ? `<a href="${badge.url}" class="badge-link" target="_blank" rel="noopener noreferrer">View Profile →</a>` : ''}
             </div>
         `).join('');
     }
@@ -167,10 +187,10 @@ class AboutPage {
 
         // Observe elements that should animate on scroll
         document.querySelectorAll(
-            '.about-content, .skill-card, .timeline-item, .education-card, .tech-item, .cta-card'
+            '.about-content, .skill-card, .timeline-item, .education-card, .tech-item, .badge-card, .cta-card'
         ).forEach((el, index) => {
             // Add staggered delay for timeline items and cards
-            if (el.classList.contains('timeline-item') || el.classList.contains('education-card')) {
+            if (el.classList.contains('timeline-item') || el.classList.contains('education-card') || el.classList.contains('badge-card')) {
                 el.style.animationDelay = `${index * 0.1}s`;
             }
             observer.observe(el);

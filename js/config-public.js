@@ -257,6 +257,16 @@ const CONFIG = {
         // Add more publications as needed
     ],
 
+    // Professional Badges (public)
+    badges: [
+        {
+            title: "Top 3% Talent",
+            organization: "Toptal",
+            description: "Verified expertise and vetted by Toptal",
+            url: "https://www.toptal.com/developers/resume/aman-abdullayev#KpEvbP"
+        }
+    ],
+
     // Contact Information (public)
     contact: [
         {
@@ -273,6 +283,11 @@ const CONFIG = {
             name: "GitHub",
             icon: "🐙",
             url: "https://github.com/amanabdullayev"
+        },
+        {
+            name: "Toptal",
+            icon: "⭐",
+            url: "https://www.toptal.com/developers/resume/aman-abdullayev#KpEvbP"
         }
     ],
 
