@@ -31,30 +31,30 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
-      
+      uses: actions/checkout@v5
+
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: '18'
-        
+
     - name: Install dependencies
       run: |
         npm init -y
         npm install gray-matter
-        
+
     - name: Generate blog posts index
       run: |
         echo "Generating blog posts index..."
         node .github/scripts/generate-blog-index.js
         echo "Blog index generation completed"
-        
+
     - name: Generate blog post pages
       run: |
         echo "Generating individual blog post pages..."
         node .github/scripts/generate-blog-pages.js
         echo "Blog pages generation completed"
-        
+
     - name: Create environment config
       env:
         FORMSPREE_ENDPOINT: ${{ secrets.FORMSPREE_ENDPOINT }}
@@ -68,15 +68,15 @@ jobs:
           echo "// Fallback environment config" > js/env-config.js
           echo "window.ENV_CONFIG = {};" >> js/env-config.js
         fi
-        
+
     - name: Setup Pages
-      uses: actions/configure-pages@v4
-      
+      uses: actions/configure-pages@v5
+
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         path: ./
-        
+
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
