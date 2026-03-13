@@ -26,9 +26,6 @@ class AboutPage {
         // Load publications
         this.loadPublications();
 
-        // Load badges
-        this.loadBadges();
-
         // Initialize animations
         this.initAnimations();
     }
@@ -153,23 +150,6 @@ class AboutPage {
         `).join('');
     }
 
-    // Load badges
-    loadBadges() {
-        if (typeof CONFIG === 'undefined' || !CONFIG.badges) return;
-
-        const badgesContainer = document.getElementById('badges-container');
-        if (!badgesContainer) return;
-
-        badgesContainer.innerHTML = CONFIG.badges.map(badge => `
-            <div class="badge-card">
-                <h3 class="badge-title">${badge.title}</h3>
-                <div class="badge-organization">${badge.organization}</div>
-                <p class="badge-description">${badge.description}</p>
-                ${badge.url ? `<a href="${badge.url}" class="badge-link" target="_blank" rel="noopener noreferrer">View Profile →</a>` : ''}
-            </div>
-        `).join('');
-    }
-
     // Initialize scroll animations
     initAnimations() {
         const observerOptions = {
@@ -187,10 +167,10 @@ class AboutPage {
 
         // Observe elements that should animate on scroll
         document.querySelectorAll(
-            '.about-content, .skill-card, .timeline-item, .education-card, .tech-item, .badge-card, .cta-card'
+            '.about-content, .skill-card, .timeline-item, .education-card, .tech-item, .cta-card'
         ).forEach((el, index) => {
             // Add staggered delay for timeline items and cards
-            if (el.classList.contains('timeline-item') || el.classList.contains('education-card') || el.classList.contains('badge-card')) {
+            if (el.classList.contains('timeline-item') || el.classList.contains('education-card')) {
                 el.style.animationDelay = `${index * 0.1}s`;
             }
             observer.observe(el);

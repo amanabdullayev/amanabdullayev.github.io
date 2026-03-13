@@ -163,61 +163,11 @@
     margin-bottom: 3rem;
 }
 
-/* Badges Section */
+/* Badges Section - uses embedded Toptal badge */
 .badges-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    display: flex;
+    justify-content: center;
     margin-bottom: 3rem;
-}
-
-.badge-card {
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px var(--shadow-color);
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
-}
-
-.badge-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px var(--shadow-color);
-}
-
-.badge-title {
-    font-size: 1.25rem;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.badge-organization {
-    color: var(--accent-primary);
-    font-weight: 500;
-    margin-bottom: 0.75rem;
-}
-
-.badge-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.badge-link {
-    display: inline-flex;
-    align-items: center;
-    color: var(--accent-primary);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-}
-
-.badge-link:hover {
-    color: var(--accent-secondary);
-    text-decoration: underline;
 }
 
 /* Publication link styling */
