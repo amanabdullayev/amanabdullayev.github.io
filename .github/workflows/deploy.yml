@@ -2,9 +2,10 @@
 name: Deploy Blog with Markdown CMS
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
-    paths: 
+    paths:
       - 'blog-posts/**'
       - 'js/**'
       - '*.html'
