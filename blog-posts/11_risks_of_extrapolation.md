@@ -4,7 +4,7 @@
 **Tags:** Lifestyle, AI
 **Excerpt:** Rumi’s parable is more relevant than ever in a world shaped by AI, model risk, and extrapolation. It shows why systems — and people — can be misled when they only see part of the truth.
 **Slug:** risks-of-extrapolation
-**Cover Image Path:** blog_images/11_risks_of_extrapolation/elephant_story.png
+**Cover Image Path:** blog_images/11_risks_of_extrapolation/cover.png
 
 ---
 # The Blind Men, the Elephant, and the Limits of AI
