@@ -145,7 +145,8 @@ class Portfolio {
         if (filename === 'about') return 'about';
         if (filename === 'blog') return 'blog';
         if (filename === 'contact') return 'contact';
-        
+        if (filename === 'projects') return 'projects';
+
         return null; // Home page or unknown
     }
 

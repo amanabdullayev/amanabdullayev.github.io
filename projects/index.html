@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Aman Abdullayev</title>
-    <meta name="description" content="Explore Aman Abdullayev's blog posts on data science, technology, parenting, and personal insights.">
-    
+    <title>Projects - Aman Abdullayev</title>
+    <meta name="description" content="Projects by Aman Abdullayev — things I'm building at the intersection of data science, AI, and education.">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Blog - Aman Abdullayev">
-    <meta property="og:description" content="Explore Aman Abdullayev's blog posts on data science, technology, parenting, and personal insights.">
-    <meta property="og:url" content="https://amanabdullayev.me/blog/">
+    <meta property="og:title" content="Projects - Aman Abdullayev">
+    <meta property="og:description" content="Projects by Aman Abdullayev — things I'm building at the intersection of data science, AI, and education.">
+    <meta property="og:url" content="https://amanabdullayev.me/projects/">
     <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
     <meta property="og:image" content="https://amanabdullayev.me/images/logo.png">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Blog - Aman Abdullayev">
-    <meta name="twitter:description" content="Explore Aman Abdullayev's blog posts on data science, technology, parenting, and personal insights.">
+    <meta name="twitter:title" content="Projects - Aman Abdullayev">
+    <meta name="twitter:description" content="Projects by Aman Abdullayev — things I'm building at the intersection of data science, AI, and education.">
     <meta name="twitter:creator" content="@amanabdullayev">
     <meta name="twitter:image" content="https://amanabdullayev.me/images/logo.png">
-    
+
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="../public/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="../public/apple-icon-60x60.png">
@@ -37,9 +37,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../public/favicon-16x16.png">
     <link rel="manifest" href="../public/manifest.json">
     <meta name="msapplication-TileColor" href="#2563eb">
-    <meta name="msapplication-TileImage" content="public/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="../public/ms-icon-144x144.png">
     <meta name="theme-color" content="#2563eb">
-    
+
     <!-- Core styles - variables, themes, base styles -->
     <link rel="stylesheet" href="../styles/core.css">
     <!-- Layout styles - containers, grids, structural elements -->
@@ -63,8 +63,8 @@
                 </a>
                 <div class="nav-buttons">
                     <a href="../about" class="nav-btn">About</a>
-                    <a href="../blog" class="nav-btn active">Blog</a>
-                    <a href="../projects" class="nav-btn">Projects</a>
+                    <a href="../blog" class="nav-btn">Blog</a>
+                    <a href="../projects" class="nav-btn active">Projects</a>
                     <a href="../contact" class="nav-btn">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
                         <span class="theme-icon">☀️</span>
@@ -76,45 +76,17 @@
 
     <section class="page-hero">
         <div class="container">
-            <h1 id="page-title">Blog</h1>
-            <p id="page-description">Thoughts, insights, and stories from my journey</p>
+            <h1 id="page-title">Projects</h1>
+            <p id="page-description">Things I'm building</p>
         </div>
     </section>
 
     <main class="container">
-        <!-- Search and Filter -->
-        <section class="blog-controls section">
-            <div class="search-filter-bar">
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Search posts..." />
-                    <button id="search-btn">🔍</button>
-                </div>
-                <div class="filter-tags">
-                    <button class="tag-filter active" data-tag="all">All</button>
-                    <div id="tag-filters">
-                        <!-- Tag filters will be generated dynamically -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Blog Posts -->
-        <section class="blog-posts section">
-            <div id="loading-posts" class="loading">Loading blog posts...</div>
-            <div id="posts-container" style="display: none;">
-                <div id="posts-grid" class="posts-grid">
-                    <!-- All blog posts will be loaded here -->
-                </div>
-                
-                <!-- Pagination -->
-                <div id="pagination" class="pagination">
-                    <!-- Pagination controls will be added here -->
-                </div>
-            </div>
-            
-            <div id="no-posts" class="no-posts" style="display: none;">
-                <h3>No posts found</h3>
-                <p>Try adjusting your search or filter criteria.</p>
+        <section class="projects-section section">
+            <div id="loading-projects" class="loading">Loading projects...</div>
+            <div id="projects-grid" class="posts-grid" style="display: none;"></div>
+            <div id="no-projects" style="display: none;">
+                <p>No projects yet. Check back soon!</p>
             </div>
         </section>
     </main>
@@ -142,8 +114,7 @@
     <!-- Configuration Scripts -->
     <script src="../js/env-config.js"></script>
     <script src="../js/config-public.js"></script>
-    <script src="../js/blog-index.js"></script>
     <script src="../js/main.js"></script>
-    <script src="../js/blog.js"></script>
+    <script src="../js/projects.js"></script>
 </body>
 </html>

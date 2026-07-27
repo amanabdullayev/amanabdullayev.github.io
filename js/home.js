@@ -38,13 +38,16 @@ class HomePage {
         const statsGrid = document.getElementById('stats-grid');
         if (!statsGrid) return;
         
-        statsGrid.innerHTML = CONFIG.homeStats.map(stat => `
-            <div class="stat-card fade-in">
+        statsGrid.innerHTML = CONFIG.homeStats.map(stat => {
+            const inner = `
                 <div class="stat-icon">${stat.icon}</div>
                 <h3 class="stat-title">${stat.title}</h3>
                 <p class="stat-description">${stat.description}</p>
-            </div>
-        `).join('');
+            `;
+            return stat.link
+                ? `<a href="${stat.link}" class="stat-card fade-in" style="text-decoration: none; color: inherit;">${inner}</a>`
+                : `<div class="stat-card fade-in">${inner}</div>`;
+        }).join('');
         
         // Add staggered animation
         document.querySelectorAll('.stat-card').forEach((card, index) => {

@@ -29,15 +29,32 @@ const CONFIG = {
         contact: {
             title: "Get In Touch",
             description: "Let's connect! Whether you have a question, want to collaborate, or just say hi, I'm here to chat."
+        },
+        projects: {
+            title: "Projects",
+            description: "Things I'm building"
         }
     },
+
+    // Projects (public)
+    projects: [
+        {
+            title: "Halypa",
+            description: "A personal AI tutor for self-directed learners. You answer a short intake interview, get a tailored syllabus, then learn through Socratic sessions with mastery tracking, spaced review (FSRS), and a capstone project once you've covered enough ground. Provider-agnostic — bring your own API key for Anthropic, OpenAI, Google, or any OpenAI-compatible endpoint.",
+            tags: ["TypeScript", "Next.js", "Supabase", "AI", "Education"],
+            url: "https://halypa.vercel.app/",
+            status: "Active · 2025",
+            coverImage: null
+        }
+    ],
 
     // Home Page Stats (public)
     homeStats: [
         {
             icon: "💻",
             title: "Active Projects",
-            description: "Cooming Soon"
+            description: "See what I'm currently building",
+            link: "/projects"
         },
         {
             icon: "📝",
