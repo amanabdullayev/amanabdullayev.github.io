@@ -24,8 +24,7 @@ class ProjectsPage {
         gridEl.style.display = 'grid';
         gridEl.innerHTML = CONFIG.projects.map(project => this.createProjectCard(project)).join('');
 
-        // Staggered fade-in
-        gridEl.querySelectorAll('.post-card').forEach((card, i) => {
+        gridEl.querySelectorAll('.project-card').forEach((card, i) => {
             setTimeout(() => card.classList.add('fade-in'), i * 100);
         });
     }
@@ -36,30 +35,33 @@ class ProjectsPage {
             return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
         }).join('');
 
-        const coverHtml = project.coverImage
-            ? `<div class="post-cover">
-                <img src="../${project.coverImage}" alt="${project.title}" class="post-cover-image" loading="lazy">
+        const previewHtml = project.url
+            ? `<div class="project-preview">
+                <iframe
+                    src="${project.url}"
+                    title="${project.title} preview"
+                    loading="lazy"
+                    scrolling="no"
+                    tabindex="-1">
+                </iframe>
+                <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-preview-overlay" aria-label="Open ${project.title}"></a>
                </div>`
             : '';
 
-        const linkAttrs = project.url
-            ? `href="${project.url}" target="_blank" rel="noopener noreferrer"`
-            : `href="#"`;
-
         return `
-            <article class="post-card">
-                <a ${linkAttrs} style="text-decoration: none; color: inherit; display: block;">
-                    ${coverHtml}
-                    <div class="post-content">
-                        <h3 class="post-title">${project.title}</h3>
-                        <div class="post-tags">${tagsHtml}</div>
-                        <p class="post-excerpt">${project.description}</p>
-                        <div class="post-meta">
-                            <span class="post-date">${project.status || ''}</span>
-                            ${project.url ? `<span class="btn btn-primary" style="font-size: 0.8rem; padding: 0.25rem 0.75rem;">View →</span>` : ''}
-                        </div>
+            <article class="project-card">
+                ${previewHtml}
+                <div class="post-content">
+                    <h3 class="post-title">${project.title}</h3>
+                    <div class="post-tags">${tagsHtml}</div>
+                    <p class="post-excerpt">${project.description}</p>
+                    <div class="post-meta">
+                        <span class="post-date">${project.status || ''}</span>
+                        ${project.url
+                            ? `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.8rem; padding: 0.25rem 0.75rem;">View →</a>`
+                            : ''}
                     </div>
-                </a>
+                </div>
             </article>
         `;
     }
