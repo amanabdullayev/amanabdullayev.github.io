@@ -147,12 +147,25 @@ const CONFIG = {
     // Experience (public)
     experience: [
         {
+            date: "04/2026 - Present",
+            title: "Data Scientist (Freelance)",
+            company: "Toptal",
+            description: `
+            <ul>
+                <li>Developed a Bayesian marketing attribution model with cold-start handling for new event organizers, supporting client budget-allocation decisions</li>
+                <li>Implemented holistic customer segmentation to support targeting and personalization</li>
+                <li>Built an automated marketing recommendations engine using LLMs, combining traffic data, attribution results, and customer segmentation to generate actionable recommendations for non-technical stakeholders</li>
+            </ul>
+            `
+        },
+        {
             date: "06/2025 - Present",
             title: "Applied Scientist",
             company: "Zalando",
             description: `
             <ul>
-                <li>Modeling of the long-term impact of marketing activities using key events concept</li>
+                <li>Built a causal simulation framework combining geo-experiment elasticity curves with forecasts to model diminishing returns on spend and the resulting ROI trade-off; live in 25 markets, driving 75% of marketing investment decisions</li>
+                <li>Modeled long-term incremental value of short-term signals (installs, registrations), quantifying delayed marketing returns that short-term metrics miss</li>
             </ul>
             `
         },
