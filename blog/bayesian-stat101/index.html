@@ -11,7 +11,7 @@
     <meta property="og:title" content="Simplified Bayesian Inference - Aman Abdullayev">
     <meta property="og:description" content="This article gently introduce to Bayesian Inference with a real-life example.">
     <meta property="og:url" content="https://amanabdullayev.me/blog/bayesian-stat101/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="og:site_name" content="Aman Abdullayev">
     <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_04_cover.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -29,24 +29,10 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://amanabdullayev.me/blog/bayesian-stat101/">
     
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
     <link rel="manifest" href="../../public/manifest.json">
-    <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
     
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
@@ -94,19 +80,20 @@
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="../../" class="logo">
-                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="../../about" class="nav-btn">About</a>
-                    <a href="../../blog" class="nav-btn active">Blog</a>
-                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -117,7 +104,7 @@
         <article class="blog-post">
             <!-- Back to blog link -->
             <div class="blog-post-nav">
-                <a href="../" class="back-to-blog">← Back to Blog</a>
+                <a href="../" class="back-to-blog">← Back to writing</a>
             </div>
             <!-- Cover image banner -->
             
@@ -135,7 +122,7 @@
                 <div class="blog-post-meta">
                     <time datetime="2024-03-08T23:00:00.000Z">Mar 9, 2024</time>
                     <div class="page-views" id="page-views">
-                        📊 Loading...
+                        Loading views...
                     </div>
                 </div>
                 <div class="post-author-pin">
@@ -149,9 +136,7 @@
 
             <!-- Post content -->
             <div class="blog-post-body">
-                <h1>Simplified Bayesian Inference</h1>
-
-<h2>Brief Introduction</h2>
+                <h2>Brief Introduction</h2>
 
 <p>Bayesian inference, named after Thomas Bayes, has its roots in the 18th century, but it was not until the 20th century that its practical application really took off. It is a method of statistical inference that has been extensively used in various fields, such as science, engineering, and philosophy.</p>
 
@@ -161,15 +146,15 @@
 
 <p>Before get into Bayesian we need to get concept of conditional probability, which is a backbone of the Bayesian inference.</p>
 
-<p>Conditional probability is a fundamental concept in probability theory and statistics. It is the probability of an event given the occurrence of another event. For instance, the probability of event A happening given that event B has occurred is represented as $P(A|B).$</p>
+<p>Conditional probability is a fundamental concept in probability theory and statistics. It is the probability of an event given the occurrence of another event. For instance, the probability of event A happening given that event B has occurred is represented as <span class="math-inline">$P(A|B).$</span></p>
 
 <p>Let's consider a an example to understand this concept better:</p>
 
 <h3><strong>Example : Drawing a Card</strong></h3>
 
-<p>Suppose I have a deck of 52 cards in my hand. I pick one card at random and ask you: What is the probability that the card I picked is "red colored 6 heart"? Given that I've provided no other information and have chosen the card randomly from the 52, the probability is 1/52, or 1.9%. This can be written as $P(Six\ Heart)=1.9\%$ .</p>
+<p>Suppose I have a deck of 52 cards in my hand. I pick one card at random and ask you: What is the probability that the card I picked is "red colored 6 heart"? Given that I've provided no other information and have chosen the card randomly from the 52, the probability is 1/52, or 1.9%. This can be written as <span class="math-inline">$P(Six\ Heart)=1.9\%$</span> .</p>
 
-<p>However, if I provide additional information (data, evidence, whatever you call it), the probability will change. For instance, if I say, "The card I selected has a heart on it," you would know that there 13 cards with hearts on them. Therefore, if a card has a heart on it, there's a 1/13 or 7.7% chance it's a six heart. Mathematically, this is represented as $P(Six\ Heart|Heart) = 7.7%$%﻿﻿ (which is read as "the probability of six heart <strong>GIVEN</strong> the number heart on it”)  However, if I say "The card I chose has the number 6 on it," you would know that there are four cards with the number 6, one out of which are the 6 heart. Consequently, the probability of the selected card being red is 1/4, or 25%. Statistically, we represent this scenario as $P(Six\ Heart|Six) = 25\%$.</p>
+<p>However, if I provide additional information (data, evidence, whatever you call it), the probability will change. For instance, if I say, "The card I selected has a heart on it," you would know that there 13 cards with hearts on them. Therefore, if a card has a heart on it, there's a 1/13 or 7.7% chance it's a six heart. Mathematically, this is represented as <span class="math-inline">$P(Six\ Heart|Heart) = 7.7%$</span>%﻿﻿ (which is read as "the probability of six heart <strong>GIVEN</strong> the number heart on it”)  However, if I say "The card I chose has the number 6 on it," you would know that there are four cards with the number 6, one out of which are the 6 heart. Consequently, the probability of the selected card being red is 1/4, or 25%. Statistically, we represent this scenario as <span class="math-inline">$P(Six\ Heart|Six) = 25\%$</span>.</p>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_04_01.jpg"
@@ -225,21 +210,15 @@ class="responsive-image">
 
 <p>The fundamental formula of Bayesian statistics is expressed as follows:</p>
 
-$
-P(sick|positive) = \frac{P(positive|sick) \cdot P(sick)}{P(positive)}
-$
+<p>$$<br><table class="markdown-table"><tr><th>positive) = \frac{P(positive</th></tr></table><br>$$</p>
 
 <p>For our sick and not sick scenario, it would be:</p>
 
-$
-P(sick|positive) = \frac{P(sick) \cdot P(positive|sick) }{P(positive)}
-$
+<p>$$<br><table class="markdown-table"><tr><th>positive) = \frac{P(sick) \cdot P(positive</th></tr></table><br>$$</p>
 
 <p>The above formula can actually be expressed in terms of false positive and false negative terms as follows:</p>
 
-$
-P(sick|positive) = \frac{P(sick) \cdot P(true \ positive) }{P(sick) \cdot P(true\ positive) + P(not \ sick) \cdot P(false\ positive)}
-$
+<p>$$<br>P(sick|positive) = \frac{P(sick) \cdot P(true \ positive) }{P(sick) \cdot P(true\ positive) + P(not \ sick) \cdot P(false\ positive)}<br>$$</p>
 
 <p>Alternatively, we can express it as follows: the numerator represents the true positive rate multiplied by the probability of sickness (likelihood or frequency of observing the sickness in the world, often challenging to ascertain initially). The denominator, on the other hand, represents true positive multiplied by sickness probability (as in the numerator), plus false negatives multiplied by the probability of not being sick outcomes. The denominator serves as a normalization factor, ensuring that when multiplying probabilities, which are real numbers between 0 and 1, the resulting posterior probability also falls within the range of 0 to 1.</p>
 
@@ -267,17 +246,11 @@ $
 
 <p>Great, we have all the necessary numbers at hand. Let's proceed with the calculation to determine the likelihood of the patient being ill.</p>
 
-$
-P(sick|positive) = \frac{P(sick) \cdot P(true \ positive) }{P(sick) \cdot P(true\ positive) + P(not \ sick) \cdot P(false\ positive)}
-$
+<p>$$<br>P(sick|positive) = \frac{P(sick) \cdot P(true \ positive) }{P(sick) \cdot P(true\ positive) + P(not \ sick) \cdot P(false\ positive)}<br>$$</p>
 
-$
-P(sick|positive) = \frac{0.01\% \cdot 99\% }{0.01\% \cdot 99\%  + 99.99\% \cdot 1\% }
-$
+<p>$$<br>P(sick|positive) = \frac{0.01\% \cdot 99\% }{0.01\% \cdot 99\%  + 99.99\% \cdot 1\% }<br>$$</p>
 
-$
-P(sick|positive) = 0.98\%
-$
+<p>$$<br>P(sick|positive) = 0.98\%<br>$$</p>
 
 <p>---</p>
 
@@ -295,13 +268,9 @@ $
 
 <p><code class="inline-code">P(positive|sick) = 100% - P(positive|not sick) = 99%</code></p>
 
-$
-P(sick|positive) = \frac{0.98\% \cdot 99\% }{0.98\% \cdot 99\%  + 99.02\% \cdot 1\% }
-$
+<p>$$<br>P(sick|positive) = \frac{0.98\% \cdot 99\% }{0.98\% \cdot 99\%  + 99.02\% \cdot 1\% }<br>$$</p>
 
-$
-P(sick|positive) = 49.5\%
-$
+<p>$$<br>P(sick|positive) = 49.5\%<br>$$</p>
 
 <p>Unfortunately, there's a significant shift in our confidence level, from an initial 0.01% to 0.98%, and then abruptly to 49.5%.</p>
 
@@ -333,40 +302,39 @@ $
             <!-- Post footer -->
             <footer class="blog-post-footer">
                 <div class="post-sharing">
-                    <h4>Share this post:</h4>
+                    <h4>Share this article</h4>
                     <div class="share-buttons">
                         <a href="https://twitter.com/intent/tweet?text=Simplified%20Bayesian%20Inference&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat101%2F" target="_blank" class="share-btn twitter">
-                            🐦 Twitter
+                            Share on X
                         </a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat101%2F" target="_blank" class="share-btn linkedin">
-                            💼 LinkedIn
+                            Share on LinkedIn
                         </a>
-                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
-                            📋 Copy Link
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
                         </a>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
-                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
                 </div>
             </footer>
         </article>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="../../">Home</a>
-                    <a href="../../about">About</a>
-                    <a href="../../blog">Blog</a>
-                    <a href="../../contact">Contact</a>
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -374,7 +342,6 @@ $
     </footer>
 
     <!-- Configuration Scripts -->
-    <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
     
@@ -398,7 +365,7 @@ $
             .then(data => {
                 const el = document.getElementById('page-views');
                 if (el && data.count) {
-                    el.textContent = '📊 ' + data.count + ' views';
+                    el.textContent = data.count + ' views';
                 }
             })
             .catch(() => {

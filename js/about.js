@@ -57,8 +57,8 @@ class AboutPage {
         
         skillsGrid.innerHTML = CONFIG.skills.map(skill => `
             <div class="skill-card">
-                <div class="skill-icon">${skill.icon}</div>
                 <h3 class="skill-name">${skill.name}</h3>
+                ${skill.description ? `<p class="skill-description">${skill.description}</p>` : ''}
             </div>
         `).join('');
     }
@@ -76,9 +76,11 @@ class AboutPage {
         timeline.innerHTML = CONFIG.experience.map(exp => `
             <div class="timeline-item">
                 <div class="timeline-date">${exp.date}</div>
-                <h3 class="timeline-title">${exp.title}</h3>
-                <div class="timeline-company">${exp.company}</div>
-                <p class="timeline-description">${exp.description}</p>
+                <div>
+                    <h3 class="timeline-title">${exp.title}</h3>
+                    <div class="timeline-company">${exp.company}</div>
+                    <div class="timeline-description">${exp.description}</div>
+                </div>
             </div>
         `).join('');
     }

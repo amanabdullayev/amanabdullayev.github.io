@@ -80,7 +80,7 @@ class BlogPostPage {
                 navigator.clipboard.writeText(window.location.href).then(() => {
                     // Show feedback
                     const originalText = copyBtn.textContent;
-                    copyBtn.textContent = '✅ Copied!';
+                    copyBtn.textContent = 'Link copied';
                     
                     setTimeout(() => {
                         copyBtn.textContent = originalText;
@@ -96,7 +96,7 @@ class BlogPostPage {
                     document.body.removeChild(tempInput);
                     
                     const originalText = copyBtn.textContent;
-                    copyBtn.textContent = '✅ Copied!';
+                    copyBtn.textContent = 'Link copied';
                     
                     setTimeout(() => {
                         copyBtn.textContent = originalText;

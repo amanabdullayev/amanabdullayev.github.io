@@ -4,70 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Aman Abdullayev</title>
-    <meta name="description" content="Get in touch with Aman Abdullayev. Connect for collaborations, discussions on data science, or general inquiries.">
-    
-    <!-- Open Graph / Facebook -->
+    <meta name="description" content="Contact Aman Abdullayev to discuss applied data science, marketing measurement, experimentation, or collaboration.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Contact - Aman Abdullayev">
-    <meta property="og:description" content="Get in touch with Aman Abdullayev. Connect for collaborations, discussions on data science, or general inquiries.">
+    <meta property="og:description" content="Start a conversation about applied data science, marketing measurement, or collaboration.">
     <meta property="og:url" content="https://amanabdullayev.me/contact/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
-    <meta property="og:image" content="https://amanabdullayev.me/images/logo.png">
-    
-    <!-- Twitter Card -->
+    <meta property="og:site_name" content="Aman Abdullayev">
+    <meta property="og:image" content="https://amanabdullayev.me/images/personal_avatar_1.png">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Contact - Aman Abdullayev">
-    <meta name="twitter:description" content="Get in touch with Aman Abdullayev. Connect for collaborations, discussions on data science, or general inquiries.">
-    <meta name="twitter:creator" content="@amanabdullayev">
-    <meta name="twitter:image" content="https://amanabdullayev.me/images/logo.png">
-    
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="../public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="../public/favicon.svg">
     <link rel="manifest" href="../public/manifest.json">
-    <meta name="msapplication-TileColor" href="#2563eb">
-    <meta name="msapplication-TileImage" content="../public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
-    
-    <!-- Core styles - variables, themes, base styles -->
+    <meta name="theme-color" content="#9b4f35">
     <link rel="stylesheet" href="../styles/core.css">
-    <!-- Layout styles - containers, grids, structural elements -->
     <link rel="stylesheet" href="../styles/layout.css">
-    <!-- Component styles - buttons, cards, reusable elements -->
     <link rel="stylesheet" href="../styles/components.css">
-    <!-- Blog styles - blog-specific styling -->
-    <link rel="stylesheet" href="../styles/blog.css">
-    <!-- Page styles - page-specific customizations -->
     <link rel="stylesheet" href="../styles/pages.css">
-    <!-- Responsive styles - media queries and mobile adaptations -->
     <link rel="stylesheet" href="../styles/responsive.css">
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="../" class="logo">
-                    <img src="../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="../about" class="nav-btn">About</a>
-                    <a href="../blog" class="nav-btn">Blog</a>
+                    <a href="../blog" class="nav-btn">Writing</a>
                     <a href="../projects" class="nav-btn">Projects</a>
-                    <a href="../contact" class="nav-btn active">Contact</a>
+                    <a href="../contact" class="nav-btn nav-contact active">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -76,128 +44,45 @@
 
     <section class="page-hero">
         <div class="container">
-            <h1 id="page-title">Get In Touch</h1>
-            <p id="page-description">Let's start a conversation about your next project</p>
+            <p class="page-eyebrow">Contact</p>
+            <h1 id="page-title">Let’s compare notes</h1>
+            <p id="page-description">Have a question about marketing measurement, experimentation, or applied data work? I’d be glad to hear from you.</p>
         </div>
     </section>
 
     <main class="container">
-        <div class="contact-wrapper">
-            <!-- Contact Form -->
-            <section class="contact-form-section">
-                <h2>Send Me a Message</h2>
-                <form id="contact-form" class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Name *</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="subject">Subject *</label>
-                        <input type="text" id="subject" name="subject" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message *</label>
-                        <textarea id="message" name="message" rows="6" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </div>
-                </form>
-                
-                <div id="form-status" class="form-status" style="display: none;"></div>
-            </section>
-
-            <!-- Contact Info -->
-            <section class="contact-info-section">
-                <h2>Other Ways to Reach Me</h2>
-                
-                <div class="contact-methods">
-                    <div class="contact-links" id="contact-links">
-                        <!-- Contact links will be loaded from config -->
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Call to Action for Other Pages -->
-        <section class="contact-cta section">
-            <div class="cta-cards">
-                <div class="cta-card">
-                    <h3>Learn More About Me</h3>
-                    <p>Discover my background, skills, and experience.</p>
-                    <a href="../about" class="btn btn-secondary">About Me</a>
-                </div>
-                
-                <div class="cta-card">
-                    <h3>Read My Thoughts</h3>
-                    <p>Check out my latest blog posts and insights.</p>
-                    <a href="../blog" class="btn btn-secondary">Visit Blog</a>
-                </div>
+        <section class="contact-wrapper">
+            <div class="contact-copy">
+                <h2>Email is the best place to start.</h2>
+                <p>Share a little context about what you’re working on and where a conversation might help. I’ll reply as soon as I can.</p>
+                <a class="contact-email" href="mailto:amanmyrat.abdullayev@gmail.com">amanmyrat.abdullayev@gmail.com</a>
+            </div>
+            <div class="contact-info-section">
+                <h2>Elsewhere</h2>
+                <div class="contact-links" id="contact-links"></div>
             </div>
         </section>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2026 <span id="footer-name">Aman Abdullayev</span>. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="../">Home</a>
-                    <a href="../about">About</a>
-                    <a href="../blog">Blog</a>
-                    <a href="../projects">Projects</a>
-                    <a href="../contact">Contact</a>
+                    <a href="../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Configuration Scripts -->
-    <script src="../js/env-config.js"></script>
-    <script>
-        // Contact page needs Formspree config - load with proper fallback handling
-        function loadContactConfig() {
-            return new Promise((resolve) => {
-                // First load public config
-                const publicScript = document.createElement('script');
-                publicScript.src = '../js/config-public.js';
-                publicScript.onload = () => {
-                    // Then try to load private config (for development)
-                    const privateScript = document.createElement('script');
-                    privateScript.src = '../js/config-private.js';
-                    privateScript.onload = resolve;
-                    privateScript.onerror = () => {
-                        // Private config failed to load (production) - continue without it
-                        console.log('Private config not found, will use environment config for Formspree');
-                        resolve();
-                    };
-                    document.head.appendChild(privateScript);
-                };
-                publicScript.onerror = resolve; // Continue even if public config fails
-                document.head.appendChild(publicScript);
-            });
-        }
-        
-        // Load config first, then load the config loader utility
-        loadContactConfig().then(() => {
-            const configLoaderScript = document.createElement('script');
-            configLoaderScript.src = '../js/config-loader.js';
-            document.head.appendChild(configLoaderScript);
-        });
-    </script>
+    <script src="../js/config-public.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/contact.js"></script>
 </body>

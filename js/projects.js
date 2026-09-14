@@ -35,30 +35,18 @@ class ProjectsPage {
             return `<span class="tag" data-color="${colorIndex}">${tag}</span>`;
         }).join('');
 
-        const previewHtml = project.url
-            ? `<div class="project-preview">
-                <iframe
-                    src="${project.url}"
-                    title="${project.title} preview"
-                    loading="lazy"
-                    scrolling="no"
-                    tabindex="-1">
-                </iframe>
-                <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-preview-overlay" aria-label="Open ${project.title}"></a>
-               </div>`
-            : '';
-
         return `
             <article class="project-card">
-                ${previewHtml}
                 <div class="post-content">
+                    <p class="project-kicker">${project.audience || 'Selected project'} · ${project.status || 'In progress'}</p>
                     <h3 class="post-title">${project.title}</h3>
-                    <div class="post-tags">${tagsHtml}</div>
                     <p class="post-excerpt">${project.description}</p>
+                    ${project.role ? `<p class="project-role"><strong>My role:</strong> ${project.role}</p>` : ''}
+                    <div class="post-tags">${tagsHtml}</div>
                     <div class="post-meta">
-                        <span class="post-date">${project.status || ''}</span>
+                        <span class="post-date">External project</span>
                         ${project.url
-                            ? `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.8rem; padding: 0.25rem 0.75rem;">View →</a>`
+                            ? `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Visit project</a>`
                             : ''}
                     </div>
                 </div>

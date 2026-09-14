@@ -4,35 +4,29 @@ const CONFIG = {
     personal: {
         name: "Aman Abdullayev",
         title: "Applied Scientist",
-        homeIntro: `
-            <p><strong>Welcome to my digital space!</strong> I'm Aman Abdullayev, an Applied (Data) Scientist passionate about turning data into actionable insights and fostering meaningful connections through technology.</p>
-            <p>Here, you’ll find my journey—from education to professional experiences—along with reflections on mentoring, personal growth, and the ever-evolving world of data science.</p>
-            <p>Feel free to explore my latest blog posts and reach out if you’d like to collaborate or simply chat about data, tech, or life in general.</p>
-        `,
         aboutMe: `
-            <p><strong>I'm Aman, a data scientist based in Berlin.</strong> With a background in environmental science, materials science, and data science, I enjoy turning complex problems into actionable insights in a simplified way — currently focusing on the world of marketing analytics.</p>
-            <p>I'm currently an Applied Scientist at Zalando, working on performance marketing measurement and steering. My work includes building attribution models, geo-experiments, customer value predictions, marketing mix models (MMM), time series forecasting, and more.</p>
-
+            <p><strong>I’m Aman, an applied scientist based in Berlin.</strong> My route into data science started in environmental and materials research, where I learned to work patiently with imperfect evidence and explain technical findings clearly.</p>
+            <p>Today, I focus on performance marketing measurement and steering at Zalando. My work spans attribution, geo-experiments, customer value prediction, marketing mix modeling, and time-series forecasting—with an emphasis on turning analytical results into decisions people can use.</p>
         `
     },
 
     // Page Metadata (public)
     pages: {
         about: {
-            title: "About Me",
-            description: "Skills, experience, and my journey in data science"
+            title: "Science, context, and useful decisions",
+            description: "My path from materials research to applied data science—and the problems I’m working on now."
         },
         blog: {
-            title: "Blog",
-            description: "Thoughts, insights, and stories from my journey"
+            title: "Notes for curious practitioners",
+            description: "Applied statistics, data science, decision-making, learning, and occasional reflections on life outside the model."
         },
         contact: {
-            title: "Get In Touch",
-            description: "Let's connect! Whether you have a question, want to collaborate, or just say hi, I'm here to chat."
+            title: "Let’s compare notes",
+            description: "Have a question about marketing measurement, experimentation, or applied data work? I’d be glad to hear from you."
         },
         projects: {
             title: "Projects",
-            description: "Things I'm building"
+            description: "Tools and experiments I’m building to make complex learning and decision-making more useful."
         }
     },
 
@@ -44,59 +38,60 @@ const CONFIG = {
             tags: ["TypeScript", "Next.js", "Supabase", "AI", "Education"],
             url: "https://halypa.vercel.app/",
             status: "Active · 2026",
-            coverImage: null
+            coverImage: null,
+            audience: "Self-directed learners",
+            role: "Product concept, learning design, and implementation"
         }
     ],
 
     // Home Page Stats (public)
     homeStats: [
         {
-            icon: "💻",
-            title: "Active Projects",
-            description: "See what I'm currently building",
-            link: "/projects"
+            kicker: "Measurement",
+            title: "Causal experimentation",
+            description: "Designing geo-experiments and attribution approaches that separate incremental impact from correlation."
         },
         {
-            icon: "📝",
-            title: "Blog Posts",
-            description: "Sharing insights and experiences regularly"
+            kicker: "Decision systems",
+            title: "Investment modeling",
+            description: "Connecting elasticity, forecasts, and diminishing returns to support marketing budget decisions."
         },
         {
-            icon: "🚀",
-            title: "Learning",
-            description: "Always expanding my skillset and knowledge"
+            kicker: "Prediction",
+            title: "Long-term value",
+            description: "Modeling delayed customer value so short-term signals can inform longer-term choices."
         }
     ],
 
     // Skills (public)
     skills: [
         {
-            icon: "🧩📊🧭",
-            name: "Attribution Modeling"
+            name: "Attribution modeling",
+            description: "Estimating how channels contribute to outcomes."
         },
         {
-            icon: "🧾⚖️🎯",
-            name: "MMM (Mixed Media Modeling)"
+            name: "Marketing mix modeling",
+            description: "Understanding aggregate channel impact and return."
         },
         {
-            icon: "🌍🧪📊",
-            name: "(Geo) Lift Testing"
+            name: "Geo lift testing",
+            description: "Measuring incrementality through regional experiments."
         },
         {
-            icon: "🧍‍♂️🔁💰",
-            name: "Customer Lifetime Value"
+            name: "Customer lifetime value",
+            description: "Connecting early behavior with long-term outcomes."
         },
         {
-            icon: "⚗️🔗📈",
-            name: "Causal Inference"
+            name: "Causal inference",
+            description: "Distinguishing intervention effects from association."
         },
         {
-            icon: "🧠🤖💡",
-            name: "Predictive Modeling"
+            name: "Predictive modeling",
+            description: "Building useful forecasts from complex signals."
         },
         {
-            icon: "🕒📈🔮",
-            name: "Time Series Forecasting"
+            name: "Time-series forecasting",
+            description: "Modeling change, seasonality, and uncertainty over time."
         }
     ],
 
@@ -175,7 +170,7 @@ const CONFIG = {
             company: "Haensel AMS GmbH",
             description: `
             <ul>
-                <li>Built models for attribution, customer lifetime value, and mixed media modeling.</li>
+                <li>Built models for attribution, customer lifetime value, and marketing mix modeling.</li>
                 <li>Designed geo-experiments to test uplift and incrementality.</li>
                 <li>Communicated findings and insights with stakeholders.</li>
             </ul>
@@ -238,13 +233,13 @@ const CONFIG = {
             description: "Ph.D. scholarship awarded by DAAD to support research in materials science focused on sustainable water filtration solutions."
         },
         {
-            title: "Gold Medal 🥇",
+            title: "Gold Medal",
             organization: "International Mendeleev Chemistry Olympiad (IMChO)",
             year: "2009, Ashgabat, Turkmenistan",
             description: "The International Mendeleev Chemistry Olympiad is a major international competition for high school students in theoretical and experimental chemistry. It started in the USSR as the All-Union Olympiad in Chemistry in 1967. Now more than 30 countries participate in IMChO."
         },
         {
-            title: "Silver Medal 🥈",
+            title: "Silver Medal",
             organization: "International Chemistry Olympiad (IChO)",
             year: "2009, Cambridge, UK",
             description: "The International Chemistry Olympiad (IChO) is a prestigious annual competition for top high school chemists from over 80 countries, featuring challenging theoretical and experimental exams to promote global scientific excellence and collaboration."
@@ -290,55 +285,27 @@ const CONFIG = {
     // Contact Information (public)
     contact: [
         {
-            name: "Email",
-            icon: "📧",
-            url: "mailto:amanmyrat.abdullayev@gmail.com"
-        },
-        {
             name: "LinkedIn",
-            icon: "💼",
             url: "https://linkedin.com/in/amanmyrat-abdullayev"
         },
         {
             name: "GitHub",
-            icon: "🐙",
             url: "https://github.com/amanabdullayev"
         },
         {
             name: "Toptal",
-            icon: "⭐",
             url: "https://www.toptal.com/developers/resume/aman-abdullayev#KpEvbP"
         }
     ],
 
-    // GitHub Repository Info (public)
-    github: {
-        username: "amanabdullayev",
-        repository: "amanabdullayev.github.io"
-    },
-
-    // Private configuration loaded from environment or separate file
-    private: {
-        // These will be loaded from environment variables or a separate config
-        formspree: {
-            endpoint: "" // Will be set from private config
-        },
-        github: {
-            token: "" // Optional for higher API limits
-        }
-    },
-
-    // Site Settings (mostly public)
+    // Site settings
     settings: {
         postsPerPage: 6,
         homePostsCount: 4,
         dateFormat: "MMM DD, YYYY",
         defaultTags: ["Blog", "Thoughts"],
         enableAnalytics: true,
-        theme: "light",
-        enableContactForm: true,
-        // This will be set from private config
-        contactFormAction: "" // Will be populated from private.formspree.endpoint
+        theme: "light"
     }
 };
 

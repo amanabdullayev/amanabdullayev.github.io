@@ -11,7 +11,7 @@
     <meta property="og:title" content="Bayesian Posterior Calculation with Conjugate Priors - Aman Abdullayev">
     <meta property="og:description" content="This article discusses the concept of Bayesian inference and how it can be simplified using conjugate priors, through the practical example of estimating an e-commerce website's conversion rate. It highlights the advantage of the Bayesian approach in providing a probability interval, offering a more probabilistic decision-making tool, especially when working with limited data.">
     <meta property="og:url" content="https://amanabdullayev.me/blog/bayesian-stat102/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="og:site_name" content="Aman Abdullayev">
     <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_03_cover.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -29,24 +29,10 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://amanabdullayev.me/blog/bayesian-stat102/">
     
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
     <link rel="manifest" href="../../public/manifest.json">
-    <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
     
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
@@ -94,19 +80,20 @@
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="../../" class="logo">
-                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="../../about" class="nav-btn">About</a>
-                    <a href="../../blog" class="nav-btn active">Blog</a>
-                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -117,7 +104,7 @@
         <article class="blog-post">
             <!-- Back to blog link -->
             <div class="blog-post-nav">
-                <a href="../" class="back-to-blog">← Back to Blog</a>
+                <a href="../" class="back-to-blog">← Back to writing</a>
             </div>
             <!-- Cover image banner -->
             
@@ -135,7 +122,7 @@
                 <div class="blog-post-meta">
                     <time datetime="2024-03-24T23:00:00.000Z">Mar 25, 2024</time>
                     <div class="page-views" id="page-views">
-                        📊 Loading...
+                        Loading views...
                     </div>
                 </div>
                 <div class="post-author-pin">
@@ -149,9 +136,7 @@
 
             <!-- Post content -->
             <div class="blog-post-body">
-                <h1>Bayesian Posterior Calculation with Conjugate Priors</h1>
-
-<p>Bayesian inference, a statistical method that updates beliefs about a hypothesis as more evidence becomes available, can be simplified using conjugate priors. This approach was demonstrated with a Python script simulating an e-commerce website's conversion rate. Using a Bernoulli trial and a Beta distribution as the conjugate prior, the Bayesian approach provided a probability interval for the conversion rate, offering a more probabilistic decision-making tool than the single-point estimate of the Frequentist approach.</p>
+                <p>Bayesian inference, a statistical method that updates beliefs about a hypothesis as more evidence becomes available, can be simplified using conjugate priors. This approach was demonstrated with a Python script simulating an e-commerce website's conversion rate. Using a Bernoulli trial and a Beta distribution as the conjugate prior, the Bayesian approach provided a probability interval for the conversion rate, offering a more probabilistic decision-making tool than the single-point estimate of the Frequentist approach.</p>
 
 <h2>Quick Recap of Bayesian Statistics</h2>
 
@@ -159,9 +144,7 @@
 
 <p>The formula for Bayesian statistics is:</p>
 
-$
-P(H|E) = \frac{P(E|H) \cdot P(H)}{P(E)}
-$
+<p>$$<br><table class="markdown-table"><tr><th>E) = \frac{P(E</th></tr></table><br>$$</p>
 
 <p>Where:</p>
 
@@ -191,27 +174,37 @@ $
 
 <p>We can categorize visitors as follows: a visitor who doesn't make a purchase is denoted as <code class="inline-code">0</code> and a visitor who makes a purchase is denoted as <code class="inline-code">1</code>. This can be treated as a Bernoulli experiment. We can simulate this scenario with a Python script for 100 visitors, as follows:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (11 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
 
 <p>number_of_visitors = 100<br>website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)</p>
 
-<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre></p>
+<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre><br>                        </div><br>                    </div></p>
 
 <p>In the above code, I intentionally hide the probability argument of Bernoulli's random variable generation with the <code class="inline-code">real_conversion_rate</code> variable, since we are going to estimate it. (read until the end if you want to see the value 🙃)</p>
 
 <p>First, let’s count out of 100 people above, how many conversions we have:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">import numpy as np
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (11 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">import numpy as np
 # Count the unique values in the numpy array
 unique, counts = np.unique(website_visitors, return_counts=True)
 
-<p># Print the unique values and their counts<br>for u, c in zip(unique, counts):<br>    print(f&quot;{u}: {c}&quot;)<br>  <br>&gt;&gt;&gt;&gt;output:<br>0: 86<br>1: 14</code></pre></p>
+<p># Print the unique values and their counts<br>for u, c in zip(unique, counts):<br>    print(f&quot;{u}: {c}&quot;)<br>  <br>&gt;&gt;&gt;&gt;output:<br>0: 86<br>1: 14</code></pre><br>                        </div><br>                    </div></p>
 
 <p>In this case, 14 people out of 100 made a purchase. If you apply the Frequentist approach, your conversion rate would be:</p>
 
-$
-Conversion\:rate = \frac{Made\: Purchase}{All\:visitors} = \frac{14}{100}=0.14 \: or \:14\%
-$
+<p>$$<br>Conversion\:rate = \frac{Made\: Purchase}{All\:visitors} = \frac{14}{100}=0.14 \: or \:14\%<br>$$</p>
 
 <p>Remember that with the Bayesian approach, we start with a prior belief (an initial assumption about the conversion rate). Then, we use the data (evidence) to update our belief about the conversion rate (posterior).</p>
 
@@ -219,11 +212,18 @@ $
 
 <p>If you don't have any initial idea about the conversion rate, there's no need to worry. You can use a broad or flat distribution, where you assume that the conversion rate is a number between 0 and 1. This translates to a Beta distribution with parameters: a=1 and b=1, or <code class="inline-code">Beta(a=1, b=1)</code>.</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python"># plot a KDE plot with beta distribution a=1 and b=1
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># plot a KDE plot with beta distribution a=1 and b=1
 prior = stats.beta(a=1, b=1)
 sns.kdeplot(data=prior.rvs(size=100_000), color=&quot;tab:red&quot;, label=&quot;Prior&quot;)
 plt.title(&quot;Conversion Rate&quot;)
 plt.show()</code></pre>
+                        </div>
+                    </div>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_03_01.png"
@@ -239,13 +239,20 @@ class="responsive-image">
 
 <p>Plugging in our 14 purchases and 86 non-purchases, our posterior becomes <code class="inline-code">Beta(a=15, b=87)</code>:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python"># plot a KDE plot with beta distribution a=1 and b=1
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># plot a KDE plot with beta distribution a=1 and b=1
 prior = stats.beta(a=1, b=1)
 posterior = stats.beta(a=1 + 14, b=1 + 86)
 sns.kdeplot(data=prior.rvs(size=100_000), color=&quot;tab:red&quot;, label=&quot;Prior&quot;)
 sns.kdeplot(data=posterior.rvs(size=100_000), color=&quot;tab:green&quot;, label=&quot;Posterior&quot;)
 plt.title(&quot;Conversion Rate&quot;)
 plt.show()</code></pre>
+                        </div>
+                    </div>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_03_02.png"
@@ -255,12 +262,17 @@ class="responsive-image">
 <figcaption class="image-caption">Conversion Rate After 100 Events</figcaption>
 </figure>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">posterior_mean = np.round(posterior.mean(), 3)
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">posterior_mean = np.round(posterior.mean(), 3)
 posterior_q5, posterior_q95 = posterior.interval(0.9)
 print(f&quot;Posterior mean: {posterior_mean}&quot;)
 print(f&quot;Posterior 90% credible interval: ({posterior_q5:.3f}, {posterior_q95:.3f})&quot;)
 
-<p>&gt;&gt;&gt;&gt;output:<br>Posterior mean: 0.147<br>Posterior 90% credible interval: (0.094, 0.208)</code></pre></p>
+<p>&gt;&gt;&gt;&gt;output:<br>Posterior mean: 0.147<br>Posterior 90% credible interval: (0.094, 0.208)</code></pre><br>                        </div><br>                    </div></p>
 
 <p>In the Bayesian approach, we consider an entire distribution for our conversion rate, unlike the Frequentist approach, where we only have a single point (14%). This allows us to make a more probabilistic decision by considering, for example, a 90% interval where the real conversion rate might be.</p>
 
@@ -268,13 +280,19 @@ print(f&quot;Posterior 90% credible interval: ({posterior_q5:.3f}, {posterior_q9
 
 <p><strong>In fact, I initially used a 10% probability to generate Bernoulli ones and zeros in my code:</strong></p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (13 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
 
 <p>**real_conversion_rate = 0.1**</p>
 
 <p>number_of_visitors = 100<br>website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)</p>
 
-<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre></p>
+<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre><br>                        </div><br>                    </div></p>
 
 <h2>Conclusion</h2>
 
@@ -282,9 +300,16 @@ print(f&quot;Posterior 90% credible interval: ({posterior_q5:.3f}, {posterior_q9
 
 <p>Moreover, we can determine the true conversion rate with just 100 visitors. This is a key advantage of Bayesian inference, which works well with limited data. For instance, if we apply the previous simulations to a sample of 1000 people instead of 100, the following happens:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">Frequentist : 0.108
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">Frequentist : 0.108
 Posterior mean: 0.109
 Posterior 90% credible interval: (0.093, 0.125)</code></pre>
+                        </div>
+                    </div>
 
 <p>In addition, we began with a flat prior, which was a uniform distribution. If we had prior knowledge or a hypothesis about the conversion rate, we could incorporate it into our simulations. For instance, if you had previous knowledge or a gut feeling that the "conversion rate is definitely less than 50%, perhaps around 20%", then with only 100 people, our distributions and final values would look somewhat different. We can use Beta(a=2, b=11) as our prior now. The 90% interval would be slightly lower than before, and the mean would be closer to the frequentist value.</p>
 
@@ -304,40 +329,39 @@ class="responsive-image">
             <!-- Post footer -->
             <footer class="blog-post-footer">
                 <div class="post-sharing">
-                    <h4>Share this post:</h4>
+                    <h4>Share this article</h4>
                     <div class="share-buttons">
                         <a href="https://twitter.com/intent/tweet?text=Bayesian%20Posterior%20Calculation%20with%20Conjugate%20Priors&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat102%2F" target="_blank" class="share-btn twitter">
-                            🐦 Twitter
+                            Share on X
                         </a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fbayesian-stat102%2F" target="_blank" class="share-btn linkedin">
-                            💼 LinkedIn
+                            Share on LinkedIn
                         </a>
-                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
-                            📋 Copy Link
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
                         </a>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
-                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
                 </div>
             </footer>
         </article>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="../../">Home</a>
-                    <a href="../../about">About</a>
-                    <a href="../../blog">Blog</a>
-                    <a href="../../contact">Contact</a>
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -345,7 +369,6 @@ class="responsive-image">
     </footer>
 
     <!-- Configuration Scripts -->
-    <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
     
@@ -369,7 +392,7 @@ class="responsive-image">
             .then(data => {
                 const el = document.getElementById('page-views');
                 if (el && data.count) {
-                    el.textContent = '📊 ' + data.count + ' views';
+                    el.textContent = data.count + ' views';
                 }
             })
             .catch(() => {

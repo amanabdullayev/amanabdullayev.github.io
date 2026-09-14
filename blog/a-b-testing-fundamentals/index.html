@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Testing Fundamentals: A Practical Guide for Data Analysis - Aman Abdullayev</title>
+    <meta name="description" content="This comprehensive guide walks you through sampling theory basics and hypothesis testing (A/B testing), featuring detailed examples comparing means and proportions between groups, along with intuitive visualizations to make the concepts easy to understand.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A/B Testing Fundamentals: A Practical Guide for Data Analysis - Aman Abdullayev">
+    <meta property="og:description" content="This comprehensive guide walks you through sampling theory basics and hypothesis testing (A/B testing), featuring detailed examples comparing means and proportions between groups, along with intuitive visualizations to make the concepts easy to understand.">
+    <meta property="og:url" content="https://amanabdullayev.me/blog/a-b-testing-fundamentals/">
+    <meta property="og:site_name" content="Aman Abdullayev">
+    <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_10_cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+    <meta property="article:author" content="Aman Abdullayev">
+    <meta property="article:published_time" content="2025-10-04T22:00:00.000Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A/B Testing Fundamentals: A Practical Guide for Data Analysis - Aman Abdullayev">
+    <meta name="twitter:description" content="This comprehensive guide walks you through sampling theory basics and hypothesis testing (A/B testing), featuring detailed examples comparing means and proportions between groups, along with intuitive visualizations to make the concepts easy to understand.">
+    <meta name="twitter:creator" content="@amanabdullayev">
+    <meta name="twitter:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_10_cover.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://amanabdullayev.me/blog/a-b-testing-fundamentals/">
+    
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
+    <link rel="manifest" href="../../public/manifest.json">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
+    
+    <!-- Core styles -->
+    <link rel="stylesheet" href="../../styles/core.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/blog.css">
+    <link rel="stylesheet" href="../../styles/pages.css">
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- MathJax for LaTeX equation rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayMath: [['$$', '$$'], ['\[', '\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                tags: 'ams'
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                pageReady: () => {
+                    console.log('MathJax configuration loaded');
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        console.log('MathJax page ready');
+                        // Force a re-render for GitHub Pages
+                        if (window.MathJax && window.MathJax.typesetPromise) {
+                            return window.MathJax.typesetPromise();
+                        }
+                    });
+                }
+            },
+            loader: {
+                load: ['[tex]/ams']
+            }
+        };
+    </script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav>
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
+                    <a href="../../about" class="nav-btn">About</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="blog-post">
+            <!-- Back to blog link -->
+            <div class="blog-post-nav">
+                <a href="../" class="back-to-blog">← Back to writing</a>
+            </div>
+            <!-- Cover image banner -->
+            
+            <div class="blog-post-cover">
+                <img src="../../blog-posts/blog_images/blog_10_cover.png" 
+                     alt="A/B Testing Fundamentals: A Practical Guide for Data Analysis" 
+                     class="cover-image"
+                     loading="lazy">
+            </div>
+            
+            <!-- Post header -->
+            <header class="blog-post-header">
+                <h1 class="blog-post-title">A/B Testing Fundamentals: A Practical Guide for Data Analysis</h1>
+                <div class="post-tags"><span class="tag" data-color="7">Statistics</span><span class="tag" data-color="4">Python</span></div>
+                <div class="blog-post-meta">
+                    <time datetime="2025-10-04T22:00:00.000Z">Oct 5, 2025</time>
+                    <div class="page-views" id="page-views">
+                        Loading views...
+                    </div>
+                </div>
+                <div class="post-author-pin">
+                    <img src="../../images/personal_avatar_1.png" 
+                         alt="Aman Abdullayev" 
+                         class="author-avatar"
+                         loading="lazy">
+                    <span class="author-pin-name">Aman Abdullayev</span>
+                </div>
+            </header>
+
+            <!-- Post content -->
+            <div class="blog-post-body">
+                <h2>Introduction</h2>
+
+<p>In today’s data-driven world, making decisions based on <strong>evidence</strong> rather than intuition is essential. <strong>A/B testing</strong> provides a scientific framework to compare different versions of a product, webpage, or feature to determine which performs better. This notebook demystifies the <strong>statistical foundations of A/B testing</strong> and provides practical guidance for implementation in Python.</p>
+
+<p>We’ll start by exploring fundamental statistical concepts—<strong>sampling, distributions, and uncertainty</strong>—before moving into <strong>hypothesis testing</strong>. Instead of presenting abstract formulas, we’ll build intuition through <strong>visualization and simulation</strong>. You’ll learn how to:</p>
+
+<ul class="markdown-list"><li>Estimate <strong>population parameters</strong> from samples</li><li>Quantify <strong>uncertainty</strong> in your estimates</li><li>Compare <strong>means and proportions</strong> between groups</li><li>Make statistically sound decisions using <strong>confidence intervals</strong> and <strong>p-values</strong></li></ul>
+
+<p>Whether you’re a <strong>product manager</strong> validating design changes, a <strong>marketer</strong> optimizing conversion rates, or a <strong>data scientist</strong> establishing testing frameworks, this guide will equip you to <strong>interpret A/B tests with confidence</strong>.</p>
+
+<p>Let’s begin by understanding <strong>why we sample data</strong> instead of measuring entire populations.</p>
+
+<h2>Revisiting Statistics: Understanding Population Parameters</h2>
+
+<h3>Why We Sample Instead of Measuring Everyone</h3>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (15 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># Data manipulation libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+from statsmodels.stats.proportion import proportions_ztest
+import warnings
+warnings.filterwarnings(&quot;ignore&quot;)  # Suppress warnings for cleaner output
+sns.set_style(&quot;whitegrid&quot;)
+plt.rcParams[&quot;figure.dpi&quot;] = 100
+%config InlineBackend.figure_format = &quot;retina&quot;
+%load_ext jupyter_black
+high_contrast_colors = [&quot;#003f5c&quot;, &quot;#ff6e54&quot;, &quot;#f9f871&quot;, &quot;#2db88b&quot;, &quot;#955196&quot;,]  # For primary visuals
+milder_colors = [&quot;#00798c&quot;, &quot;#d1495b&quot;, &quot;#edae49&quot;, &quot;#52a369&quot;, &quot;#756ab2&quot;,]  # For secondary visuals</code></pre>
+                        </div>
+                    </div>
+
+<p>Suppose we are tasked with finding the <strong>average weight of people</strong> in a country named <strong>"No Ones Land"</strong>. The country has a population of <strong>5 million people</strong>, so weighing everyone is impractical.</p>
+
+<p>Instead, we can <strong>sample people from different locations</strong> across the country to estimate the population mean. For example, we visit <strong>1,000 locations</strong>, and in each location, we ask <strong>500 people</strong> for their weight. These samples are stored in <code class="inline-code">df_samples</code> and you can see head of that dataframe below.</p>
+
+<blockquote>Note: This is synthetic data. I generated it using a normally distributed population and randomly selected 1,000 samples of 500 points each. The synthetic population is in <code class="inline-code">df_population</code>.</blockquote>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">np.random.seed(42)  # For reproducibility
+population_size = 5_000_000
+# Generate a synthetic population of weights (in kg) following a normal distribution
+weights = np.random.normal(loc=75, scale=10, size=population_size)
+df_population = pd.DataFrame(weights, columns=[&quot;weight&quot;])
+df_population[&quot;people_id&quot;] = [f&quot;person_{i+1}&quot; for i in range(population_size)]
+print(f&quot;Shape of Population DataFrame: {df_population.shape}&quot;)
+df_population.head()</code></pre>
+                        </div>
+                    </div>
+
+<p>Shape of Population DataFrame: (5000000, 2)</p>
+
+<table class="markdown-table"><tr><th></th><th>weight</th><th>people_id</th></tr><tr><td>0</td><td>79.967142</td><td>person_1</td></tr><tr><td>1</td><td>73.617357</td><td>person_2</td></tr><tr><td>2</td><td>81.476885</td><td>person_3</td></tr><tr><td>3</td><td>90.230299</td><td>person_4</td></tr><tr><td>4</td><td>72.658466</td><td>person_5</td></tr></table>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (12 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">np.random.seed(42)  # For reproducibility
+samples_ = np.random.normal(loc=75, scale=10, size=[1000, 500])
+# make it a DataFrame with column sample_id and weight
+df_samples = pd.DataFrame(samples_.T)
+df_samples = df_samples.melt(var_name=&quot;sample_id&quot;, value_name=&quot;weight&quot;)
+df_samples[&quot;person_id&quot;] = &quot;person_&quot; + (
+    df_samples.groupby(&quot;sample_id&quot;).cumcount() + 1
+).astype(str)
+df_samples[&quot;sample_id&quot;] = &quot;sample_&quot; + df_samples[&quot;sample_id&quot;].astype(str)
+df_samples = df_samples[[&quot;sample_id&quot;, &quot;person_id&quot;, &quot;weight&quot;]]
+print(f&quot;Shape of Samples DataFrame: {df_samples.shape}&quot;)
+df_samples.head()</code></pre>
+                        </div>
+                    </div>
+
+<p>Shape of Samples DataFrame: (500000, 3)</p>
+
+<table class="markdown-table"><tr><th></th><th>sample_id</th><th>person_id</th><th>weight</th></tr><tr><td>0</td><td>sample_0</td><td>person_1</td><td>79.967142</td></tr><tr><td>1</td><td>sample_0</td><td>person_2</td><td>73.617357</td></tr><tr><td>2</td><td>sample_0</td><td>person_3</td><td>81.476885</td></tr><tr><td>3</td><td>sample_0</td><td>person_4</td><td>90.230299</td></tr><tr><td>4</td><td>sample_0</td><td>person_5</td><td>72.658466</td></tr></table>
+
+<h2>Examining Sample Distributions</h2>
+
+<p>Let's explore how our samples are distributed. The histogram below shows that while each sample has its own unique distribution, they share similar patterns because they all come from the same underlying population.</p>
+
+<p>Notice the x-axis scale — most weights fall between <strong>50 and 100 kg</strong> with the peak around <strong>75kg</strong>. This central tendency is captured by the <strong>mean</strong>, while the spread of individual weights within each sample is quantified by the <strong>standard deviation</strong>.</p>
+
+<p>These key statistics can be easily calculated in Python using the <code class="inline-code">mean()</code> and <code class="inline-code">std()</code> methods, giving us a mathematical summary of each sample's characteristics.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (23 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># Plot the distribution of exam scores for a subset of samples (showing all 1000 would be too cluttered)
+plt.figure(figsize=(8, 5))
+sns.histplot(
+    data=df_samples[
+        df_samples[&quot;sample_id&quot;].isin([f&quot;sample_{i+1}&quot; for i in range(1000)])
+    ],
+    x=&quot;weight&quot;,
+    hue=&quot;sample_id&quot;,
+    element=&quot;step&quot;,
+    stat=&quot;density&quot;,
+    common_norm=False,
+    palette=sns.color_palette(&quot;tab10&quot;, n_colors=10),
+    alpha=0.3,
+    legend=True,
+)
+plt.title(&quot;Distribution of Weight Across Multiple Samples&quot;, fontsize=14)
+plt.xlabel(&quot;Weight&quot;, fontsize=12)
+plt.ylabel(&quot;Density&quot;, fontsize=12)
+plt.grid(alpha=0.3)
+plt.legend(title=&quot;Sample&quot;, fontsize=10, title_fontsize=10, ncol=2)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_6_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<h3>Sampling Distribution: The Power of Sample Means</h3>
+
+<p>Now, let's shift our focus from individual data points to <strong>sample means</strong>. Instead of examining individual weights, we'll analyze the <strong>average weight calculated from each sample</strong>.</p>
+
+<p>Below is a head of our sample means dataframe, where each row represents the average weight from one of our 1,000 samples:</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_samples_mean = df_samples.groupby(&quot;sample_id&quot;).weight.mean().reset_index()
+df_samples_mean.head()</code></pre>
+                        </div>
+                    </div>
+
+<table class="markdown-table"><tr><th></th><th>sample_id</th><th>weight</th></tr><tr><td>0</td><td>sample_0</td><td>75.068380</td></tr><tr><td>1</td><td>sample_1</td><td>75.318261</td></tr><tr><td>2</td><td>sample_10</td><td>74.671407</td></tr><tr><td>3</td><td>sample_100</td><td>74.977417</td></tr><tr><td>4</td><td>sample_101</td><td>74.991249</td></tr></table>
+
+<p>Plotting a histogram of these sample means, we notice the <strong>distribution is narrower</strong> than the original weight distributions. While individual weights lie between 50 and 100 kg, sample means are mostly between <strong>74 and 76 kg</strong>.</p>
+
+<p>Taking the <strong>mean of the sample means</strong> approximates the <strong>population mean</strong>, which aligns closely with the actual mean of <code class="inline-code">df_population</code>.</p>
+
+<p>We can also calculate a <strong>95% confidence interval (CI)</strong> for the sample means, which represents the range where we expect <strong>95% of sample means to lie</strong>:</p>
+
+<p>$$<br>\text{CI}_{95\%} = \bar{x} \pm 1.96 \cdot \frac{s}{\sqrt{n}}<br>$$</p>
+
+<p>This interval gives us a sense of <strong>uncertainty</strong> around the estimated population mean.</p>
+
+<p>Plotting a histogram of these sample means, we observe that the <strong>distribution is much narrower</strong> than the original weight distribution. While individual weights range from 50 to 100 kg, the sample means mostly fall between <strong>74 and 76 kg</strong>.</p>
+
+<p>If we take one more average — the <strong>mean of these sample means</strong> — we get an approximation of the <strong>population mean</strong>, which closely matches the actual mean of our original dataset <code class="inline-code">df_population</code>.</p>
+
+<p>Additionally, we can calculate the <strong>standard deviation of the sample means</strong>, which shows how much the sample means tend to vary from the true population mean. <em>( Teaser: remember this number—we’ll come back to it later. )</em></p>
+
+<p>We can also determine the range where about <strong>95% of the sample means</strong> are expected to fall — this is known as the <strong>confidence interval</strong>.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (50 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">mean_of_sample_means = df_samples_mean[&quot;weight&quot;].mean()
+std_of_sample_means = df_samples_mean[&quot;weight&quot;].std()
+true_population_mean = df_population[&quot;weight&quot;].mean()
+plt.figure(figsize=(8, 5))
+# Plot histogram with KDE of sample means
+sns.histplot(
+    data=df_samples_mean,
+    x=&quot;weight&quot;,
+    bins=30,
+    kde=True,
+    color=high_contrast_colors[1],
+    stat=&quot;density&quot;,
+    alpha=0.8,
+    edgecolor=&quot;white&quot;,
+    label=f&quot;Mean of Sample Means ({mean_of_sample_means:.1f}) ± {std_of_sample_means:.2f}&quot;,
+)
+# Add vertical line for the population mean
+plt.axvline(
+    x=true_population_mean,
+    color=high_contrast_colors[0],
+    linestyle=&quot;--&quot;,
+    linewidth=2,
+    label=f&quot;True Population Mean ({true_population_mean:.1f})&quot;,
+)
+# 95% confidence interval using empirical percentiles (2.5% and 97.5%)
+ci_95_lower = df_samples_mean[&quot;weight&quot;].quantile(0.025).round(2)
+ci_95_upper = df_samples_mean[&quot;weight&quot;].quantile(0.975).round(2)
+plt.axvline(
+    x=ci_95_lower,
+    color=high_contrast_colors[3],
+    linestyle=&quot;:&quot;,
+    linewidth=2,
+    label=f&quot;95% Confidence Interval ({ci_95_lower:.1f}, {ci_95_upper:.1f})&quot;,
+)
+plt.axvline(
+    x=ci_95_upper,
+    color=high_contrast_colors[3],
+    linestyle=&quot;:&quot;,
+    linewidth=2,
+)
+# Add title and labels
+plt.title(&quot;Distribution of Sample Means Across 1000 Samples&quot;, fontsize=14)
+plt.xlabel(&quot;Sample Mean&quot;, fontsize=12)
+plt.ylabel(&quot;Density&quot;, fontsize=12)
+plt.legend(fontsize=10)
+plt.xlim(72, 78)
+plt.grid(alpha=0.3)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_11_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<h3>Single Sample vs. Thousands of Samples: The Magic of Standard Error</h3>
+
+<p>Collecting thousands of samples is rarely practical in real life. To overcome this, statisticians developed a way to estimate population parameters <strong>from just one sample</strong>. Instead of repeating the experiment thousands of times, we can do it once and infer the population characteristics.</p>
+
+<p>Let's randomly pick a <strong>single sample</strong> from our <code class="inline-code">df_samples</code> dataframe and try to estimate the previously calculated values — the <strong>mean of sample means</strong>, the <strong>standard deviation of sample means</strong>, and the <strong>confidence interval around the mean of sample means</strong>.</p>
+
+<p>We now introduce a new term: the <strong>standard error (SE)</strong> — a measure of the statistical accuracy of an estimate. It is calculated by dividing the standard deviation of the single sample by the square root of its size:</p>
+
+<p>$$<br>SE = \frac{s}{\sqrt{n}}<br>$$</p>
+
+<p>Using the standard error, we can compute the <strong>95% confidence interval</strong> for the estimated mean:</p>
+
+<p>$$<br>\text{CI}_{95\%} = \bar{x} \pm 1.96 \cdot SE<br>$$</p>
+
+<blockquote>Note: The factor 1.96 comes from the 68-95-99.7 rule of the standard normal distribution, where approximately 95% of data points lie within 1.96 standard deviations from the mean.</blockquote>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (74 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">random_sample_id = (
+    df_samples[&quot;sample_id&quot;].drop_duplicates().sample(n=1, random_state=45)
+)
+df_single_sample = df_samples[df_samples[&quot;sample_id&quot;] == random_sample_id.values[0]]
+single_sample_mean = df_single_sample[&quot;weight&quot;].mean()
+single_sample_std = df_single_sample[&quot;weight&quot;].std()
+single_sample_data_points = df_single_sample[&quot;weight&quot;].count()
+standard_error_single_sample = single_sample_std / np.sqrt(single_sample_data_points)
+single_sample_ci_95_lower = single_sample_mean - 1.96 * standard_error_single_sample
+single_sample_ci_95_upper = single_sample_mean + 1.96 * standard_error_single_sample
+plt.figure(figsize=(8, 5))
+# Plot histogram with KDE of sample means
+sns.histplot(
+    data=df_samples_mean,
+    x=&quot;weight&quot;,
+    bins=30,
+    kde=True,
+    color=&quot;gray&quot;,
+    stat=&quot;density&quot;,
+    alpha=0.8,
+    edgecolor=&quot;white&quot;,
+    label=f&quot;Mean of Sample Means ({mean_of_sample_means:.1f}) ± {std_of_sample_means:.2f}&quot;,
+)
+# 95% confidence interval using empirical percentiles (2.5% and 97.5%)
+ci_95_lower = df_samples_mean[&quot;weight&quot;].quantile(0.025).round(2)
+ci_95_upper = df_samples_mean[&quot;weight&quot;].quantile(0.975).round(2)
+plt.axvline(
+    x=ci_95_lower,
+    color=&quot;gray&quot;,
+    linestyle=&quot;:&quot;,
+    linewidth=2,
+    label=f&quot;95% Confidence Interval ({ci_95_lower:.1f}, {ci_95_upper:.1f})&quot;,
+)
+plt.axvline(
+    x=ci_95_upper,
+    color=&quot;gray&quot;,
+    linestyle=&quot;:&quot;,
+    linewidth=2,
+)
+# Add vertical line for the single sample mean
+plt.axvline(
+    x=single_sample_mean,
+    color=milder_colors[2],
+    linestyle=&quot;-&quot;,
+    linewidth=2,
+    label=f&quot;Single Sample Mean ({single_sample_mean:.1f}) ± {standard_error_single_sample:.2f}&quot;,
+)
+# 95% confidence interval for the single sample mean
+plt.axvline(
+    x=single_sample_ci_95_lower,
+    color=milder_colors[3],
+    linestyle=&quot;--&quot;,
+    linewidth=2,
+    label=f&quot;95% CI for Single Sample Mean ({single_sample_ci_95_lower:.1f}, {single_sample_ci_95_upper:.1f})&quot;,
+)
+plt.axvline(
+    x=single_sample_ci_95_upper,
+    color=milder_colors[3],
+    linestyle=&quot;--&quot;,
+    linewidth=2,
+)
+# Add title and labels
+plt.title(
+    &quot;Distribution of Sample Means Across 1000 Samples vs Estimation by Single Sample&quot;,
+    fontsize=14,
+)
+plt.xlabel(&quot;Sample Mean&quot;, fontsize=12)
+plt.ylabel(&quot;Density&quot;, fontsize=12)
+plt.legend(fontsize=10)
+plt.xlim(72, 78)
+plt.grid(alpha=0.3)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_13_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>Did you notice that the <strong>standard error</strong> we calculated here (<span class="math-inline">$SE = 0.44$</span>) is very close to the <strong>standard deviation of sample means</strong> (<span class="math-inline">$s = 0.45$</span>) we calculated previously?</p>
+
+<p>Additionally, the <strong>uncertainty</strong> we computed around our single sample mean guarantees that, <strong>95% of the time, the true population mean will fall within this range</strong>. So, even though our single sample mean may not exactly equal the population mean, the <strong>standard error</strong> and <strong>confidence interval</strong> together give us a complete picture of the estimate’s reliability.</p>
+
+<h3>Sample Size Matters</h3>
+
+<p>Sample size is crucial because it appears in the <strong>denominator of the standard error</strong> formula. Small samples may not represent the population well, leading to higher variability.</p>
+
+<p>Increasing the sample size (<span class="math-inline">$\text{n}$</span>) <strong>reduces the standard error</strong> and <strong>narrows the confidence interval</strong>, improving the accuracy of our estimate. The simulation below shows how the mean, standard error, and confidence interval change with different sample sizes.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (83 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_stats_by_sample_size = pd.DataFrame(
+    columns=[
+        &quot;sample_size&quot;,
+        &quot;sample_mean&quot;,
+        &quot;sample_std&quot;,
+        &quot;sample_se&quot;,
+        &quot;ci_95_lower&quot;,
+        &quot;ci_95_upper&quot;,
+    ]
+)
+sizes = [10, 20, 40, 80, 160, 320, 400, 500]
+for sample_size in sizes:
+    data = df_single_sample[&quot;weight&quot;].sample(n=sample_size, random_state=1)
+    sample_mean = data.mean()
+    sample_std = data.std()
+    sample_se = sample_std / np.sqrt(sample_size)
+    ci_95_lower = sample_mean - 1.96 * sample_se
+    ci_95_upper = sample_mean + 1.96 * sample_se
+    df_stats_by_sample_size = pd.concat(
+        [
+            df_stats_by_sample_size,
+            pd.DataFrame(
+                {
+                    &quot;sample_size&quot;: [sample_size],
+                    &quot;sample_mean&quot;: [sample_mean],
+                    &quot;sample_std&quot;: [sample_std],
+                    &quot;sample_se&quot;: [sample_se],
+                    &quot;ci_95_lower&quot;: [ci_95_lower],
+                    &quot;ci_95_upper&quot;: [ci_95_upper],
+                }
+            ),
+        ],
+        ignore_index=True,
+    )
+df_stats_by_sample_size = df_stats_by_sample_size.round(2)
+# plot mean and 95% CI for different sample sizes and also plot se for different sample sizes
+# Ensure sample_size is numeric for plotting
+df_stats_by_sample_size[&quot;sample_size&quot;] = df_stats_by_sample_size[&quot;sample_size&quot;].astype(
+    int
+)
+plt.figure(figsize=(8, 5))
+# Plot sample means with error bars for 95% CI
+plt.errorbar(
+    x=df_stats_by_sample_size[&quot;sample_size&quot;],
+    y=df_stats_by_sample_size[&quot;sample_mean&quot;],
+    yerr=1.96 * df_stats_by_sample_size[&quot;sample_se&quot;],
+    fmt=&quot;o&quot;,
+    markersize=8,
+    color=high_contrast_colors[1],
+    ecolor=high_contrast_colors[3],
+    elinewidth=2,
+    capsize=5,
+    label=&quot;Sample Mean ± 95% CI&quot;,
+)
+# Plot standard error as shaded area
+plt.fill_between(
+    x=df_stats_by_sample_size[&quot;sample_size&quot;],
+    y1=df_stats_by_sample_size[&quot;sample_mean&quot;] - df_stats_by_sample_size[&quot;sample_se&quot;],
+    y2=df_stats_by_sample_size[&quot;sample_mean&quot;] + df_stats_by_sample_size[&quot;sample_se&quot;],
+    color=high_contrast_colors[2],
+    alpha=0.5,
+    label=&quot;Standard Error&quot;,
+)
+# Add horizontal line for true population mean
+plt.axhline(
+    y=true_population_mean,
+    color=high_contrast_colors[0],
+    linestyle=&quot;--&quot;,
+    linewidth=2,
+    label=f&quot;True Population Mean ({true_population_mean:.1f})&quot;,
+)
+# Add titles and labels
+plt.title(&quot;Effect of Sample Size on Sample Mean and Confidence Interval&quot;, fontsize=14)
+plt.xlabel(&quot;Sample Size&quot;, fontsize=12)
+plt.ylabel(&quot;Weight&quot;, fontsize=12)
+plt.xscale(&quot;log&quot;)
+plt.xticks(sizes, sizes)
+# plt.ylim(66, 84)
+plt.legend(fontsize=10)
+plt.grid(alpha=0.3)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_16_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>Did you notice how the <strong>sample mean approaches the true population mean</strong> as the sample size increases? At the same time, the <strong>confidence interval around our estimate gets narrower</strong>, thanks to the <strong>Central Limit Theorem</strong>.</p>
+
+<h2>A/B Testing Basics: Comparing Two Groups Statistically</h2>
+
+<p>Now that we’ve refreshed our understanding of estimating population parameters from a single sample and accounting for uncertainty, we can move on to <strong>A/B testing</strong>. Let’s start with the theory and then do a practical example.</p>
+
+<h3>What is A/B Testing?</h3>
+
+<p><strong>A/B testing</strong> is a method to compare <strong>two groups</strong> to see if there’s a statistically significant difference between them.</p>
+
+<ul class="markdown-list"><li><strong>Null hypothesis (<span class="math-inline">$H_0$</span>)</strong>: There is <strong>no difference</strong> between the groups.</li><li><strong>Alternative hypothesis (<span class="math-inline">$H_1$</span>)</strong>: The groups <strong>differ</strong>.</li></ul>
+
+<p>Depending on the type of data:</p>
+
+<ul class="markdown-list"><li>For <strong>continuous data</strong> ( e.g., weight, acquisition cost ), we compare <strong>means</strong>.</li><li>For <strong>binary data</strong> ( e.g., conversion rates, success rate ), we compare <strong>proportions</strong>.</li></ul>
+
+<p><strong>General process:</strong></p>
+
+<ol class="markdown-list"><li>Calculate group statistics with uncertainty ( mean/proportion, SE )</li><li>Assess whether the observed differences are <strong>statistically significant</strong></li></ol>
+
+<h3>Common Approaches in A/B Testing</h3>
+
+<p>Here are two approaches to compare two groups. The first is less commonly used directly, while the second is the standard method for A/B testing:</p>
+
+<ol class="markdown-list"><li><strong>Confidence Interval Overlap</strong></li></ol>
+Compute the means ( or proportions ) and SEs for each group, then build confidence intervals.
+
+<ul class="markdown-list"><li>If the <strong>intervals do not overlap</strong>, reject <span class="math-inline">$H_0$</span> — the groups differ.</li></ul>
+
+<ol class="markdown-list"><li><strong>Standardized Difference ( z-score / t-statistic )</strong></li></ol>
+This is the <strong>de facto standard</strong> for A/B testing.
+
+<p>Steps:</p>
+
+<ul class="markdown-list"><li>Compute the <strong>test statistic</strong> (<span class="math-inline">$\text{t-statistic}$</span>) using the sample means and variances. The formula differs slightly for means versus proportions ( details follow in the corresponding sections ).</li><li>Check where this (<span class="math-inline">$\text{t-statistic}$</span>) falls in a <strong>standard normal distribution</strong> (<span class="math-inline">$\mu = 0$</span>, <span class="math-inline">$\sigma = 1$</span>); 95% of values lie within ±1.96).</li><li>Compute the <strong>p-value</strong> — the probability of observing a result as extreme as the (<span class="math-inline">$\text{t-statistic}$</span>) under <span class="math-inline">$H_0$</span>. Reject <span class="math-inline">$H_0$</span> if <span class="math-inline">$p < \alpha$</span> ( commonly alpha is 0.05 ).</li></ul>
+
+<h2>Practical Example: Comparing Group Means</h2>
+
+<p>Imagine a friend from a country called <strong>“Wonderstan”</strong> claims their population is heavier than <strong>No Ones Land</strong>. Since we already know how to estimate population parameters from a single sample, we can test this claim without weighing the entire population:<br><ul class="markdown-list"><li>Sample <strong>550 people from Wonderstan</strong></li><li>Use our <strong>500-person sample from No Ones Land</strong></li></ul></p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (15 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_no_ones_land_single_sample = (
+    df_single_sample.reset_index(drop=True).copy().drop(columns=[&quot;sample_id&quot;])
+)
+df_no_ones_land_single_sample[&quot;country&quot;] = &quot;No Ones Land&quot;
+df_no_ones_land_single_sample.head()
+np.random.seed(42)  # For reproducibility
+samples_ = np.random.normal(loc=78, scale=13, size=250)
+df_wonderstan_single_sample = pd.DataFrame(samples_, columns=[&quot;weight&quot;])
+df_wonderstan_single_sample[&quot;person_id&quot;] = [f&quot;person_{i+1}&quot; for i in range(250)]
+df_wonderstan_single_sample[&quot;country&quot;] = &quot;Wonderstan&quot;
+df_wonderstan_single_sample.head()
+df_ab_test = pd.concat(
+    [df_no_ones_land_single_sample, df_wonderstan_single_sample], ignore_index=True
+)
+df_ab_test.head()</code></pre>
+                        </div>
+                    </div>
+
+<table class="markdown-table"><tr><th></th><th>person_id</th><th>weight</th><th>country</th></tr><tr><td>0</td><td>person_1</td><td>70.679798</td><td>No Ones Land</td></tr><tr><td>1</td><td>person_2</td><td>71.778589</td><td>No Ones Land</td></tr><tr><td>2</td><td>person_3</td><td>85.799607</td><td>No Ones Land</td></tr><tr><td>3</td><td>person_4</td><td>84.839126</td><td>No Ones Land</td></tr><tr><td>4</td><td>person_5</td><td>65.453063</td><td>No Ones Land</td></tr></table>
+
+<p>First, let’s visualize the data. Plot histograms for each sample. The distributions overlap quite a bit, but the peak for <strong>Wonderstan</strong> is slightly to the right.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (17 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># plot kdeplot using seaborn
+plt.figure(figsize=(8, 5))
+sns.histplot(
+    data=df_ab_test,
+    x=&quot;weight&quot;,
+    hue=&quot;country&quot;,
+    fill=True,
+    bins=100,
+    alpha=0.5,
+    palette=high_contrast_colors,
+)
+plt.title(&quot;Distribution of Weight by Country&quot;)
+plt.xlabel(&quot;weight&quot;)
+plt.ylabel(&quot;Density&quot;)
+plt.grid(alpha=0.3)
+sns.despine()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_23_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>Next, we calculate the <strong>means</strong> for each sample along with the <strong>uncertainty</strong>. Then, we check whether the <strong>confidence intervals overlap</strong> to see if the difference is statistically significant.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (41 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_summary_stats = (
+    df_ab_test.groupby(&quot;country&quot;).weight.agg([&quot;mean&quot;, &quot;std&quot;, &quot;count&quot;, &quot;sem&quot;]).round(2)
+)
+df_summary_stats[&quot;ci_95_lower&quot;] = (
+    df_summary_stats[&quot;mean&quot;] - 1.96 * df_summary_stats[&quot;sem&quot;]
+)
+df_summary_stats[&quot;ci_95_upper&quot;] = (
+    df_summary_stats[&quot;mean&quot;] + 1.96 * df_summary_stats[&quot;sem&quot;]
+)
+df_summary_stats = df_summary_stats.reset_index().round(2)
+fig = plt.figure(figsize=(8, 5))
+for i, group in enumerate(df_summary_stats[&quot;country&quot;]):
+    plt.errorbar(
+        group,
+        df_summary_stats[&quot;mean&quot;].iloc[i],
+        yerr=np.array(
+            [
+                df_summary_stats[&quot;mean&quot;].iloc[i]
+                - df_summary_stats[&quot;ci_95_lower&quot;].iloc[i],
+                df_summary_stats[&quot;ci_95_upper&quot;].iloc[i]
+                - df_summary_stats[&quot;mean&quot;].iloc[i],
+            ]
+        ).reshape(2, 1),
+        fmt=&quot;o&quot;,
+        linewidth=2,
+        markersize=8,
+        color=high_contrast_colors[i % len(high_contrast_colors)],
+        capsize=5,
+        label=group,
+    )
+# Customize plot appearance
+plt.title(&quot;Mean Exam Scores with 95% Confidence Intervals&quot;)
+plt.xlabel(&quot;Class Format&quot;)
+plt.ylabel(&quot;Mean Exam Score&quot;)
+plt.grid(alpha=0.3)
+plt.legend(title=&quot;95% CI&quot;)
+# plt.ylim(70, 81)
+plt.xlim(-1, 2)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_25_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>Well, as you can see, the <strong>95% confidence intervals do not overlap</strong>. We can already conclude that the weights of these two countries are different — on average, people from <strong>Wonderstan</strong> are heavier.</p>
+
+<p>However, let’s compare the means using the <strong>p-value method</strong> as well. For this we will follow these steps:</p>
+
+<ol class="markdown-list"><li><strong>Formulate Hypotheses</strong></li></ol>
+
+<ul class="markdown-list"><li><span class="math-inline">$H_0: \mu_1 - \mu_2 = 0$</span> — no difference between means</li><li><span class="math-inline">$H_1: \mu_1 - \mu_2 \neq 0$</span> — means differ</li></ul>
+
+<ol class="markdown-list"><li><strong>Calculate Test Statistics</strong></li></ol>
+
+<ul class="markdown-list"><li>Difference in means:</li></ul>
+
+<p>$$<br>\Delta = \bar{x}_1 - \bar{x}_2<br>$$</p>
+
+<ul class="markdown-list"><li>Standard error of the difference:</li></ul>
+
+<p>$$<br>SE_\Delta = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}<br>$$</p>
+
+<ul class="markdown-list"><li>Test statistic:</li></ul>
+
+<p>$$<br>\text{t-statistic} = \frac{\Delta}{SE_\Delta}<br>$$</p>
+
+<ol class="markdown-list"><li><strong>Decision</strong></li></ol>
+
+<ul class="markdown-list"><li>Compute the <strong>p-value</strong> — the probability of observing a <span class="math-inline">$\text{t-statistic}$</span> this extreme under <span class="math-inline">$H_0$</span>.</li><li>Reject <span class="math-inline">$H_0$</span> if <span class="math-inline">$p < 0.05$</span>.</li></ul>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (17 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">wonderstan_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;Wonderstan&quot;][
+    &quot;weight&quot;
+].values
+no_ones_land_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;No Ones Land&quot;][
+    &quot;weight&quot;
+].values
+mean_difference = wonderstan_data_points.mean() - no_ones_land_data_points.mean()
+print(
+    f&quot;Mean Difference: {mean_difference:.2f}&quot;
+)
+standard_error_of_difference = np.sqrt(
+    np.var(wonderstan_data_points) / len(wonderstan_data_points)
+    + np.var(no_ones_land_data_points) / len(no_ones_land_data_points)
+)
+print(f&quot;Standard Error of the Difference: {standard_error_of_difference:.2f}&quot;)
+t_statistic = mean_difference / standard_error_of_difference
+print(f&quot;T-Statistic: {t_statistic:.2f}&quot;)</code></pre>
+                        </div>
+                    </div>
+
+<p>Mean Difference: 2.62<br>Standard Error of the Difference: 0.91<br>T-Statistic: 2.88</p>
+
+<p>We found that the <strong>test statistic</strong> is <span class="math-inline">$\text{t-statistic} = 2.88$</span>. Now, we can plot a <strong>standard normal distribution</strong> and see where this value falls. As shown in the chart below, the test statistic lies <strong>outside the 95% range</strong>. Therefore, we <strong>reject <span class="math-inline">$H_0$</span></strong> — there is a statistically significant difference between the weights of the two countries.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (71 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># Create x values for normal distribution curve
+x = np.linspace(-4, 4, 1000)
+y = stats.norm.pdf(x, 0, 1)
+alpha = 0.05
+lower_critical = stats.norm.ppf(alpha / 2)  # 2.5th percentile
+upper_critical = stats.norm.ppf(1 - alpha / 2)  # 97.5th percent
+# Create the plot
+plt.figure(figsize=(8, 5))
+# Plot standard normal distribution curve
+plt.plot(
+    x,
+    y,
+    label=&quot;Standard Normal Distribution&quot;,
+    color=high_contrast_colors[0],
+    linewidth=2,
+)
+# Add test statistic vertical line
+plt.vlines(
+    t_statistic,
+    ymin=0,
+    # ymax=stats.norm.pdf(t_statistic, 0, 1),
+    ymax=stats.norm.pdf(lower_critical, 0, 1),
+    label=f&quot;Test statistic (z = {t_statistic:.2f})&quot;,
+    color=high_contrast_colors[1],
+    linewidth=5,
+)
+# Plot critical values
+plt.vlines(
+    lower_critical,
+    ymin=0,
+    ymax=stats.norm.pdf(lower_critical, 0, 1),
+    label=&quot;Critical values (±1.96)&quot;,
+    color=high_contrast_colors[3],
+    linewidth=2,
+    linestyle=&quot;--&quot;,
+)
+plt.vlines(
+    upper_critical,
+    ymin=0,
+    ymax=stats.norm.pdf(upper_critical, 0, 1),
+    color=high_contrast_colors[3],
+    linewidth=2,
+    linestyle=&quot;--&quot;,
+)
+# Fill rejection regions
+plt.fill_between(
+    x[x &lt;= lower_critical],
+    0,
+    stats.norm.pdf(x[x &lt;= lower_critical], 0, 1),
+    alpha=0.2,
+    color=high_contrast_colors[3],
+    label=&quot;Rejection region (5%)&quot;,
+)
+plt.fill_between(
+    x[x &gt;= upper_critical],
+    0,
+    stats.norm.pdf(x[x &gt;= upper_critical], 0, 1),
+    alpha=0.2,
+    color=high_contrast_colors[3],
+)
+# Add labels and title
+plt.title(
+    &quot;Hypothesis Test: Standard Normal Distribution with Test Statistic&quot;, fontsize=14
+)
+plt.xlabel(&quot;Z-score&quot;, fontsize=12)
+plt.ylabel(&quot;Probability Density&quot;, fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(alpha=0.3)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_29_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>For formality, we can calculate the <strong>p-value</strong> as follows and summarize our A/B test comparing the weights of <strong>Wonderstan</strong> and <strong>No Ones Land</strong>:</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (21 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># Step 4: Make a decision about the null hypothesis
+if t_statistic &lt; 0:
+    p_value = 2 * stats.norm.cdf(t_statistic)  # Left tail * 2
+else:
+    p_value = 2 * (1 - stats.norm.cdf(t_statistic))  # Right tail * 2
+print(f&quot;Mean Difference: {mean_difference:.2f}&quot;)
+print(f&quot;Standard Error of the Difference: {standard_error_of_difference:.2f}&quot;)
+print(f&quot;Test Statistic (z-score): {t_statistic:.4f}&quot;)
+print(f&quot;Critical Values (α = {alpha}): {lower_critical:.2f} and {upper_critical:.2f}&quot;)
+print(f&quot;P-value: {p_value:.4f}&quot;)
+print(&quot;-&quot; * 50)
+if t_statistic &lt; lower_critical or t_statistic &gt; upper_critical:
+    print(&quot;Decision: Reject the null hypothesis.&quot;)
+    print(&quot;Conclusion: There is a statistically significant difference&quot;)
+    print(&quot;            between weights of people of Wonderstan and No Ones Land.&quot;)
+else:
+    print(&quot;Decision: Fail to reject the null hypothesis.&quot;)
+    print(&quot;Conclusion: There is insufficient evidence to conclude&quot;)
+    print(
+        &quot;        a significant difference between weights of people of Wonderstan and No Ones Land.&quot;
+    )</code></pre>
+                        </div>
+                    </div>
+
+<p>Mean Difference: 2.62<br>Standard Error of the Difference: 0.91<br>Test Statistic (z-score): 2.8838<br>Critical Values (α = 0.05): -1.96 and 1.96<br>P-value: 0.0039<br>--------------------------------------------------<br>Decision: Reject the null hypothesis.<br>Conclusion: There is a statistically significant difference<br>between weights of people of Wonderstan and No Ones Land.</p>
+
+<h2>Practical Example: Comparing Group Proportions</h2>
+
+<p>As mentioned earlier, comparing <strong>proportions</strong> differs slightly from comparing means. Let’s see how it works.</p>
+
+<p>Suppose our dataset contains <strong>heights</strong> of people from both countries. We calculate <strong>BMI</strong> and classify individuals as:</p>
+
+<ul class="markdown-list"><li><strong>Obese (1)</strong></li><li><strong>Not obese (0)</strong></li></ul>
+
+<p>Our task is to determine whether there is a difference between the two countries in <strong>obesity rates</strong> — the proportion of obese individuals in the population.</p>
+
+<p>Similar to the previous example, we can:</p>
+
+<ul class="markdown-list"><li>Calculate the <strong>obesity rate</strong> for each country</li><li>Compute <strong>confidence intervals</strong> around these proportions</li><li>Check whether the intervals <strong>overlap</strong> to assess statistical significance.</li></ul>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (11 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">np.random.seed(42)
+heights_1 = np.random.normal(loc=165, scale=10, size=len(df_no_ones_land_single_sample))
+heights_2 = np.random.normal(loc=175, scale=13, size=len(df_wonderstan_single_sample))
+df_no_ones_land_single_sample[&quot;height&quot;] = heights_1
+df_wonderstan_single_sample[&quot;height&quot;] = heights_2
+df_ab_test = pd.concat(
+    [df_no_ones_land_single_sample, df_wonderstan_single_sample], ignore_index=True
+)
+df_ab_test[&quot;bmi&quot;] = df_ab_test[&quot;weight&quot;] / (df_ab_test[&quot;height&quot;] / 100) ** 2
+df_ab_test[&quot;is_obese&quot;] = df_ab_test[&quot;bmi&quot;] &gt;= 30
+df_ab_test.head()</code></pre>
+                        </div>
+                    </div>
+
+<table class="markdown-table"><tr><th></th><th>person_id</th><th>weight</th><th>country</th><th>height</th><th>bmi</th><th>is_obese</th></tr><tr><td>0</td><td>person_1</td><td>70.679798</td><td>No Ones Land</td><td>169.967142</td><td>24.466135</td><td>False</td></tr><tr><td>1</td><td>person_2</td><td>71.778589</td><td>No Ones Land</td><td>163.617357</td><td>26.812430</td><td>False</td></tr><tr><td>2</td><td>person_3</td><td>85.799607</td><td>No Ones Land</td><td>171.476885</td><td>29.179250</td><td>False</td></tr><tr><td>3</td><td>person_4</td><td>84.839126</td><td>No Ones Land</td><td>180.230299</td><td>26.118040</td><td>False</td></tr><tr><td>4</td><td>person_5</td><td>65.453063</td><td>No Ones Land</td><td>162.658466</td><td>24.738686</td><td>False</td></tr></table>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (41 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_summary_stats = df_ab_test.groupby(&quot;country&quot;)[&quot;is_obese&quot;].agg(
+    [&quot;mean&quot;, &quot;sum&quot;, &quot;count&quot;, &quot;sem&quot;]
+)
+df_summary_stats[&quot;ci_95_lower&quot;] = (
+    df_summary_stats[&quot;mean&quot;] - 1.96 * df_summary_stats[&quot;sem&quot;]
+)
+df_summary_stats[&quot;ci_95_upper&quot;] = (
+    df_summary_stats[&quot;mean&quot;] + 1.96 * df_summary_stats[&quot;sem&quot;]
+)
+df_summary_stats = df_summary_stats.reset_index()
+fig = plt.figure(figsize=(8, 5))
+for i, group in enumerate(df_summary_stats[&quot;country&quot;]):
+    plt.errorbar(
+        group,
+        df_summary_stats[&quot;mean&quot;].iloc[i],
+        yerr=np.array(
+            [
+                df_summary_stats[&quot;mean&quot;].iloc[i]
+                - df_summary_stats[&quot;ci_95_lower&quot;].iloc[i],
+                df_summary_stats[&quot;ci_95_upper&quot;].iloc[i]
+                - df_summary_stats[&quot;mean&quot;].iloc[i],
+            ]
+        ).reshape(2, 1),
+        fmt=&quot;o&quot;,
+        linewidth=2,
+        markersize=8,
+        color=high_contrast_colors[i % len(high_contrast_colors)],
+        capsize=5,
+        label=group,
+    )
+# Customize plot appearance
+plt.title(&quot;Obese Rate with 95% Confidence Intervals&quot;)
+plt.xlabel(&quot;Country&quot;)
+plt.ylabel(&quot;Obese Rate&quot;)
+plt.grid(alpha=0.3)
+plt.legend(title=&quot;95% CI&quot;)
+# plt.ylim(70, 81)
+plt.xlim(-1, 2)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_34_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>As we can see, the <strong>confidence intervals overlap</strong>, indicating that there is <strong>no significant difference</strong> between the countries’ obesity rates.</p>
+
+<p>Similar to our comparison of means, we can calculate the <strong>t test statistic</strong> (z-statistic for proportions), plot it on a standard normal distribution, and check whether it falls within the <strong>95% critical values</strong>. We can then formalize the result by computing the <strong>p-value</strong>.</p>
+
+<p><strong>We will use following formula to calculate the test statistic:</strong></p>
+
+<ul class="markdown-list"><li><strong>Pooled proportion:</strong></li></ul>
+
+<p>$$<br>p = \frac{x_1 + x_2}{n_1 + n_2}<br>$$</p>
+
+<ul class="markdown-list"><li><strong>Test statistic:</strong></li></ul>
+
+<p>$$<br>z = \frac{p_1 - p_2}{\sqrt{p(1-p)\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}<br>$$</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (21 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">wonderstan_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;Wonderstan&quot;][
+    &quot;is_obese&quot;
+].values
+no_ones_land_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;No Ones Land&quot;][
+    &quot;is_obese&quot;
+].values
+mean_difference = wonderstan_data_points.mean() - no_ones_land_data_points.mean()
+print(
+    f&quot;Mean Difference: {mean_difference:.2f}&quot;
+)
+pooled_rate = (wonderstan_data_points.sum() + no_ones_land_data_points.sum()) / (
+    len(wonderstan_data_points) + len(no_ones_land_data_points)
+)
+standard_error_of_difference = np.sqrt(
+    pooled_rate
+    * (1 - pooled_rate)
+    * (1 / len(wonderstan_data_points) + 1 / len(no_ones_land_data_points))
+)
+print(f&quot;Standard Error of the Difference: {standard_error_of_difference:.2f}&quot;)
+t_statistic = mean_difference / standard_error_of_difference
+print(f&quot;T-Statistic: {t_statistic:.2f}&quot;)</code></pre>
+                        </div>
+                    </div>
+
+<p>Mean Difference: -0.04<br>Standard Error of the Difference: 0.04<br>T-Statistic: -1.19</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (70 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">x = np.linspace(-4, 4, 1000)
+y = stats.norm.pdf(x, 0, 1)
+alpha = 0.05
+lower_critical = stats.norm.ppf(alpha / 2)  # 2.5th percentile
+upper_critical = stats.norm.ppf(1 - alpha / 2)
+# Create the plot
+plt.figure(figsize=(8, 5))
+# Plot standard normal distribution curve
+plt.plot(
+    x,
+    y,
+    label=&quot;Standard Normal Distribution&quot;,
+    color=high_contrast_colors[0],
+    linewidth=2,
+)
+# Add test statistic vertical line
+plt.vlines(
+    t_statistic,
+    ymin=0,
+    # ymax=stats.norm.pdf(t_statistic, 0, 1),
+    ymax=stats.norm.pdf(lower_critical, 0, 1),
+    label=f&quot;Test statistic (z = {t_statistic:.2f})&quot;,
+    color=high_contrast_colors[1],
+    linewidth=5,
+)
+# Plot critical values
+plt.vlines(
+    lower_critical,
+    ymin=0,
+    ymax=stats.norm.pdf(lower_critical, 0, 1),
+    label=&quot;Critical values (±1.96)&quot;,
+    color=high_contrast_colors[3],
+    linewidth=2,
+    linestyle=&quot;--&quot;,
+)
+plt.vlines(
+    upper_critical,
+    ymin=0,
+    ymax=stats.norm.pdf(upper_critical, 0, 1),
+    color=high_contrast_colors[3],
+    linewidth=2,
+    linestyle=&quot;--&quot;,
+)
+# Fill rejection regions
+plt.fill_between(
+    x[x &lt;= lower_critical],
+    0,
+    stats.norm.pdf(x[x &lt;= lower_critical], 0, 1),
+    alpha=0.2,
+    color=high_contrast_colors[3],
+    label=&quot;Rejection region (5%)&quot;,
+)
+plt.fill_between(
+    x[x &gt;= upper_critical],
+    0,
+    stats.norm.pdf(x[x &gt;= upper_critical], 0, 1),
+    alpha=0.2,
+    color=high_contrast_colors[3],
+)
+# Add labels and title
+plt.title(
+    &quot;Hypothesis Test: Standard Normal Distribution with Test Statistic&quot;, fontsize=14
+)
+plt.xlabel(&quot;Z-score&quot;, fontsize=12)
+plt.ylabel(&quot;Probability Density&quot;, fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(alpha=0.3)
+sns.despine()
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/10_hypothesis_testing_fundamentals_files/10_hypothesis_testing_fundamentals_37_0.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (22 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># Step 4: Make a decision about the null hypothesis
+if t_statistic &lt; 0:
+    p_value = 2 * stats.norm.cdf(t_statistic)  # Left tail * 2
+else:
+    p_value = 2 * (1 - stats.norm.cdf(t_statistic))  # Right tail * 2
+print(f&quot;Mean Difference: {mean_difference:.4f}&quot;)
+print(f&quot;Standard Error of the Difference: {standard_error_of_difference:.4f}&quot;)
+print(f&quot;Test Statistic (z-score): {t_statistic:.4f}&quot;)
+print(f&quot;Critical Values (α = {alpha}): {lower_critical:.4f} and {upper_critical:.4f}&quot;)
+print(f&quot;P-value: {p_value:.8f}&quot;)
+print(&quot;-&quot; * 50)
+# Determine if we reject the null hypothesis
+if t_statistic &lt; lower_critical or t_statistic &gt; upper_critical:
+    print(&quot;Decision: Reject the null hypothesis.&quot;)
+    print(&quot;Conclusion: There is a statistically significant difference&quot;)
+    print(&quot;            between obesity rates of people of Wonderstan and No Ones Land.&quot;)
+else:
+    print(&quot;Decision: Fail to reject the null hypothesis.&quot;)
+    print(&quot;Conclusion: There is insufficient evidence to conclude&quot;)
+    print(
+        &quot;        a significant difference between obesity rates of people of Wonderstan and No Ones Land.&quot;
+    )</code></pre>
+                        </div>
+                    </div>
+
+<p>Mean Difference: -0.0420<br>Standard Error of the Difference: 0.0352<br>Test Statistic (z-score): -1.1925<br>Critical Values (α = 0.05): -1.9600 and 1.9600<br>P-value: 0.23305748<br>--------------------------------------------------<br>Decision: Fail to reject the null hypothesis.<br>Conclusion: There is insufficient evidence to conclude<br>a significant difference between obesity rates of people of Wonderstan and No Ones Land.</p>
+
+<h2>One-Liners: A/B Testing in Python</h2>
+For clarity, we calculated all the values manually using the formulas above to see how A/B testing works. However, we <strong>don’t need to reinvent the wheel</strong> — several statistical libraries can perform A/B tests in a single line of code.
+
+<p>We can use the following packages to quickly test <strong>means</strong> and <strong>proportions</strong> as we did above:</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">from scipy.stats import ttest_ind
+from statsmodels.stats.proportion import proportions_ztest</code></pre>
+                        </div>
+                    </div>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (26 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">wonderstan_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;Wonderstan&quot;][
+    &quot;weight&quot;
+].values
+no_ones_land_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;No Ones Land&quot;][
+    &quot;weight&quot;
+].values
+# Perform an independent samples t-test using scipy
+result = stats.ttest_ind(
+    no_ones_land_data_points, wonderstan_data_points, equal_var=False
+)  # Welch&#39;s t-test (doesn&#39;t assume equal variances)
+# Display the comprehensive results
+print(&quot;Independent Samples T-Test Results:&quot;)
+print(&quot;-&quot; * 50)
+print(f&quot;T-statistic: {result.statistic:.4f}&quot;)
+print(f&quot;P-value: {result.pvalue:.8f}&quot;)
+print(&quot;-&quot; * 50)
+# Interpret results
+alpha = 0.05
+if result.pvalue &lt; alpha:
+    print(
+        f&quot;Decision: Reject the null hypothesis (p = {result.pvalue:.8f} &lt; α = {alpha})&quot;
+    )
+else:
+    print(
+        f&quot;Decision: Fail to reject the null hypothesis (p = {result.pvalue:.8f} ≥ α = {alpha})&quot;
+    )</code></pre>
+                        </div>
+                    </div>
+
+<p>Independent Samples T-Test Results:<br>--------------------------------------------------<br>T-statistic: -2.8787<br>P-value: 0.00420329<br>--------------------------------------------------<br>Decision: Reject the null hypothesis (p = 0.00420329 < α = 0.05)</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (22 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">wonderstan_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;Wonderstan&quot;][
+    &quot;is_obese&quot;
+].values
+no_ones_land_data_points = df_ab_test[df_ab_test[&quot;country&quot;] == &quot;No Ones Land&quot;][
+    &quot;is_obese&quot;
+].values
+zscore_, pvalue = proportions_ztest(
+    [wonderstan_data_points.sum(), no_ones_land_data_points.sum()],
+    [len(wonderstan_data_points), len(no_ones_land_data_points)],
+)
+# Display the comprehensive results
+print(&quot;Samples Proportions Z-Test Results:&quot;)
+print(&quot;-&quot; * 50)
+print(f&quot;T-statistic: {zscore_:.4f}&quot;)
+print(f&quot;P-value: {pvalue:.8f}&quot;)
+print(&quot;-&quot; * 50)
+if pvalue &lt; 0.05:
+    print(f&quot;Decision: Reject the null hypothesis (p = {pvalue:.8f} &lt; α = 0.05).&quot;)
+else:
+    print(
+        f&quot;Decision: Fail to reject the null hypothesis (p = {pvalue:.8f} ≥ α = 0.05).&quot;
+    )</code></pre>
+                        </div>
+                    </div>
+
+<p>Samples Proportions Z-Test Results:<br>--------------------------------------------------<br>T-statistic: -1.1925<br>P-value: 0.23305748<br>--------------------------------------------------<br>Decision: Fail to reject the null hypothesis (p = 0.23305748 ≥ α = 0.05).</p>
+            </div>
+
+            <!-- Post footer -->
+            <footer class="blog-post-footer">
+                <div class="post-sharing">
+                    <h4>Share this article</h4>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text=A%2FB%20Testing%20Fundamentals%3A%20A%20Practical%20Guide%20for%20Data%20Analysis&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fa-b-testing-fundamentals%2F" target="_blank" class="share-btn twitter">
+                            Share on X
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fa-b-testing-fundamentals%2F" target="_blank" class="share-btn linkedin">
+                            Share on LinkedIn
+                        </a>
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="post-navigation">
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Scripts -->
+    <script src="../../js/config-public.js"></script>
+    <script src="../../js/main.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    
+    <!-- Blog post functionality - load after Prism -->
+    <script src="../../js/blog-post.js"></script>
+    
+    <!-- Simple page view counter -->
+    <script>
+        fetch('https://amanabdullayev.goatcounter.com/counter/blog/a-b-testing-fundamentals/.json')
+            .then(response => response.json())
+            .then(data => {
+                const el = document.getElementById('page-views');
+                if (el && data.count) {
+                    el.textContent = data.count + ' views';
+                }
+            })
+            .catch(() => {
+                document.getElementById('page-views').style.display = 'none';
+            });
+    </script>
+</body>
+</html>

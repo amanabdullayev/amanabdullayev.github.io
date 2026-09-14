@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Blind Men, the Elephant, and the Limits of AI - Aman Abdullayev</title>
+    <meta name="description" content="Rumi’s parable is more relevant than ever in a world shaped by AI, model risk, and extrapolation. It shows why systems — and people — can be misled when they only see part of the truth.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="The Blind Men, the Elephant, and the Limits of AI - Aman Abdullayev">
+    <meta property="og:description" content="Rumi’s parable is more relevant than ever in a world shaped by AI, model risk, and extrapolation. It shows why systems — and people — can be misled when they only see part of the truth.">
+    <meta property="og:url" content="https://amanabdullayev.me/blog/risks-of-extrapolation/">
+    <meta property="og:site_name" content="Aman Abdullayev">
+    <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/11_risks_of_extrapolation/cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+    <meta property="article:author" content="Aman Abdullayev">
+    <meta property="article:published_time" content="2026-06-17T22:00:00.000Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Blind Men, the Elephant, and the Limits of AI - Aman Abdullayev">
+    <meta name="twitter:description" content="Rumi’s parable is more relevant than ever in a world shaped by AI, model risk, and extrapolation. It shows why systems — and people — can be misled when they only see part of the truth.">
+    <meta name="twitter:creator" content="@amanabdullayev">
+    <meta name="twitter:image" content="https://amanabdullayev.me/blog-posts/blog_images/11_risks_of_extrapolation/cover.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://amanabdullayev.me/blog/risks-of-extrapolation/">
+    
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
+    <link rel="manifest" href="../../public/manifest.json">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
+    
+    <!-- Core styles -->
+    <link rel="stylesheet" href="../../styles/core.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/blog.css">
+    <link rel="stylesheet" href="../../styles/pages.css">
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- MathJax for LaTeX equation rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayMath: [['$$', '$$'], ['\[', '\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                tags: 'ams'
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                pageReady: () => {
+                    console.log('MathJax configuration loaded');
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        console.log('MathJax page ready');
+                        // Force a re-render for GitHub Pages
+                        if (window.MathJax && window.MathJax.typesetPromise) {
+                            return window.MathJax.typesetPromise();
+                        }
+                    });
+                }
+            },
+            loader: {
+                load: ['[tex]/ams']
+            }
+        };
+    </script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav>
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
+                    <a href="../../about" class="nav-btn">About</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="blog-post">
+            <!-- Back to blog link -->
+            <div class="blog-post-nav">
+                <a href="../" class="back-to-blog">← Back to writing</a>
+            </div>
+            <!-- Cover image banner -->
+            
+            <div class="blog-post-cover">
+                <img src="../../blog-posts/blog_images/11_risks_of_extrapolation/cover.png" 
+                     alt="The Blind Men, the Elephant, and the Limits of AI" 
+                     class="cover-image"
+                     loading="lazy">
+            </div>
+            
+            <!-- Post header -->
+            <header class="blog-post-header">
+                <h1 class="blog-post-title">The Blind Men, the Elephant, and the Limits of AI</h1>
+                <div class="post-tags"><span class="tag" data-color="9">Lifestyle</span><span class="tag" data-color="8">AI</span></div>
+                <div class="blog-post-meta">
+                    <time datetime="2026-06-17T22:00:00.000Z">Jun 18, 2026</time>
+                    <div class="page-views" id="page-views">
+                        Loading views...
+                    </div>
+                </div>
+                <div class="post-author-pin">
+                    <img src="../../images/personal_avatar_1.png" 
+                         alt="Aman Abdullayev" 
+                         class="author-avatar"
+                         loading="lazy">
+                    <span class="author-pin-name">Aman Abdullayev</span>
+                </div>
+            </header>
+
+            <!-- Post content -->
+            <div class="blog-post-body">
+                <h2>Seeing the Whole Elephant</h2>
+Mavlana Rumi tells a timeless story about six men standing in a dark room, trying to understand an elephant that had been brought there from far away.
+
+<p>None of them could see the animal clearly, so each man reached out and touched only one part of it. One touched the leg and said, “An elephant is like a tree.” Another touched the tail and said, “No, it is like a rope.” The third touched the trunk and said, “It is like a snake.” The fourth touched the ear and said, “It is like a fan.” The fifth touched the body and said, “It is like a wall.” The sixth touched the tusk and said, “It is like a spear.”</p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/11_risks_of_extrapolation/elephant_story.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>Each of them was partly right. But none of them knew the whole truth. Because each person had only touched one part of the elephant, each person had formed a different idea of what the elephant was. And since they could not see the full picture, they began arguing with one another.</p>
+
+<p>That is the heart of the story: partial understanding can feel complete when you are standing in the dark.</p>
+
+<p>And that lesson is still relevant today.</p>
+
+<h2>Why the Story Still Matters</h2>
+We live in a time where we are surrounded by information, but that does not necessarily mean we understand more. In many ways, it means the opposite. We see fragments, summaries, screenshots, clips, dashboards, metrics, and outputs. But fragments are not the same as truth.
+
+<p>This is especially important now that AI is being used in almost every field. Models can be powerful, fast, and useful, but they are still limited by the data they were trained on. They learn patterns from the past. They can interpolate within familiar ranges. But when they are pushed beyond that range, they can become unreliable.</p>
+
+<p>That is where extrapolation becomes dangerous.</p>
+
+<p>A model may look impressive when it is tested on data similar to what it has already seen. But outside that range, the behavior can change in surprising ways. In other words, a model can be accurate in one corner of the elephant and still be wrong about the rest.</p>
+
+<h2>The Tesla Example</h2>
+A recent example that many people have been talking about is the reported <a href="https://www.linkedin.com/posts/onurszgin_tesla-autopilot-selfdrivingcars-share-7472999058576551936-h0RL/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAALu04cBkU03w42iHt0L_3VtBfdjv4ym6LU" target="_blank" rel="noopener">Tesla driver-monitoring trick in China</a>.
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/11_risks_of_extrapolation/tesla_trick.jpeg"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>According to these reports, some drivers used small plastic figurines or doll heads to fool the car’s cabin camera. The system was designed to check whether the driver was paying attention to the road while using Autopilot or Full Self-Driving features. But by placing a fake head near the camera, some drivers were able to make the system think a real person was watching, even when they were not.</p>
+
+<p>That example is clever, but it is also unsettling.</p>
+
+<p>It shows how a system can be smart, useful, and technologically advanced, yet still be tricked if it only sees a slice of reality. The camera was looking for a pattern. The drivers found a way to imitate that pattern. The system did what it had been trained to do, but it did not truly understand the human behavior behind it.</p>
+
+<p>That is very similar to the elephant story.</p>
+
+<p>The camera saw a face-like object and assumed attention. The drivers knew how to exploit the gap between appearance and reality. And once again, the lesson becomes clear: seeing one part of a system is not the same as understanding the whole system.</p>
+
+<h2>What Models Teach Us</h2>
+This idea is also visible in statistical modeling and machine learning.
+
+<p>A model can fit a dataset very well and still fail when asked to predict beyond the observed range. In fact, several different models can all fit the same historical data fairly well while producing very different forecasts outside that range. That is why model choice matters so much.</p>
+
+<p><a href="https://research.google/pubs/challenges-and-opportunities-in-media-mix-modeling/" target="_blank" rel="noopener">Google’s work on media mix modeling</a> makes a similar point. When models are trained on a limited range of data, several very different curves can fit that range well, yet behave very differently outside it.</p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/11_risks_of_extrapolation/google_mmm_model_limitations.png"
+alt=" "
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption"> </figcaption>
+</figure>
+
+<p>This is not just a technical problem. It is also a mindset problem.</p>
+
+<p>When we trust a model too quickly, we may confuse a good fit with a good understanding. But a model is only as good as the assumptions, data, and boundaries behind it. If those boundaries are narrow, then the model may be acting like one of the blind men in the story: confident, but incomplete.</p>
+
+<p>This is exactly why we need to be careful in analytics, forecasting, marketing mix modeling, customer segmentation, product planning, and almost every other data-driven domain.</p>
+
+<p>A clean fit on historical data is not enough. We need to ask:</p>
+
+<ul class="markdown-list"><li>What range did the model actually see?</li></ul>
+
+<ul class="markdown-list"><li>What happens outside that range?</li></ul>
+
+<ul class="markdown-list"><li>Are we observing real structure, or just a pattern inside the training window?</li></ul>
+
+<ul class="markdown-list"><li>Are there hidden assumptions we are not accounting for?</li></ul>
+
+<p>Those questions matter because they force us to look beyond the obvious.</p>
+
+<h2>A Practical Lesson for AI and Decision-Making</h2>
+The deeper lesson from Rumi’s story is not just about blind men and an elephant. It is about humility.
+
+<p>It reminds us that people, like models, can be limited by what they have seen. We often build strong opinions from weak evidence. We often defend our interpretation of reality without realizing we are only holding a piece of it.</p>
+
+<p>That is especially dangerous in an AI world.</p>
+
+<p>AI can generate answers quickly, but quick answers are not always complete answers. A recommendation engine, a forecasting model, a computer vision system, or a language model may all be useful — but only if we remember that each one is operating within limits.</p>
+
+<p>If we do not understand those limits, we may mistake a partial signal for a full truth.</p>
+
+<p>That is why the safest approach is not blind trust, but careful interpretation. Not just asking, “What does the model say?” but also, “What can the model not see?”</p>
+
+<h2>Final Thought</h2>
+In life, in business, and in machine learning, it is easy to fall in love with a small piece of evidence and build a full story around it.
+
+<p>But Rumi’s story reminds us to pause.</p>
+
+<p>Before making decisions, before trusting a model, and before speaking too confidently about what we think we know, we should ask ourselves whether we are seeing the whole elephant or only one part of it.</p>
+
+<p>Because in the dark, even a rope can look like a snake.</p>
+            </div>
+
+            <!-- Post footer -->
+            <footer class="blog-post-footer">
+                <div class="post-sharing">
+                    <h4>Share this article</h4>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text=The%20Blind%20Men%2C%20the%20Elephant%2C%20and%20the%20Limits%20of%20AI&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Frisks-of-extrapolation%2F" target="_blank" class="share-btn twitter">
+                            Share on X
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Frisks-of-extrapolation%2F" target="_blank" class="share-btn linkedin">
+                            Share on LinkedIn
+                        </a>
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="post-navigation">
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Scripts -->
+    <script src="../../js/config-public.js"></script>
+    <script src="../../js/main.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    
+    <!-- Blog post functionality - load after Prism -->
+    <script src="../../js/blog-post.js"></script>
+    
+    <!-- Simple page view counter -->
+    <script>
+        fetch('https://amanabdullayev.goatcounter.com/counter/blog/risks-of-extrapolation/.json')
+            .then(response => response.json())
+            .then(data => {
+                const el = document.getElementById('page-views');
+                if (el && data.count) {
+                    el.textContent = data.count + ' views';
+                }
+            })
+            .catch(() => {
+                document.getElementById('page-views').style.display = 'none';
+            });
+    </script>
+</body>
+</html>

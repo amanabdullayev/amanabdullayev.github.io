@@ -480,11 +480,11 @@ function createBlogPostTemplate(post, renderedContent) {
     <meta property="og:title" content="${post.title} - Aman Abdullayev">
     <meta property="og:description" content="${post.excerpt || 'A blog post by Aman Abdullayev'}">
     <meta property="og:url" content="https://amanabdullayev.me/blog/${post.slug}/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="og:site_name" content="Aman Abdullayev">
     ${post.coverImage ? `<meta property="og:image" content="https://amanabdullayev.me/blog-posts/${post.coverImage}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:type" content="image/png">` : '<meta property="og:image" content="https://amanabdullayev.me/images/logo.png">'}
+    <meta property="og:image:type" content="image/png">` : '<meta property="og:image" content="https://amanabdullayev.me/images/personal_avatar_1.png">'}
     <meta property="article:author" content="Aman Abdullayev">
     <meta property="article:published_time" content="${post.date}">
     
@@ -493,29 +493,15 @@ function createBlogPostTemplate(post, renderedContent) {
     <meta name="twitter:title" content="${post.title} - Aman Abdullayev">
     <meta name="twitter:description" content="${post.excerpt || 'A blog post by Aman Abdullayev'}">
     <meta name="twitter:creator" content="@amanabdullayev">
-    ${post.coverImage ? `<meta name="twitter:image" content="https://amanabdullayev.me/blog-posts/${post.coverImage}">` : '<meta name="twitter:image" content="https://amanabdullayev.me/images/logo.png">'}
+    ${post.coverImage ? `<meta name="twitter:image" content="https://amanabdullayev.me/blog-posts/${post.coverImage}">` : '<meta name="twitter:image" content="https://amanabdullayev.me/images/personal_avatar_1.png">'}
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://amanabdullayev.me/blog/${post.slug}/">
     
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
     <link rel="manifest" href="../../public/manifest.json">
-    <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
     
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
@@ -563,19 +549,20 @@ function createBlogPostTemplate(post, renderedContent) {
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="../../" class="logo">
-                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="../../about" class="nav-btn">About</a>
-                    <a href="../../blog" class="nav-btn active">Blog</a>
-                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -586,7 +573,7 @@ function createBlogPostTemplate(post, renderedContent) {
         <article class="blog-post">
             <!-- Back to blog link -->
             <div class="blog-post-nav">
-                <a href="../" class="back-to-blog">← Back to Blog</a>
+                <a href="../" class="back-to-blog">← Back to writing</a>
             </div>
             <!-- Cover image banner -->
             ${post.coverImage ? `
@@ -604,7 +591,7 @@ function createBlogPostTemplate(post, renderedContent) {
                 <div class="blog-post-meta">
                     <time datetime="${post.date}">${formattedDate}</time>
                     <div class="page-views" id="page-views">
-                        📊 Loading...
+                        Loading views...
                     </div>
                 </div>
                 <div class="post-author-pin">
@@ -624,40 +611,39 @@ function createBlogPostTemplate(post, renderedContent) {
             <!-- Post footer -->
             <footer class="blog-post-footer">
                 <div class="post-sharing">
-                    <h4>Share this post:</h4>
+                    <h4>Share this article</h4>
                     <div class="share-buttons">
                         <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://amanabdullayev.me/blog/${post.slug}/`)}" target="_blank" class="share-btn twitter">
-                            🐦 Twitter
+                            Share on X
                         </a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://amanabdullayev.me/blog/${post.slug}/`)}" target="_blank" class="share-btn linkedin">
-                            💼 LinkedIn
+                            Share on LinkedIn
                         </a>
-                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
-                            📋 Copy Link
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
                         </a>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
-                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
                 </div>
             </footer>
         </article>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">${new Date().getFullYear()}</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="../../">Home</a>
-                    <a href="../../about">About</a>
-                    <a href="../../blog">Blog</a>
-                    <a href="../../contact">Contact</a>
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -665,7 +651,6 @@ function createBlogPostTemplate(post, renderedContent) {
     </footer>
 
     <!-- Configuration Scripts -->
-    <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
     
@@ -689,7 +674,7 @@ function createBlogPostTemplate(post, renderedContent) {
             .then(data => {
                 const el = document.getElementById('page-views');
                 if (el && data.count) {
-                    el.textContent = '📊 ' + data.count + ' views';
+                    el.textContent = data.count + ' views';
                 }
             })
             .catch(() => {
@@ -751,7 +736,11 @@ blogPosts.forEach(post => {
         };
         
         // Render markdown to HTML
-        const renderedContent = markdownProcessor.processMarkdown(content);
+        let renderedContent = markdownProcessor.processMarkdown(content);
+        renderedContent = renderedContent
+            .replace(/^\s*<h1>[\s\S]*?<\/h1>\s*/, '')
+            .replace(/<h1>/g, '<h2>')
+            .replace(/<\/h1>/g, '</h2>');
         
         // Generate static HTML
         const staticHtml = createBlogPostTemplate(postData, renderedContent);

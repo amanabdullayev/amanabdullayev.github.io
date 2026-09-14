@@ -11,7 +11,7 @@
     <meta property="og:title" content="Multi-Criteria Decision-Making using Python - Aman Abdullayev">
     <meta property="og:description" content="Decision-making means choosing the best option based on goals and trade-offs. MCDM adds complexity by balancing multiple factors. Tools like Python and models (e.g., WSM, TOPSIS) help make objective, data-driven choices.">
     <meta property="og:url" content="https://amanabdullayev.me/blog/multi-criteria-decision-making-python/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="og:site_name" content="Aman Abdullayev">
     <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_02_cover.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -29,24 +29,10 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://amanabdullayev.me/blog/multi-criteria-decision-making-python/">
     
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
     <link rel="manifest" href="../../public/manifest.json">
-    <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
     
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
@@ -94,19 +80,20 @@
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="../../" class="logo">
-                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="../../about" class="nav-btn">About</a>
-                    <a href="../../blog" class="nav-btn active">Blog</a>
-                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -117,7 +104,7 @@
         <article class="blog-post">
             <!-- Back to blog link -->
             <div class="blog-post-nav">
-                <a href="../" class="back-to-blog">← Back to Blog</a>
+                <a href="../" class="back-to-blog">← Back to writing</a>
             </div>
             <!-- Cover image banner -->
             
@@ -135,7 +122,7 @@
                 <div class="blog-post-meta">
                     <time datetime="2024-10-05T22:00:00.000Z">Oct 6, 2024</time>
                     <div class="page-views" id="page-views">
-                        📊 Loading...
+                        Loading views...
                     </div>
                 </div>
                 <div class="post-author-pin">
@@ -149,9 +136,7 @@
 
             <!-- Post content -->
             <div class="blog-post-body">
-                <h1>Introduction to Decision-Making</h1>
-
-<h2>Decision Making</h2>
+                <h2>Decision Making</h2>
 
 <p><em>When faced with multiple options, each with its own pros and cons, how do you choose the best one? This is where decision-making comes into play.</em></p>
 
@@ -191,7 +176,7 @@
 
 <p>The "best" choice will depend on how you prioritize and balance these factors based on your needs and preferences. Multi-criteria decision-making (MCDM) helps structure this process, enabling a more objective and thorough evaluation of the available options.</p>
 
-<h1>Multi-Criteria Decision-Making Implementation using Python</h1>
+<h2>Multi-Criteria Decision-Making Implementation using Python</h2>
 
 <p>There are online tools that simplify the decision-making process. However, implementing Multi-Criteria Decision-Making (MCDM) in Python can help you automate and streamline your decisions for free! But if you still prefer using ready-made tools, here are some free and paid decision-making options:</p>
 
@@ -231,17 +216,29 @@ class="responsive-image">
 
 <p>Let’s begin by importing all the necessary Python packages. If any are missing, you can easily install them using the command: <code class="inline-code">pip install package_name</code>.</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">import pandas as pd
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">import pandas as pd
 import skcriteria as skc
 from skcriteria.pipeline import mkpipe
 from skcriteria.preprocessing.invert_objectives import InvertMinimize, NegateMinimize
 from skcriteria.preprocessing.scalers import SumScaler, VectorScaler
 from skcriteria.agg.simple import WeightedProductModel, WeightedSumModel
 from skcriteria.agg.similarity import TOPSIS</code></pre>
+                        </div>
+                    </div>
 
 <p>Now, let's create our dataframe. The indices will represent the alternatives—smartphones we are considering buying—and the columns will be the various criteria we will use for comparison:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">data = {
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">data = {
     &quot;Phone&quot;: [&quot;Samsung Galaxy S24&quot;, &quot;Google Pixel 9&quot;, &quot;Xiaomi 14&quot;, &quot;Apple iPhone 15&quot;],
     &quot;Price (EUR)&quot;: [611, 830, 700, 700],
     &quot;Weight (Gram)&quot;: [168, 198, 193, 171],
@@ -251,6 +248,8 @@ from skcriteria.agg.similarity import TOPSIS</code></pre>
 }
 df_phones = pd.DataFrame(data).set_index(&quot;Phone&quot;)
 df_phones</code></pre>
+                        </div>
+                    </div>
 
 <table class="markdown-table"><tr><th><strong>Phone</strong></th><th><strong>Price (EUR)</strong></th><th><strong>Weight (Gram)</strong></th><th><strong>Battery Life (Hour)</strong></th><th><strong>Storage (GB)</strong></th><th><strong>RAM (GB)</strong></th></tr><tr><td>Samsung Galaxy S24</td><td>611</td><td>168</td><td>12.0</td><td>128</td><td>8</td></tr><tr><td>Google Pixel 9</td><td>830</td><td>198</td><td>13.0</td><td>128</td><td>12</td></tr><tr><td>Xiaomi 14</td><td>700</td><td>193</td><td>12.0</td><td>512</td><td>12</td></tr><tr><td>Apple iPhone 15</td><td>700</td><td>171</td><td>13.5</td><td>128</td><td>6</td></tr></table>
 
@@ -262,7 +261,12 @@ df_phones</code></pre>
 
 <p>Here’s how you can create your <code class="inline-code">DecisionMatrix</code> from the Pandas DataFrame:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">dm = skc.mkdm(
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">dm = skc.mkdm(
     df_phones,
     alternatives=df_phones.index,
     criteria=df_phones.columns,
@@ -270,6 +274,8 @@ df_phones</code></pre>
     weights=[5, 3, 3, 2,1],
 )
 dm</code></pre>
+                        </div>
+                    </div>
 
 <table class="markdown-table"><tr><th></th><th><strong>Price (EUR)[▼ 5.0]</strong></th><th><strong>Weight (Gram)[▼ 3.0]</strong></th><th><strong>Battery Life (Hour)[▲ 3.0]</strong></th><th><strong>Storage (GB)[▲ 2.0]</strong></th><th><strong>RAM (GB)[▲ 1.0]</strong></th></tr><tr><td>Samsung Galaxy S24</td><td>611</td><td>168</td><td>12.0</td><td>128</td><td>8</td></tr><tr><td>Google Pixel 9</td><td>830</td><td>198</td><td>13.0</td><td>128</td><td>12</td></tr><tr><td>Xiaomi 14</td><td>700</td><td>193</td><td>12.0</td><td>512</td><td>12</td></tr><tr><td>Apple iPhone 15</td><td>700</td><td>171</td><td>13.5</td><td>128</td><td>6</td></tr></table>
 
@@ -293,13 +299,20 @@ dm</code></pre>
 
 <p>---</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">ws_pipe = mkpipe(
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">ws_pipe = mkpipe(
     InvertMinimize(),
     SumScaler(target=&quot;both&quot;),
     WeightedSumModel(),
 )
 df_ws_ranks = ws_pipe.evaluate(dm).to_series().to_frame(&quot;Rank&quot;).sort_values(&quot;Rank&quot;)
 df_ws_ranks</code></pre>
+                        </div>
+                    </div>
 
 <table class="markdown-table"><tr><th></th><th><strong>Rank</strong></th></tr><tr><td><strong>Alternatives</strong></td><td></td></tr><tr><td>Xiaomi 14</td><td>1</td></tr><tr><td>Samsung Galaxy S24</td><td>2</td></tr><tr><td>Apple iPhone 15</td><td>3</td></tr><tr><td>Google Pixel 9</td><td>4</td></tr></table>
 
@@ -321,7 +334,13 @@ df_ws_ranks</code></pre>
 
 <p>To get a comprehensive view of our decision problem, let's apply all three models (WSM, WPM, and TOPSIS) and add their rankings to our initial dataframe.</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">ws_pipe = mkpipe(
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (24 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">ws_pipe = mkpipe(
     InvertMinimize(),
     SumScaler(target=&quot;both&quot;),
     WeightedSumModel(),
@@ -341,13 +360,13 @@ df_ws_ranks = ws_pipe.evaluate(dm).to_series().to_frame(&quot;Weigthet Sum Rank&
 df_wp_ranks = wp_pipe.evaluate(dm).to_series().to_frame(&quot;Weighted Product Rank&quot;)
 df_tp_ranks = tp_pipe.evaluate(dm).to_series().to_frame(&quot;TOPSIS Rank&quot;)
 
-<p>df_final = pd.concat([df_ws_ranks, df_wp_ranks, df_tp_ranks], axis=1)<br>df_final = df_final.merge(df_phones, left_index=True, right_index=True)<br>df_final = df_final.sort_values(&quot;Weigthet Sum Rank&quot;)<br>df_final</code></pre></p>
+<p>df_final = pd.concat([df_ws_ranks, df_wp_ranks, df_tp_ranks], axis=1)<br>df_final = df_final.merge(df_phones, left_index=True, right_index=True)<br>df_final = df_final.sort_values(&quot;Weigthet Sum Rank&quot;)<br>df_final</code></pre><br>                        </div><br>                    </div></p>
 
 <table class="markdown-table"><tr><th></th><th><strong>Weigthet Sum Rank</strong></th><th><strong>Weighted Product Rank</strong></th><th><strong>TOPSIS Rank</strong></th><th><strong>Price (EUR)</strong></th><th><strong>Weight (Gram)</strong></th><th><strong>Battery Life (Hour)</strong></th><th><strong>Storage (GB)</strong></th><th><strong>RAM (GB)</strong></th></tr><tr><td><strong>Phone</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Xiaomi 14</td><td>1</td><td>1</td><td>1</td><td>700</td><td>193</td><td>12.0</td><td>512</td><td>12</td></tr><tr><td>Samsung Galaxy S24</td><td>2</td><td>2</td><td>2</td><td>611</td><td>168</td><td>12.0</td><td>128</td><td>8</td></tr><tr><td>Apple iPhone 15</td><td>3</td><td>3</td><td>3</td><td>700</td><td>171</td><td>13.5</td><td>128</td><td>6</td></tr><tr><td>Google Pixel 9</td><td>4</td><td>4</td><td>4</td><td>830</td><td>198</td><td>13.0</td><td>128</td><td>12</td></tr></table>
 
 <p>Since our dataset is small and has few features, all models currently rank the alternatives the same way. However, in real-world scenarios, you may have dozens or even hundreds of alternatives with many more criteria. In those cases, different models can produce varying rankings. You can either choose a model based on its specific logic or take an average of several models' rankings for a more balanced approach.</p>
 
-<h1>Conclusion</h1>
+<h2>Conclusion</h2>
 
 <p>Taking decisions and shaping our future is in our hands—this is the free will of humanity from the beginning. Decisions can lead to either flourishing or punishing consequences, so we should strive to make the best possible choices. Ideally, we shouldn't base decisions on a single criterion. It's wise to consider multiple factors. However, managing many criteria and alternatives can quickly become overwhelming, leading to biased decisions. To avoid these traps, data-driven decision-making and specialized algorithms can save time and help us make optimal choices.</p>
 
@@ -361,40 +380,39 @@ df_tp_ranks = tp_pipe.evaluate(dm).to_series().to_frame(&quot;TOPSIS Rank&quot;)
             <!-- Post footer -->
             <footer class="blog-post-footer">
                 <div class="post-sharing">
-                    <h4>Share this post:</h4>
+                    <h4>Share this article</h4>
                     <div class="share-buttons">
                         <a href="https://twitter.com/intent/tweet?text=Multi-Criteria%20Decision-Making%20using%20Python&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fmulti-criteria-decision-making-python%2F" target="_blank" class="share-btn twitter">
-                            🐦 Twitter
+                            Share on X
                         </a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fmulti-criteria-decision-making-python%2F" target="_blank" class="share-btn linkedin">
-                            💼 LinkedIn
+                            Share on LinkedIn
                         </a>
-                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
-                            📋 Copy Link
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
                         </a>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
-                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
                 </div>
             </footer>
         </article>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="../../">Home</a>
-                    <a href="../../about">About</a>
-                    <a href="../../blog">Blog</a>
-                    <a href="../../contact">Contact</a>
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -402,7 +420,6 @@ df_tp_ranks = tp_pipe.evaluate(dm).to_series().to_frame(&quot;TOPSIS Rank&quot;)
     </footer>
 
     <!-- Configuration Scripts -->
-    <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
     
@@ -426,7 +443,7 @@ df_tp_ranks = tp_pipe.evaluate(dm).to_series().to_frame(&quot;TOPSIS Rank&quot;)
             .then(data => {
                 const el = document.getElementById('page-views');
                 if (el && data.count) {
-                    el.textContent = '📊 ' + data.count + ' views';
+                    el.textContent = data.count + ' views';
                 }
             })
             .catch(() => {

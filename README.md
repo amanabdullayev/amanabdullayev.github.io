@@ -1,6 +1,6 @@
 # Portfolio Website
 
-A modern, responsive portfolio website with dark/light theme toggle and optimized markdown-based blog system.
+A warm, responsive professional portfolio with a light/dark theme and a markdown-based writing system.
 
 ## 🚀 Features
 
@@ -81,8 +81,6 @@ Edit `js/config-public.js` to customize your website:
 personal: {
     name: "Your Full Name",
     title: "Your Professional Title",
-    description: "Brief description for hero section",
-    intro: "What you do - appears on home page",
     aboutMe: `<p>Your detailed story for about page...</p>`
 }
 ```
@@ -91,9 +89,9 @@ personal: {
 ```javascript
 homeStats: [
     {
-        icon: "💻",
-        title: "Active Projects", 
-        description: "Currently working on 3 exciting projects"
+        kicker: "Measurement",
+        title: "Causal experimentation",
+        description: "Designing experiments that separate incremental impact from correlation."
     },
     // Add more stats...
 ]
@@ -103,9 +101,8 @@ homeStats: [
 ```javascript
 skills: [
     {
-        icon: "⚛️",
-        name: "React/Next.js",
-        level: "Advanced"
+        name: "Causal inference",
+        description: "Distinguishing intervention effects from association."
     },
     // Add more skills...
 ]
@@ -128,9 +125,8 @@ experience: [
 ```javascript
 contact: [
     {
-        name: "Email",
-        icon: "📧",
-        url: "mailto:your.email@example.com"
+        name: "LinkedIn",
+        url: "https://linkedin.com/in/your-profile"
     },
     // Add more contact methods...
 ]

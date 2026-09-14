@@ -3,21 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found - Aman Abdullayev</title>
+    <title>Page not found - Aman Abdullayev</title>
+    <meta name="description" content="The requested page could not be found.">
+    <meta name="theme-color" content="#9b4f35">
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
     <link rel="stylesheet" href="/styles/core.css">
     <link rel="stylesheet" href="/styles/layout.css">
     <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/pages.css">
+    <link rel="stylesheet" href="/styles/responsive.css">
 </head>
 <body>
+    <header class="site-header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
+                    <a href="/about" class="nav-btn">About</a>
+                    <a href="/blog" class="nav-btn">Writing</a>
+                    <a href="/projects" class="nav-btn">Projects</a>
+                    <a href="/contact" class="nav-btn nav-contact">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
     <main class="container">
         <div class="error-page">
-            <h1>404 - Page Not Found</h1>
-            <p>The page you're looking for doesn't exist.</p>
+            <p class="error-code">Error 404</p>
+            <h1>This path ends here.</h1>
+            <p>The page may have moved, or the address may be incomplete. You can return home or continue with the writing.</p>
             <div class="error-actions">
-                <a href="/" class="btn btn-primary">← Go Home</a>
-                <a href="/blog/" class="btn btn-secondary">Browse Blog</a>
+                <a href="/" class="btn btn-primary">Go home</a>
+                <a href="/blog/" class="btn btn-secondary">Browse writing</a>
             </div>
         </div>
     </main>
+
+    <script src="/js/config-public.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>

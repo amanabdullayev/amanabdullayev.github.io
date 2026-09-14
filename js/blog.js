@@ -38,8 +38,8 @@ class BlogPage {
                 loadingElement.style.display = 'none';
                 noPostsElement.style.display = 'block';
                 noPostsElement.innerHTML = `
-                    <h3>Blog system not available</h3>
-                    <p>Unable to load the blog index system. Please check your setup.</p>
+                    <h3>Writing is temporarily unavailable</h3>
+                    <p>The article index could not be loaded. Please try again later.</p>
                 `;
                 return;
             }
@@ -50,8 +50,8 @@ class BlogPage {
                 loadingElement.style.display = 'none';
                 noPostsElement.style.display = 'block';
                 noPostsElement.innerHTML = `
-                    <h3>No blog posts found</h3>
-                    <p>Add markdown files to the <code>blog-posts/</code> folder to get started.</p>
+                    <h3>No articles yet</h3>
+                    <p>New writing will appear here when it is published.</p>
                 `;
                 return;
             }
@@ -76,8 +76,8 @@ class BlogPage {
             loadingElement.style.display = 'none';
             noPostsElement.style.display = 'block';
             noPostsElement.innerHTML = `
-                <h3>Error loading blog posts</h3>
-                <p>Unable to load posts. Please check your setup.</p>
+                <h3>Writing could not be loaded</h3>
+                <p>Please try again later.</p>
             `;
         }
     }
@@ -92,15 +92,8 @@ class BlogPage {
         
         tagFilters.innerHTML = allTags.map(tag => {
             const colorIndex = getTagColorIndex(tag);
-            return `<button class="tag-filter tag" data-tag="${tag}" data-color="${colorIndex}">${tag}</button>`;
+            return `<button class="tag-filter tag" data-tag="${tag}" data-color="${colorIndex}" type="button" aria-pressed="false">${tag}</button>`;
         }).join('');
-        
-        // Add click listeners
-        tagFilters.addEventListener('click', (e) => {
-            if (e.target.classList.contains('tag-filter')) {
-                this.filterByTag(e.target.dataset.tag);
-            }
-        });
     }
 
     // Initialize search and filter functionality
@@ -138,12 +131,14 @@ class BlogPage {
         // Update active tag button
         document.querySelectorAll('.tag-filter').forEach(btn => {
             btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
         });
-        
-        if (tag === 'all') {
-            document.querySelector('.tag-filter[data-tag="all"]').classList.add('active');
-        } else {
-            document.querySelector(`.tag-filter[data-tag="${tag}"]`).classList.add('active');
+
+        const activeButton = [...document.querySelectorAll('.tag-filter')]
+            .find(button => button.dataset.tag === tag);
+        if (activeButton) {
+            activeButton.classList.add('active');
+            activeButton.setAttribute('aria-pressed', 'true');
         }
         
         this.currentTag = tag;

@@ -5,30 +5,11 @@ class HomePage {
     }
 
     async init() {
-        // Load about content (moved from about page)
-        await this.loadAboutContent();
-        
         // Load stats/what I'm working on
         this.loadHomeStats();
         
         // Load latest blog posts (only 4)
         await this.loadLatestPosts();
-    }
-
-    // Load home intro content from config
-    async loadAboutContent() {
-        const introText = document.getElementById('intro-text');
-        if (!introText) return;
-        
-        try {
-            // Use homeIntro from config for home page
-            if (typeof CONFIG !== 'undefined' && CONFIG.personal.homeIntro) {
-                introText.innerHTML = CONFIG.personal.homeIntro;
-            }
-        } catch (error) {
-            console.error('Error loading home intro content:', error);
-            // Keep the fallback content
-        }
     }
 
     // Load home stats/what I'm working on section
@@ -40,7 +21,7 @@ class HomePage {
         
         statsGrid.innerHTML = CONFIG.homeStats.map(stat => {
             const inner = `
-                <div class="stat-icon">${stat.icon}</div>
+                <span class="stat-kicker">${stat.kicker}</span>
                 <h3 class="stat-title">${stat.title}</h3>
                 <p class="stat-description">${stat.description}</p>
             `;
@@ -65,7 +46,7 @@ class HomePage {
         try {
             // Use blog index system
             if (!blogIndex) {
-                loadingElement.innerHTML = '<p class="error">Blog system not available. Please check your setup.</p>';
+                loadingElement.innerHTML = '<p class="error">Recent writing is temporarily unavailable.</p>';
                 return;
             }
 
@@ -74,7 +55,7 @@ class HomePage {
             const latestPosts = allPosts.slice(0, CONFIG.settings.homePostsCount || 4);
             
             if (latestPosts.length === 0) {
-                loadingElement.innerHTML = '<p class="error">No blog posts found. Add markdown files to the <code>blog-posts/</code> folder.</p>';
+                loadingElement.innerHTML = '<p class="error">No published writing is available yet.</p>';
                 return;
             }
 
@@ -94,7 +75,7 @@ class HomePage {
 
         } catch (error) {
             console.error('Error loading latest posts:', error);
-            loadingElement.innerHTML = '<p class="error">Failed to load blog posts. Please check your blog system configuration.</p>';
+            loadingElement.innerHTML = '<p class="error">Recent writing could not be loaded. Please try again later.</p>';
         }
     }
 }

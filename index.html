@@ -3,42 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Abdullayev - Portfolio & Blog</title>
-    <meta name="description" content="Welcome to Aman Abdullayev's portfolio and blog. Explore insights on data science, technology, and personal growth.">
+    <title>Aman Abdullayev - Applied Scientist</title>
+    <meta name="description" content="Aman Abdullayev is an applied scientist in Berlin focused on causal measurement, experimentation, forecasting, and marketing science.">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Aman Abdullayev - Portfolio & Blog">
-    <meta property="og:description" content="Welcome to Aman Abdullayev's portfolio and blog. Explore insights on data science, technology, and personal growth.">
+    <meta property="og:title" content="Aman Abdullayev - Applied Scientist">
+    <meta property="og:description" content="Applied science for better marketing decisions: causal measurement, experimentation, forecasting, and practical writing.">
     <meta property="og:url" content="https://amanabdullayev.me/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
-    <meta property="og:image" content="https://amanabdullayev.me/images/logo.png">
+    <meta property="og:site_name" content="Aman Abdullayev">
+    <meta property="og:image" content="https://amanabdullayev.me/images/personal_avatar_1.png">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Aman Abdullayev - Portfolio & Blog">
-    <meta name="twitter:description" content="Welcome to Aman Abdullayev's portfolio and blog. Explore insights on data science, technology, and personal growth.">
+    <meta name="twitter:title" content="Aman Abdullayev - Applied Scientist">
+    <meta name="twitter:description" content="Applied science for better marketing decisions: causal measurement, experimentation, and forecasting.">
     <meta name="twitter:creator" content="@amanabdullayev">
-    <meta name="twitter:image" content="https://amanabdullayev.me/images/logo.png">
+    <meta name="twitter:image" content="https://amanabdullayev.me/images/personal_avatar_1.png">
     
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
     <link rel="manifest" href="public/manifest.json">
-    <meta name="msapplication-TileColor" href="#2563eb">
-    <meta name="msapplication-TileImage" content="public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
     
     <!-- Core styles - variables, themes, base styles -->
     <link rel="stylesheet" href="styles/core.css">
@@ -54,20 +40,20 @@
     <link rel="stylesheet" href="styles/responsive.css">
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="/" class="logo">
-                    <img src="images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="/" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="/about" class="nav-btn">About</a>
-                    <a href="/blog" class="nav-btn">Blog</a>
+                    <a href="/blog" class="nav-btn">Writing</a>
                     <a href="/projects" class="nav-btn">Projects</a>
-                    <a href="/contact" class="nav-btn">Contact</a>
+                    <a href="/contact" class="nav-btn nav-contact">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -75,59 +61,60 @@
     </header>
 
     <section class="hero">
-        <div class="container">
-            <h1 id="hero-title">Welcome to My Digital Space</h1>
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <p class="hero-eyebrow">Applied Scientist · Berlin</p>
+                <h1 id="hero-title">Applied science for better marketing decisions.</h1>
+                <p class="hero-lede">I’m Aman, a data scientist focused on causal measurement, experimentation, and predictive modeling—turning complex evidence into decisions people can act on.</p>
+                <div class="hero-actions">
+                    <a href="/contact" class="btn btn-primary">Start a conversation</a>
+                    <a href="/about" class="btn btn-secondary">About my work</a>
+                </div>
+            </div>
+            <div class="hero-portrait">
+                <img src="images/personal_avatar_1.png" alt="Aman Abdullayev" width="500" height="500">
+            </div>
         </div>
     </section>
 
     <main class="container">
-        <!-- Introduction Section -->
-         <section class="about-main section">
-            <div class="about-content">
-                <div class="profile-avatar">
-                    <img src="images/personal_avatar_1.png" alt="Aman Abdullayev" class="avatar-image">
-                </div>
-                <div id="intro-text" class="fade-in">
-                    <p>Loading intro content...</p>
+        <section class="stats-section section" aria-labelledby="focus-title">
+            <div class="section-header">
+                <div>
+                    <p class="page-eyebrow">How I contribute</p>
+                    <h2 class="section-title" id="focus-title">From measurement to action</h2>
+                    <p class="section-intro">I work across causal inference, forecasting, and decision systems to make marketing investment more measurable and useful.</p>
                 </div>
             </div>
+            <div class="stats-grid" id="stats-grid"></div>
         </section>
 
-        <!-- Latest Blog Posts -->
         <section class="latest-posts section">
             <div class="section-header">
-                <h2 class="section-title">Latest Blog Posts</h2>
-                <a href="/blog" class="view-all-link">View All Posts →</a>
+                <div>
+                    <p class="page-eyebrow">Ideas in progress</p>
+                    <h2 class="section-title">Recent writing</h2>
+                </div>
+                <a href="/blog" class="view-all-link">Browse all writing</a>
             </div>
             <div id="loading-posts" class="loading">Loading latest posts...</div>
             <div id="posts-grid" class="posts-grid" style="display: none;">
-                <!-- Latest 4 blog posts will be loaded here -->
-            </div>
-        </section>
-
-        <!-- Quick Stats or Skills Section -->
-        <section class="stats-section section">
-            <h2 class="section-title">What I'm Working On</h2>
-            <div class="stats-grid" id="stats-grid">
-                <!-- Stats will be loaded from config -->
             </div>
         </section>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2026 <span id="footer-name">Aman Abdullayev</span>. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="/">Home</a>
-                    <a href="/about">About</a>
-                    <a href="/blog">Blog</a>
-                    <a href="/projects">Projects</a>
-                    <a href="/contact">Contact</a>
+                    <a href="/blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -135,7 +122,6 @@
     </footer>
 
     <!-- Configuration Scripts -->
-    <script src="js/env-config.js"></script>
     <script src="js/config-public.js"></script>
     <script src="js/blog-index.js"></script>
     <script src="js/main.js"></script>

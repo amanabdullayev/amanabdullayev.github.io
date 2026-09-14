@@ -87,29 +87,16 @@ class Portfolio {
         if (typeof CONFIG === 'undefined') return;
         
         const { personal } = CONFIG;
-        
-        // Update hero section
-        const heroTitle = document.getElementById('hero-title');
-        if (heroTitle) {
-            heroTitle.textContent = `Welcome to My Digital Space`;
-        }
-        
+
         // Update footer
         const footerName = document.getElementById('footer-name');
         if (footerName) {
             footerName.textContent = personal.name;
         }
-        
-        // Update page title
-        document.title = `${personal.name} - Portfolio & Blog`;
-        
-        // Update logo text only (preserve the image)
-        const logoElement = document.querySelector('.logo');
-        if (logoElement) {
-            const logoImage = logoElement.querySelector('.logo-image');
-            logoElement.innerHTML = '';
-            if (logoImage) logoElement.appendChild(logoImage);
-            logoElement.appendChild(document.createTextNode("Aman's Space"));
+
+        const footerYear = document.getElementById('footer-year');
+        if (footerYear) {
+            footerYear.textContent = new Date().getFullYear();
         }
     }
 
@@ -139,52 +126,55 @@ class Portfolio {
 
     // Get current page from URL
     getCurrentPage() {
-        const path = window.location.pathname;
-        const filename = path.split('/').pop();
-        
-        if (filename === 'about') return 'about';
-        if (filename === 'blog') return 'blog';
-        if (filename === 'contact') return 'contact';
-        if (filename === 'projects') return 'projects';
+        const segments = window.location.pathname.split('/').filter(Boolean);
+        const page = segments[0];
+
+        if (page === 'blog' && segments.length > 1 && segments[1] !== 'index.html') {
+            return null;
+        }
+
+        if (['about', 'blog', 'contact', 'projects'].includes(page)) {
+            return page;
+        }
 
         return null; // Home page or unknown
     }
 
-    // Initialize smooth scrolling navigation
+    // Initialize navigation and the small-screen menu
     initNavigation() {
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(anchor.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+        const menuToggle = document.getElementById('nav-menu-toggle');
+        const menu = document.getElementById('primary-nav');
+
+        if (!menuToggle || !menu) return;
+
+        const closeMenu = () => {
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Open menu');
+            menu.classList.remove('is-open');
+            document.body.classList.remove('menu-open');
+        };
+
+        menuToggle.addEventListener('click', () => {
+            const willOpen = menuToggle.getAttribute('aria-expanded') !== 'true';
+            menuToggle.setAttribute('aria-expanded', String(willOpen));
+            menuToggle.setAttribute('aria-label', willOpen ? 'Close menu' : 'Open menu');
+            menu.classList.toggle('is-open', willOpen);
+            document.body.classList.toggle('menu-open', willOpen);
         });
 
-        // Update active navigation link on scroll
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (window.scrollY >= sectionTop) {
-                    current = section.getAttribute('id');
-                }
-            });
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                }
-            });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+                closeMenu();
+                menuToggle.focus();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 700) closeMenu();
         });
     }
 
@@ -213,29 +203,21 @@ class Portfolio {
 
     // Initialize theme with a simple, direct approach
     initSimpleTheme() {
-        // Set initial theme from localStorage
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedTheme = localStorage.getItem('theme');
+        const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = savedTheme || preferredTheme;
         
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        this.updateThemeIcons(savedTheme);
-        
-        // Set up event listeners using a direct approach
-        // Use setTimeout to ensure DOM is ready
-        setTimeout(() => {
-            this.setupSimpleThemeListeners();
-        }, 100);
+        document.documentElement.setAttribute('data-theme', theme);
+        this.updateThemeIcons(theme);
+        this.updateManifestThemeColor(theme);
+        this.setupSimpleThemeListeners();
     }
     
     setupSimpleThemeListeners() {
         const buttons = document.querySelectorAll('#theme-toggle, #footer-theme-toggle');
         
-        buttons.forEach((button, index) => {
-            // Remove existing listeners by cloning
-            const newButton = button.cloneNode(true);
-            button.parentNode.replaceChild(newButton, button);
-            
-            // Add the click listener
-            newButton.addEventListener('click', (e) => {
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.simpleToggleTheme();
             });
@@ -259,10 +241,17 @@ class Portfolio {
     
     updateThemeIcons(theme) {
         const themeIcons = document.querySelectorAll('.theme-icon');
-        const icon = theme === 'light' ? '☀️' : '🌙';
+        const isDark = theme === 'dark';
+        const icon = isDark
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.1A8.5 8.5 0 0 1 9.9 3.5a8.5 8.5 0 1 0 10.6 10.6Z"></path></svg>';
         
         themeIcons.forEach(iconElement => {
-            iconElement.textContent = icon;
+            iconElement.innerHTML = icon;
+        });
+
+        document.querySelectorAll('#theme-toggle, #footer-theme-toggle').forEach(button => {
+            button.setAttribute('aria-label', isDark ? 'Use light theme' : 'Use dark theme');
         });
     }
 
@@ -295,7 +284,7 @@ class Portfolio {
     updateManifestThemeColor(theme) {
         const themeColorMeta = document.querySelector('meta[name="theme-color"]');
         if (themeColorMeta) {
-            const color = theme === 'light' ? '#2563eb' : '#3b82f6';
+            const color = theme === 'light' ? '#9b4f35' : '#1e1c19';
             themeColorMeta.setAttribute('content', color);
         }
     }

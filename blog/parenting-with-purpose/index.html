@@ -11,7 +11,7 @@
     <meta property="og:title" content="Parenting with Purpose - Aman Abdullayev">
     <meta property="og:description" content="Parenting is about more than raising children—it’s about shaping the future. By embracing the unique roles of mothers and fathers, we can create a balanced foundation of love, discipline, and guidance that nurtures emotionally intelligent, compassionate individuals. In a world often preoccupied with material success, it’s time to return to timeless values and raise generations that prioritize humanity over materialism, connection over competition, and love over everything else.">
     <meta property="og:url" content="https://amanabdullayev.me/blog/parenting-with-purpose/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="og:site_name" content="Aman Abdullayev">
     <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_06_cover.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -29,24 +29,10 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://amanabdullayev.me/blog/parenting-with-purpose/">
     
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
     <link rel="manifest" href="../../public/manifest.json">
-    <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
     
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
@@ -94,19 +80,20 @@
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="../../" class="logo">
-                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="../../about" class="nav-btn">About</a>
-                    <a href="../../blog" class="nav-btn active">Blog</a>
-                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -117,7 +104,7 @@
         <article class="blog-post">
             <!-- Back to blog link -->
             <div class="blog-post-nav">
-                <a href="../" class="back-to-blog">← Back to Blog</a>
+                <a href="../" class="back-to-blog">← Back to writing</a>
             </div>
             <!-- Cover image banner -->
             
@@ -135,7 +122,7 @@
                 <div class="blog-post-meta">
                     <time datetime="2025-03-07T23:00:00.000Z">Mar 8, 2025</time>
                     <div class="page-views" id="page-views">
-                        📊 Loading...
+                        Loading views...
                     </div>
                 </div>
                 <div class="post-author-pin">
@@ -149,9 +136,7 @@
 
             <!-- Post content -->
             <div class="blog-post-body">
-                <h1>Parenting with Purpose</h1>
-
-<h2><strong>We Are Architects of the Future</strong></h2>
+                <h2><strong>We Are Architects of the Future</strong></h2>
 
 <p>As parents, we are more than caregivers—we are architects, shaping the future with every word, action, and moment of love we pour into our children. We are building the next generation, brick by brick, heart by heart, and in doing so, we are quietly but powerfully influencing the society of tomorrow.</p>
 
@@ -195,40 +180,39 @@ allowfullscreen>
             <!-- Post footer -->
             <footer class="blog-post-footer">
                 <div class="post-sharing">
-                    <h4>Share this post:</h4>
+                    <h4>Share this article</h4>
                     <div class="share-buttons">
                         <a href="https://twitter.com/intent/tweet?text=Parenting%20with%20Purpose&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fparenting-with-purpose%2F" target="_blank" class="share-btn twitter">
-                            🐦 Twitter
+                            Share on X
                         </a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fparenting-with-purpose%2F" target="_blank" class="share-btn linkedin">
-                            💼 LinkedIn
+                            Share on LinkedIn
                         </a>
-                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
-                            📋 Copy Link
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
                         </a>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
-                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
                 </div>
             </footer>
         </article>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="../../">Home</a>
-                    <a href="../../about">About</a>
-                    <a href="../../blog">Blog</a>
-                    <a href="../../contact">Contact</a>
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -236,7 +220,6 @@ allowfullscreen>
     </footer>
 
     <!-- Configuration Scripts -->
-    <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
     
@@ -260,7 +243,7 @@ allowfullscreen>
             .then(data => {
                 const el = document.getElementById('page-views');
                 if (el && data.count) {
-                    el.textContent = '📊 ' + data.count + ' views';
+                    el.textContent = data.count + ' views';
                 }
             })
             .catch(() => {

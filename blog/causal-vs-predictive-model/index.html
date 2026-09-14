@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Causal Models vs Predictive Models: Why It Matters - Aman Abdullayev</title>
+    <meta name="description" content="This blog breaks down the key difference between predictive and causal models in data science. Through a hands-on example using customer lifetime value (CLV), it shows how predictive models can mislead and why causal models are essential for making truly actionable business decisions.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Causal Models vs Predictive Models: Why It Matters - Aman Abdullayev">
+    <meta property="og:description" content="This blog breaks down the key difference between predictive and causal models in data science. Through a hands-on example using customer lifetime value (CLV), it shows how predictive models can mislead and why causal models are essential for making truly actionable business decisions.">
+    <meta property="og:url" content="https://amanabdullayev.me/blog/causal-vs-predictive-model/">
+    <meta property="og:site_name" content="Aman Abdullayev">
+    <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_07_cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+    <meta property="article:author" content="Aman Abdullayev">
+    <meta property="article:published_time" content="2025-08-15T22:00:00.000Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Causal Models vs Predictive Models: Why It Matters - Aman Abdullayev">
+    <meta name="twitter:description" content="This blog breaks down the key difference between predictive and causal models in data science. Through a hands-on example using customer lifetime value (CLV), it shows how predictive models can mislead and why causal models are essential for making truly actionable business decisions.">
+    <meta name="twitter:creator" content="@amanabdullayev">
+    <meta name="twitter:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_07_cover.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://amanabdullayev.me/blog/causal-vs-predictive-model/">
+    
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
+    <link rel="manifest" href="../../public/manifest.json">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
+    
+    <!-- Core styles -->
+    <link rel="stylesheet" href="../../styles/core.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/blog.css">
+    <link rel="stylesheet" href="../../styles/pages.css">
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    
+    <!-- Prism.js CSS for syntax highlighting - Use Tomorrow theme which works better with dark mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <!-- MathJax for LaTeX equation rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\(', '\)']],
+                displayMath: [['$$', '$$'], ['\[', '\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                tags: 'ams'
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                pageReady: () => {
+                    console.log('MathJax configuration loaded');
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        console.log('MathJax page ready');
+                        // Force a re-render for GitHub Pages
+                        if (window.MathJax && window.MathJax.typesetPromise) {
+                            return window.MathJax.typesetPromise();
+                        }
+                    });
+                }
+            },
+            loader: {
+                load: ['[tex]/ams']
+            }
+        };
+    </script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav>
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
+                    <a href="../../about" class="nav-btn">About</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="blog-post">
+            <!-- Back to blog link -->
+            <div class="blog-post-nav">
+                <a href="../" class="back-to-blog">← Back to writing</a>
+            </div>
+            <!-- Cover image banner -->
+            
+            <div class="blog-post-cover">
+                <img src="../../blog-posts/blog_images/blog_07_cover.png" 
+                     alt="Causal Models vs Predictive Models: Why It Matters" 
+                     class="cover-image"
+                     loading="lazy">
+            </div>
+            
+            <!-- Post header -->
+            <header class="blog-post-header">
+                <h1 class="blog-post-title">Causal Models vs Predictive Models: Why It Matters</h1>
+                <div class="post-tags"><span class="tag" data-color="7">Causality</span><span class="tag" data-color="4">Python</span></div>
+                <div class="blog-post-meta">
+                    <time datetime="2025-08-15T22:00:00.000Z">Aug 16, 2025</time>
+                    <div class="page-views" id="page-views">
+                        Loading views...
+                    </div>
+                </div>
+                <div class="post-author-pin">
+                    <img src="../../images/personal_avatar_1.png" 
+                         alt="Aman Abdullayev" 
+                         class="author-avatar"
+                         loading="lazy">
+                    <span class="author-pin-name">Aman Abdullayev</span>
+                </div>
+            </header>
+
+            <!-- Post content -->
+            <div class="blog-post-body">
+                <h2>Introduction</h2>
+
+<p>In today’s data-driven world, businesses are realizing a crucial truth: <strong>correlation is not causation</strong>. Just because two metrics move together doesn’t mean one drives the other. Traditional machine learning mostly tells us whether variables move together, but decision-makers usually want to know <em>which</em> variable actually influences the outcome—and by <em>how much</em>. That’s where <strong>causal inference</strong> comes in.</p>
+
+<p>Initially, I found it challenging to distinguish between predictive models (classical machine learning) and causal models. My initial thought was: <em>if I train a model—say, a linear regression—then the feature coefficients must represent causal effects</em>. For example, if β₁ for x₁ (a binary variable) is 5, I assumed the causal effect of x₁ was 5.</p>
+
+<p>But I later realized I was overlooking something important: <strong>confounders</strong>. A confounder is a variable that influences <em>both</em> the treatment and the outcome. If you leave it out, your treatment effect estimates are biased. For instance, income may affect both the likelihood of buying insurance (treatment) and health outcomes (outcome). If you could include <em>all</em> confounders—which is rarely possible in practice—then the regression coefficient of a feature would indeed represent its causal effect.</p>
+
+<p>It took me some time to appreciate these differences and the methodological nuances between predictive modeling and causal inference. Let’s unpack how they differ, and where they overlap.</p>
+
+<h3>Causality vs Prediction</h3>
+
+<p>Causal models aim to answer a powerful question: <strong>“What would have happened if we had done something differently?”</strong> Instead of just spotting correlations, they uncover what actually <em>causes</em> change.</p>
+
+<p>They go beyond simple forecasting. Predictive models tell you what <em>might</em> happen, but causal models explain <em>why</em> it happens—and what would be different under another action.</p>
+
+<p>In short, causal models reveal which levers truly drive outcomes, enabling decisions that move the needle.</p>
+
+<p><strong>Where Causal Models Are Used</strong></p>
+
+<ul class="markdown-list"><li><strong>Marketing</strong> → Campaign effectiveness, spend optimization</li><li><strong>Product</strong> → Drivers of feature adoption or churn</li><li><strong>Pricing</strong> → Impact of price changes</li><li><strong>Operations</strong> → Effects of delivery time, staffing, etc.</li></ul>
+
+<p>Businesses don’t just want to <strong>know</strong> what’s happening—they want to <strong>influence</strong> it. Causal models make this possible. They’re no longer academic nice-to-haves—they’re a <strong>competitive edge</strong>.</p>
+
+<p>On the other hand, <strong>predictive models</strong> use historical data to forecast outcomes. They learn patterns between features (<code class="inline-code">X</code>) and a target (<code class="inline-code">Y</code>), for example:</p>
+
+<ul class="markdown-list"><li>Will this user churn?</li><li>What will we sell next month?</li><li>How many orders will this customer make?</li></ul>
+
+<p>But here’s the key: predictive models don’t explain <em>why</em> something happens. If you want to know whether a discount <strong>caused</strong> a behavior change, you need a <strong>causal model</strong>.</p>
+
+<h2>Causality vs. Prediction in Action</h2>
+
+<p>Imagine you run an e-commerce business and want to estimate <strong>Customer Lifetime Value (CLV)</strong> over 365 days. But why are you really interested in CLV?</p>
+
+<ul class="markdown-list"><li>Is it just out of curiosity? Probably not 🙂.</li><li>More likely, you want to <em>increase</em> CLV. If you knew which features of your business or which marketing actions drive it up (or down), you could double down on the right levers.</li><li>Or perhaps you want to measure how much <strong>additional CLV</strong> a specific marketing action generates. Then you could directly compare that gain with its cost and calculate ROI.</li></ul>
+
+<h3>CAC Predicts CLV</h3>
+
+<p>Now, suppose you have data on how much you spent to acquire customers (CAC) and their CLVs:</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_cac.head()</code></pre>
+                        </div>
+                    </div>
+
+<table class="markdown-table"><tr><th><strong>customer_id</strong></th><th><strong>cac</strong></th><th><strong>clv_365</strong></th></tr><tr><td>0</td><td>15.55</td><td>32.48</td></tr><tr><td>1</td><td>52.35</td><td>104.17</td></tr><tr><td>2</td><td>90.33</td><td>178.90</td></tr><tr><td>3</td><td>66.81</td><td>135.26</td></tr><tr><td>4</td><td>61.42</td><td>123.14</td></tr></table>
+
+<p>You train a Linear Regression model on this and get near-perfect results.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (13 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">X_train, X_test, y_train, y_test = prep_data_for_regression(df_cac, &quot;clv_365&quot;)
+# Train a linear regression model
+model_1 = LinearRegression()
+model_1.fit(X_train, y_train)
+y_pred = model_1.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print(f&quot;Mean Squared Error: {mse:.2f}&quot;)
+print(f&quot;R-squared: {r2:.2f}&quot;)
+
+<p>&gt;&gt;&gt;output<br>Mean Squared Error: 9.94<br>R-squared: 0.99</code></pre><br>                        </div><br>                    </div></p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_07_01.png"
+alt="CAC vs CLV Model Accuracy"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">CAC vs CLV Model Accuracy</figcaption>
+</figure>
+
+<p>Great, right? Not so fast. This is synthetic data where the correlation was intentionally built in. In real life, such a correlation often doesn’t exist. More importantly, a predictive model like this can’t answer: <strong>"Does higher CAC cause higher CLV?"</strong></p>
+
+<p>Should you spend more on acquisition just because the model predicts higher CLV with higher CAC? Definitely not.</p>
+
+<h3><strong>More Features: Age, Gender, Location, App Usage</strong></h3>
+
+<p>You get more customer data: <code class="inline-code">age</code>, <code class="inline-code">gender</code>, <code class="inline-code">urban_loc</code>, <code class="inline-code">app_user</code> , where data looks like this now:</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_customers.head()</code></pre>
+                        </div>
+                    </div>
+
+<table class="markdown-table"><tr><th><strong>customer_id</strong></th><th><strong>age</strong></th><th><strong>gender</strong></th><th><strong>urban_loc</strong></th><th><strong>app_user</strong></th><th><strong>clv_365</strong></th></tr><tr><td>0</td><td>46</td><td>male</td><td>0</td><td>0</td><td>32.48</td></tr><tr><td>1</td><td>32</td><td>female</td><td>0</td><td>0</td><td>104.17</td></tr><tr><td>2</td><td>25</td><td>female</td><td>1</td><td>1</td><td>178.90</td></tr><tr><td>3</td><td>38</td><td>female</td><td>0</td><td>1</td><td>135.26</td></tr><tr><td>4</td><td>36</td><td>female</td><td>1</td><td>0</td><td>123.14</td></tr></table>
+
+<p>You retrain your model and achieve a great predictive score (R2 = 1.00, MSE = 4.62). Errors are normally distributed.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (12 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">X_train, X_test, y_train, y_test = prep_data_for_regression(df_customers, &quot;clv_365&quot;)
+# Train a linear regression model
+model_2 = LinearRegression()
+model_2.fit(X_train, y_train)
+y_pred = model_2.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print(f&quot;Mean Squared Error: {mse:.2f}&quot;)
+print(f&quot;R-squared: {r2:.2f}&quot;)
+&gt;&gt;&gt;output
+Mean Squared Error: 4.62
+R-squared: 1.00</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_07_02.png"
+alt="Age, Gender, Location, App USage vs CLV Model Accuracy"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Age, Gender, Location, App USage vs CLV Model Accuracy</figcaption>
+</figure>
+
+<p>If prediction is your only goal, you’re done. You now know the CLV of each customer.</p>
+
+<p>But stopping here isn’t very actionable. Sure, you can try targeting low-CLV customers with CRM activities—discounts, emails, push notifications, and so on. But the real question is: <strong>do these actions actually increase CLV?</strong></p>
+
+<p>If the discount you offer doesn’t lift CLV in the long run, then it’s not worth it. That’s why, if you really want to understand <em>what drives CLV</em>, you shouldn’t stop at prediction. Keep reading 🙂.</p>
+
+<h3>Does App Usage Drive CLV?</h3>
+
+<p>Let’s say we want to measure the effect of <strong>app usage</strong> on CLV. If it turns out to be positive, the next logical step would be to invest more in campaigns (e.g., ads) that drive app installs, right?</p>
+
+<p>But here’s the catch: before acting, we need to know the <strong>causal effect</strong> of app usage on CLV.</p>
+
+<p>Suppose we look at a regression and see that the coefficient for <code class="inline-code">app_user</code> is <strong>+19.6</strong>. That means app users bring, USD 19.6 more in CLV.</p>
+
+<p>But is that really a <strong>causal effect</strong>—or just a correlation?</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python"># Feature Importance
+importance = pd.DataFrame(
+    {
+        &quot;Feature&quot;: model_2.feature_names_in_,
+        &quot;Importance&quot;: model_2.coef_,
+    }
+).sort_values(by=&quot;Importance&quot;, ascending=False)
+importance</code></pre>
+                        </div>
+                    </div>
+
+<table class="markdown-table"><tr><th><strong>Feature</strong></th><th><strong>Importance</strong></th></tr><tr><td>app_user</td><td>19.6</td></tr><tr><td>urban_loc</td><td>12.4</td></tr><tr><td>age</td><td>-14.8</td></tr><tr><td>gender</td><td>-23.8</td></tr></table>
+
+<h3>Avg CLV: App Users vs. Non-App Users</h3>
+
+<p>Now, let’s make a simple comparison: compare the average CLV of app users vs non-app users. Surprisingly, the difference is <code class="inline-code">USD 46.5</code>.</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">app_user_mean = df.query(&quot;app_user == 1&quot;)[&quot;clv_365&quot;].mean()
+non_app_user_mean = df.query(&quot;app_user == 0&quot;)[&quot;clv_365&quot;].mean()
+difference = app_user_mean - non_app_user_mean</code></pre>
+                        </div>
+                    </div>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_07_03.png"
+alt="Avg CLV comparison of App users vs Non-App users"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Avg CLV comparison of App users vs Non-App users</figcaption>
+</figure>
+
+<p>So, what’s the <strong>true effect</strong>—USD 19.6 or USD 46.5? Why does the estimated effect of app usage vary so much?</p>
+
+<p>This matters because it directly affects your marketing decisions.</p>
+
+<ul class="markdown-list"><li>If you spend USD 46.5 per app install but the true effect is only USD 19.6, you’re losing money.</li><li>Conversely, if you spend USD 19.6 and the true effect is USD 46.5, you could afford to push even more app installs.</li></ul>
+
+<p>Knowing the <strong>causal effect</strong> helps you make decisions that actually move the needle.</p>
+
+<h3>The Problem: Confounding</h3>
+
+<p>Let’s examine the age distribution: younger users are more likely to use the app <strong>and</strong> tend to have higher CLV.</p>
+
+<p>This is a <strong>confounder</strong>: a third variable (age) affects both the treatment (<code class="inline-code">app_user</code>) and the outcome (CLV), which can bias our estimate of the app’s effect.</p>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_07_04.png"
+alt="Age Distribution of App Users vs Non-App Users"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Age Distribution of App Users vs Non-App Users</figcaption>
+</figure>
+
+<p>Specifically, <strong>age</strong> is a confounding variable:</p>
+
+<ul class="markdown-list"><li>Younger users are more likely to use the app</li><li>Younger users also tend to have higher CLV</li></ul>
+
+<p>This means that part of the observed effect of app usage is actually due to <strong>age</strong>, not the app itself.</p>
+
+<h3>Causal Models to the Rescue</h3>
+
+<p>There are many ways to estimate causal effects:</p>
+
+<ul class="markdown-list"><li><a href="https://matheusfacure.github.io/python-causality-handbook/landing-page.html" target="_blank" rel="noopener"><strong>Causal Inference for the Brave and True</strong></a></li><li><a href="https://causalml-book.org/" target="_blank" rel="noopener"><strong>CausalML</strong></a></li><li><a href="https://www.pywhy.org/dowhy/v0.12/user_guide/intro.html" target="_blank" rel="noopener"><strong>DoWhy</strong></a></li></ul>
+
+<p>Here, we’ll use a simple method: the <strong>S-learner</strong>, a type of <strong>Meta-Learner</strong>. For learning purposes, we’ll build the estimator from scratch. (Of course, there are ready-to-use implementations in DoWhy and EconML with extra features for checking model accuracy, etc.)</p>
+
+<h4>What is an S-Learner?</h4>
+
+<p>An <strong>S-learner</strong> (the “S” stands for <strong>Single</strong>, because it uses a single model; by contrast, a T-learner uses <strong>Two</strong> separate models) estimates the <strong>Conditional Average Treatment Effect (CATE)</strong> as follows:</p>
+
+<ol class="markdown-list"><li>Train a standard ML model (e.g., tree-based) on the original data.</li><li>Set <code class="inline-code">app_user = 1</code> for all users and predict CLV.</li><li>Set <code class="inline-code">app_user = 0</code> for all users and predict CLV again.</li><li>The difference between the two predictions gives the <strong>individual treatment effects (CATEs)</strong>.</li></ol>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (30 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">##################### Step 1: Prep Data and Fit a Model #######################
+X_train, X_test, y_train, y_test = prep_data_for_regression(df_customers, &quot;clv_365&quot;)
+model_3 = RandomForestRegressor(n_estimators=500, random_state=42)
+model_3.fit(X_train, y_train)
+y_pred = model_3.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+r2 = r2_score(y_test, y_pred)
+print(f&quot;Root Mean Squared Error: {rmse:.2f}&quot;)
+print(f&quot;R-squared: {r2:.2f}&quot;)
+##################### Step 2: Set app_user=1 for all users ####################
+X_all = pd.concat([X_train, X_test], axis=0)
+y_all = pd.concat([y_train, y_test], axis=0)
+model_3.fit(X_all, y_all)
+# X_all treated
+X_all[&quot;app_user&quot;] = 1  # Set all customers to treatment (app user)
+y_pred_treated = model_3.predict(X_all)
+##################### Step 3: Set app_user=0 for all users #####################
+# X_all control
+X_all[&quot;app_user&quot;] = 0  # Set all customers to control (non-app user)
+y_pred_control = model_3.predict(X_all)
+##################### Step 4: CATE calculation #######################
+df_customers_analysis = df_customers.copy()
+df_customers_analysis[&quot;clv_if_all_app_users&quot;] = y_pred_treated.round(2)
+df_customers_analysis[&quot;clv_if_all_non_app_users&quot;] = y_pred_control.round(2)
+df_customers_analysis[&quot;treatment_effect&quot;] = (
+    df_customers_analysis[&quot;clv_if_all_app_users&quot;]
+    - df_customers_analysis[&quot;clv_if_all_non_app_users&quot;]
+)
+df_customers_analysis.head()</code></pre>
+                        </div>
+                    </div>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">&gt;&gt;&gt;ouput
+Root Mean Squared Error: 2.22
+R-squared: 1.00</code></pre>
+                        </div>
+                    </div>
+
+<p>If we add the new prediction columns to our original dataset, it will look like this: we now have the estimated CLV for each individual under both scenarios—<strong>using the app</strong> or <strong>not using the app</strong>.</p>
+
+<p>The difference between these two values represents the <strong>heterogeneous effect of app usage on CLV</strong> for each user.</p>
+
+<table class="markdown-table"><tr><th><strong>customer_id</strong></th><th><strong>age</strong></th><th><strong>gender</strong></th><th><strong>urban_loc</strong></th><th><strong>app_user</strong></th><th><strong>clv_365</strong></th><th><strong>clv_if_all_app_users</strong></th><th><strong>clv_if_all_non_app_users</strong></th><th><strong>treatment_effect</strong></th></tr><tr><td>0</td><td>46</td><td>male</td><td>0</td><td>0</td><td>32.48</td><td>137.27</td><td>96.48</td><td>40.79</td></tr><tr><td>1</td><td>32</td><td>female</td><td>0</td><td>0</td><td>104.17</td><td>176.62</td><td>135.78</td><td>40.84</td></tr><tr><td>2</td><td>25</td><td>female</td><td>1</td><td>1</td><td>178.90</td><td>179.02</td><td>138.48</td><td>40.54</td></tr><tr><td>3</td><td>38</td><td>female</td><td>0</td><td>1</td><td>135.26</td><td>66.96</td><td>26.41</td><td>40.55</td></tr><tr><td>4</td><td>36</td><td>female</td><td>1</td><td>0</td><td>123.14</td><td>154.23</td><td>113.94</td><td>40.29</td></tr></table>
+
+<p>Let’s visualize the results.</p>
+
+<ul class="markdown-list"><li>In the <strong>left chart</strong>, you can see the distribution of treatment effects, centered around <strong>USD 40</strong>.</li><li>In the <strong>right chart</strong>, each customer’s actual CLV is shown alongside their hypothetical CLV if their app usage status were reversed: <strong>red dots</strong> indicate CLV if they were <em>not</em> app users, and <strong>green dots</strong> if they were app users.</li></ul>
+
+<figure class="blog-image">
+<img src="../../blog-posts/blog_images/blog_07_05.png"
+alt="Causal Model Results"
+loading="lazy"
+class="responsive-image">
+<figcaption class="image-caption">Causal Model Results</figcaption>
+</figure>
+
+<p>The average of all individual CATEs gives the <strong>Average Treatment Effect (ATE)</strong>—the expected uplift in CLV <strong>per app user</strong> on average. In our case, it is <strong><code class="inline-code">USD 40</code></strong></p>
+
+<h2>Conclusion</h2>
+
+<p>Using the <strong>S-learner</strong> approach (essentially a slightly adapted predictive ML model), we estimate the <strong>average treatment effect (ATE)</strong> of app usage on CLV to be <strong>USD 40</strong>.</p>
+
+<p>Compare this to:</p>
+
+<ul class="markdown-list"><li><strong>Linear regression coefficient:</strong> USD 19.6 (underestimates the effect)</li><li><strong>Raw group difference:</strong> USD 46.5 (overestimates the effect)</li></ul>
+
+<p>For reference, when we generated the data, the true effect was <strong>USD 40</strong>, confirming that the S-learner estimate is accurate.</p>
+
+<p>This example highlights the power of causal models: if you want to <strong>understand</strong> and <strong>influence</strong> outcomes—not just predict them—they’re essential.</p>
+
+<h3>Appendix</h3>
+
+<p>Function used to generate the synthetic data:</p>
+
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (34 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">def generate_customer_data(n):
+    np.random.seed(42)
+    customer_ids = np.arange(n)
+    age = np.random.randint(18, 51, size=n)
+    gender = np.random.choice([&quot;male&quot;, &quot;female&quot;, &quot;female&quot;], size=n)
+    urban_loc = np.random.choice([0, 1], size=n)
+    min_age, max_age = age.min(), age.max()
+    normalized_age = (age - min_age) / (max_age - min_age)
+    base_prob = 0.4
+    age_factor = 1.5 - normalized_age  # 1.5 for youngest, 0.5 for oldest
+    probabilities = base_prob * age_factor
+    probabilities = np.clip(probabilities, 0, 1)
+    app_user = np.random.binomial(1, probabilities, size=n)
+    base_clv = (
+        age_factor * 50 + (gender == &quot;female&quot;) * 50 + urban_loc * 25 + app_user * 40
+    )
+    cac = base_clv * 0.5 + np.random.normal(
+        0, base_clv.mean() * 0.01, size=n
+    )
+    noise = np.random.normal(0, base_clv.mean() * 0.02, size=n)  # 10% noise
+    clv_365 = base_clv + noise
+    # Create DataFrame
+    df = pd.DataFrame(
+        {
+            &quot;customer_id&quot;: customer_ids,
+            &quot;age&quot;: age,
+            &quot;gender&quot;: gender,
+            &quot;urban_loc&quot;: urban_loc,
+            &quot;app_user&quot;: app_user,
+            &quot;cac&quot;: np.round(cac, 2),
+            &quot;clv_365&quot;: np.round(clv_365, 2),
+        }
+    )
+    return df</code></pre>
+                        </div>
+                    </div>
+
+<blockquote><em><strong>God is the only true cause. All other causes are instruments through which His will is realized.</strong></em> <strong>Fakhr al-Din al-Razi</strong></blockquote>
+            </div>
+
+            <!-- Post footer -->
+            <footer class="blog-post-footer">
+                <div class="post-sharing">
+                    <h4>Share this article</h4>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text=Causal%20Models%20vs%20Predictive%20Models%3A%20Why%20It%20Matters&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fcausal-vs-predictive-model%2F" target="_blank" class="share-btn twitter">
+                            Share on X
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Fcausal-vs-predictive-model%2F" target="_blank" class="share-btn linkedin">
+                            Share on LinkedIn
+                        </a>
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="post-navigation">
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Scripts -->
+    <script src="../../js/config-public.js"></script>
+    <script src="../../js/main.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    
+    <!-- Blog post functionality - load after Prism -->
+    <script src="../../js/blog-post.js"></script>
+    
+    <!-- Simple page view counter -->
+    <script>
+        fetch('https://amanabdullayev.goatcounter.com/counter/blog/causal-vs-predictive-model/.json')
+            .then(response => response.json())
+            .then(data => {
+                const el = document.getElementById('page-views');
+                if (el && data.count) {
+                    el.textContent = data.count + ' views';
+                }
+            })
+            .catch(() => {
+                document.getElementById('page-views').style.display = 'none';
+            });
+    </script>
+</body>
+</html>

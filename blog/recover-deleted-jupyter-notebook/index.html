@@ -11,7 +11,7 @@
     <meta property="og:title" content="How to Recover a Deleted Jupyter Notebook - Aman Abdullayev">
     <meta property="og:description" content="This article shows how to recover unsaved or deleted Jupyter Notebook code cells using the IPython kernel history stored in an SQLite database. It walks you through locating the history.sqlite file, extracting code with SQL, and saving it into a new notebook using nbformat. Only Python, R, or Julia code cells can be recovered — not markdown.">
     <meta property="og:url" content="https://amanabdullayev.me/blog/recover-deleted-jupyter-notebook/">
-    <meta property="og:site_name" content="Aman Abdullayev - Portfolio">
+    <meta property="og:site_name" content="Aman Abdullayev">
     <meta property="og:image" content="https://amanabdullayev.me/blog-posts/blog_images/blog_01_cover.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -29,24 +29,10 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://amanabdullayev.me/blog/recover-deleted-jupyter-notebook/">
     
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="../../public/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../../public/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../../public/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../../public/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../../public/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../../public/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../../public/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../../public/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../../public/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../../public/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../public/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg">
     <link rel="manifest" href="../../public/manifest.json">
-    <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-TileImage" content="../../public/ms-icon-144x144.png">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#9b4f35">
+    <meta name="theme-color" content="#9b4f35">
     
     <!-- Core styles -->
     <link rel="stylesheet" href="../../styles/core.css">
@@ -94,19 +80,20 @@
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <header>
+    <header class="site-header">
         <div class="container">
             <nav>
-                <a href="../../" class="logo">
-                    <img src="../../images/logo.png" alt="Aman Abdullayev Logo" class="logo-image">
-                    Aman's Space
-                </a>
-                <div class="nav-buttons">
+                <a href="../../" class="logo">Aman Abdullayev</a>
+                <button id="nav-menu-toggle" class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                </button>
+                <div class="nav-buttons" id="primary-nav">
                     <a href="../../about" class="nav-btn">About</a>
-                    <a href="../../blog" class="nav-btn active">Blog</a>
-                    <a href="../../contact" class="nav-btn">Contact</a>
+                    <a href="../../blog" class="nav-btn active">Writing</a>
+                    <a href="../../projects" class="nav-btn">Projects</a>
+                    <a href="../../contact" class="nav-btn nav-contact">Contact</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </nav>
@@ -117,7 +104,7 @@
         <article class="blog-post">
             <!-- Back to blog link -->
             <div class="blog-post-nav">
-                <a href="../" class="back-to-blog">← Back to Blog</a>
+                <a href="../" class="back-to-blog">← Back to writing</a>
             </div>
             <!-- Cover image banner -->
             
@@ -135,7 +122,7 @@
                 <div class="blog-post-meta">
                     <time datetime="2024-09-27T22:00:00.000Z">Sep 28, 2024</time>
                     <div class="page-views" id="page-views">
-                        📊 Loading...
+                        Loading views...
                     </div>
                 </div>
                 <div class="post-author-pin">
@@ -149,15 +136,13 @@
 
             <!-- Post content -->
             <div class="blog-post-body">
-                <h1>Unsaved or Deleted Jupyter Notebooks</h1>
-
-<p>Your IDE might crash, or you might forget to save your changes, assuming they're already saved. You or someone else might accidentally delete your Jupyter Notebook—one you've spent hours working on.  For instance:</p>
+                <p>Your IDE might crash, or you might forget to save your changes, assuming they're already saved. You or someone else might accidentally delete your Jupyter Notebook—one you've spent hours working on.  For instance:</p>
 
 <ul class="markdown-list"><li>you've lost your Jupyter Notebook and don't have a backup</li><li>you can't find your deleted Jupyter Notebook in your recycle bin</li><li>you don't have .ipynb_checkpoints—which are saved snapshots of your Jupyter Notebook</li></ul>
 
 <p>This guide will help you recover your lost Jupyter Notebook, regardless of the reason for its disappearance. Whether you want to avoid rewriting it or need to back it up quickly, you're in the right place.</p>
 
-<h1>Recovering unsaved or deleted Jupyter Notebook using <strong>IPython kernel history</strong></h1>
+<h2>Recovering unsaved or deleted Jupyter Notebook using <strong>IPython kernel history</strong></h2>
 
 <p>Every executed code cell is stored in an SQLite database, which you can use to recover your Jupyter Notebook code cells! Unfortunately, only Python/R/Julia code cells are saved, not markdown cells.</p>
 
@@ -171,19 +156,32 @@
 
 <p>Once you're in the <code class="inline-code">.ipython/profile_default</code> directory, you should see the <code class="inline-code">history.sqlite</code> file. This is where all your executed Jupyter Notebook code cells are stored. You can explore this database using any database explorer or terminal commands to inspect its tables and content. However, the following intuitive Jupyter Notebook code will also help you do this:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">import sqlite3 as sql  # necessary to load/read your database
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">import sqlite3 as sql  # necessary to load/read your database
 import pandas as pd    # necessary to view/manipulate tables
 import nbformat as nbf # necessary to recover/nicely format back your recovered code cells</code></pre>
+                        </div>
+                    </div>
 
 <p>Once you've imported the required packages (if they're not installed, use <code class="inline-code">pip install nbformat</code> or so), all you need to do is provide the correct path to your <code class="inline-code">history.sqlite</code> file. Knowing when you last executed the lost Jupyter Notebook can help you more easily find the right code.</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">path_to_sqlite_database = &#39;~/.ipython/profile_default/history.sqlite&#39;
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (13 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">path_to_sqlite_database = &#39;~/.ipython/profile_default/history.sqlite&#39;
 start_date = &#39;2024-09-24 09:00:00&#39;
 end_date = &#39;2024-09-24 10:00:00&#39;
 
 <p>conn = sql.connect(path_to_sqlite_database )</p>
 
-<p>df = pd.read_sql_query(f&quot;&quot;&quot;<br>	select <br>		s.session, s.start, s.end, h.source<br>	from sessions as s<br>	join history  as h using (session)<br>	where s.start between {start_date} and {end_date}&quot;&quot;&quot;, conn)<br>df.head()</code></pre></p>
+<p>df = pd.read_sql_query(f&quot;&quot;&quot;<br>	select <br>		s.session, s.start, s.end, h.source<br>	from sessions as s<br>	join history  as h using (session)<br>	where s.start between {start_date} and {end_date}&quot;&quot;&quot;, conn)<br>df.head()</code></pre><br>                        </div><br>                    </div></p>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_01_img_01.png"
@@ -195,12 +193,19 @@ class="responsive-image">
 
 <p>Now, explore the dataframe and locate your code snippets in the "source" column. Once you find a snippet, note the corresponding session number from the "session" column—this reflects each time you start or restart the Jupyter Kernel. Remember this session number for the next step.</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">my_sessions = 6000
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                        </div>
+                        <div class="code-block-container" style="display: block;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">my_sessions = 6000
 df_session_content = pd.read_sql_query(f&quot;&quot;&quot;
 	select *    
 	from history 
 	where session = {my_session}&quot;&quot;&quot;, conn)
 df_session_content.head()</code></pre>
+                        </div>
+                    </div>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_01_img_02.png"
@@ -212,13 +217,19 @@ class="responsive-image">
 
 <p>After creating the above dataframe, filter it to include only distinct rows based on the "source" column. This ensures that running the code cell multiple times within the same session doesn't result in duplicate rows. Finally, use the <code class="inline-code">nbformat</code> package to write the required rows from the "source" column into a new Jupyter Notebook, as shown below:</p>
 
-<pre class="code-block language-python" data-language="python"><code class="language-python">df_session_content= df_session_content.drop_duplicates(subset=&#39;source&#39;)
+<div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-block-language">python</span>
+                            <button class="code-block-toggle" aria-expanded="false">Show code (15 lines)</button>
+                        </div>
+                        <div class="code-block-container collapsed" style="display: none;">
+                            <pre class="code-block language-python" data-language="python"><code class="language-python">df_session_content= df_session_content.drop_duplicates(subset=&#39;source&#39;)
 # Create a new Jupyter Notebook
 nb = nbf.v4.new_notebook()
 
 <p># Add each row in df[&#39;source&#39;] as a new cell<br>cells = []<br>for row in df_session_content[&#39;source&#39;]:<br>    cell = nbf.v4.new_code_cell(row)<br>    cells.append(cell)</p>
 
-<p>nb[&#39;cells&#39;] = cells<br># Save the notebook to a file<br>with open(&#39;new_notebook.ipynb&#39;, &#39;w&#39;) as f:<br>    nbf.write(nb, f)<br>print(&quot;Jupyter Notebook created successfully.&quot;)</code></pre></p>
+<p>nb[&#39;cells&#39;] = cells<br># Save the notebook to a file<br>with open(&#39;new_notebook.ipynb&#39;, &#39;w&#39;) as f:<br>    nbf.write(nb, f)<br>print(&quot;Jupyter Notebook created successfully.&quot;)</code></pre><br>                        </div><br>                    </div></p>
 
 <p>Voilà! You have recovered the code cells of your Jupyter Notebook. However, you'll need to manually input all markdown cells if you had them before.</p>
 
@@ -228,40 +239,39 @@ nb = nbf.v4.new_notebook()
             <!-- Post footer -->
             <footer class="blog-post-footer">
                 <div class="post-sharing">
-                    <h4>Share this post:</h4>
+                    <h4>Share this article</h4>
                     <div class="share-buttons">
                         <a href="https://twitter.com/intent/tweet?text=How%20to%20Recover%20a%20Deleted%20Jupyter%20Notebook&url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Frecover-deleted-jupyter-notebook%2F" target="_blank" class="share-btn twitter">
-                            🐦 Twitter
+                            Share on X
                         </a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Famanabdullayev.me%2Fblog%2Frecover-deleted-jupyter-notebook%2F" target="_blank" class="share-btn linkedin">
-                            💼 LinkedIn
+                            Share on LinkedIn
                         </a>
-                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✅ Copied!'; setTimeout(() => this.textContent='📋 Copy Link', 2000); return false;" class="share-btn copy">
-                            📋 Copy Link
+                        <a href="#" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='Link copied'; setTimeout(() => this.textContent='Copy link', 2000); return false;" class="share-btn copy">
+                            Copy link
                         </a>
                     </div>
                 </div>
                 
                 <div class="post-navigation">
-                    <a href="../" class="btn btn-secondary">← Back to All Posts</a>
+                    <a href="../" class="btn btn-secondary">Back to all writing</a>
                 </div>
             </footer>
         </article>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2024 Aman Abdullayev. All rights reserved.</p>
+                    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">Aman Abdullayev</span></p>
                 </div>
                 <div class="footer-links">
-                    <a href="../../">Home</a>
-                    <a href="../../about">About</a>
-                    <a href="../../blog">Blog</a>
-                    <a href="../../contact">Contact</a>
+                    <a href="../../blog">Writing</a>
+                    <a href="https://www.linkedin.com/in/amanmyrat-abdullayev" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/amanabdullayev" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <button id="footer-theme-toggle" class="theme-toggle footer-theme-toggle" aria-label="Toggle theme">
-                        <span class="theme-icon">☀️</span>
+                        <span class="theme-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -269,7 +279,6 @@ nb = nbf.v4.new_notebook()
     </footer>
 
     <!-- Configuration Scripts -->
-    <script src="../../js/env-config.js"></script>
     <script src="../../js/config-public.js"></script>
     <script src="../../js/main.js"></script>
     
@@ -293,7 +302,7 @@ nb = nbf.v4.new_notebook()
             .then(data => {
                 const el = document.getElementById('page-views');
                 if (el && data.count) {
-                    el.textContent = '📊 ' + data.count + ' views';
+                    el.textContent = data.count + ' views';
                 }
             })
             .catch(() => {
