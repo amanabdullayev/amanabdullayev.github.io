@@ -40,10 +40,10 @@ const CONFIG = {
     projects: [
         {
             title: "Halypa",
-            description: "A personal AI tutor for self-directed learners. You answer a short intake interview, get a tailored syllabus, then learn through Socratic sessions with mastery tracking, spaced review (FSRS), and a capstone project once you've covered enough ground. Provider-agnostic — bring your own API key for Anthropic, OpenAI, Google, or any OpenAI-compatible endpoint.",
+            description: "A personal AI tutor for self-directed learners. You answer a short intake interview, get a tailored syllabus, then learn through Socratic sessions with mastery tracking, spaced review (FSRS), and a capstone project once you've covered enough ground.",
             tags: ["TypeScript", "Next.js", "Supabase", "AI", "Education"],
             url: "https://halypa.vercel.app/",
-            status: "Active · 2025",
+            status: "Active · 2026",
             coverImage: null
         }
     ],
