@@ -246,7 +246,7 @@ const CONFIG = {
         {
             title: "Silver Medal 🥈",
             organization: "International Chemistry Olympiad (IChO)",
-            year: "2009",
+            year: "2009, Cambridge, UK",
             description: "The International Chemistry Olympiad (IChO) is a prestigious annual competition for top high school chemists from over 80 countries, featuring challenging theoretical and experimental exams to promote global scientific excellence and collaboration."
         }
         // Add more honors as needed
