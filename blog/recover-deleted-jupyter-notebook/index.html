@@ -49,8 +49,8 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\(', '\)']],
-                displayMath: [['$$', '$$'], ['\[', '\]']],
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true,
                 processEnvironments: true,
                 tags: 'ams'
@@ -179,9 +179,17 @@ import nbformat as nbf # necessary to recover/nicely format back your recovered 
 start_date = &#39;2024-09-24 09:00:00&#39;
 end_date = &#39;2024-09-24 10:00:00&#39;
 
-<p>conn = sql.connect(path_to_sqlite_database )</p>
+conn = sql.connect(path_to_sqlite_database )
 
-<p>df = pd.read_sql_query(f&quot;&quot;&quot;<br>	select <br>		s.session, s.start, s.end, h.source<br>	from sessions as s<br>	join history  as h using (session)<br>	where s.start between {start_date} and {end_date}&quot;&quot;&quot;, conn)<br>df.head()</code></pre><br>                        </div><br>                    </div></p>
+df = pd.read_sql_query(f&quot;&quot;&quot;
+	select 
+		s.session, s.start, s.end, h.source
+	from sessions as s
+	join history  as h using (session)
+	where s.start between {start_date} and {end_date}&quot;&quot;&quot;, conn)
+df.head()</code></pre>
+                        </div>
+                    </div>
 
 <figure class="blog-image">
 <img src="../../blog-posts/blog_images/blog_01_img_01.png"
@@ -227,9 +235,19 @@ class="responsive-image">
 # Create a new Jupyter Notebook
 nb = nbf.v4.new_notebook()
 
-<p># Add each row in df[&#39;source&#39;] as a new cell<br>cells = []<br>for row in df_session_content[&#39;source&#39;]:<br>    cell = nbf.v4.new_code_cell(row)<br>    cells.append(cell)</p>
+# Add each row in df[&#39;source&#39;] as a new cell
+cells = []
+for row in df_session_content[&#39;source&#39;]:
+    cell = nbf.v4.new_code_cell(row)
+    cells.append(cell)
 
-<p>nb[&#39;cells&#39;] = cells<br># Save the notebook to a file<br>with open(&#39;new_notebook.ipynb&#39;, &#39;w&#39;) as f:<br>    nbf.write(nb, f)<br>print(&quot;Jupyter Notebook created successfully.&quot;)</code></pre><br>                        </div><br>                    </div></p>
+nb[&#39;cells&#39;] = cells
+# Save the notebook to a file
+with open(&#39;new_notebook.ipynb&#39;, &#39;w&#39;) as f:
+    nbf.write(nb, f)
+print(&quot;Jupyter Notebook created successfully.&quot;)</code></pre>
+                        </div>
+                    </div>
 
 <p>Voilà! You have recovered the code cells of your Jupyter Notebook. However, you'll need to manually input all markdown cells if you had them before.</p>
 

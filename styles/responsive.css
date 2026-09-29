@@ -11,11 +11,6 @@
         border-radius: 48% 48% 18px 18px;
     }
 
-    .hero-portrait::before {
-        inset: 4% -6% -6% 6%;
-        border-radius: 48% 52% 45% 55%;
-    }
-
     .hero-copy {
         text-align: center;
     }
@@ -42,6 +37,14 @@
     .publications-grid,
     .projects-grid {
         grid-template-columns: 1fr;
+    }
+
+    .project-card:only-child {
+        grid-template-columns: 1fr;
+    }
+
+    .project-preview {
+        min-height: 260px;
     }
 
     .techstack-grid {

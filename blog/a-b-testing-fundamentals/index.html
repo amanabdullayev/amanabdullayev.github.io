@@ -49,8 +49,8 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\(', '\)']],
-                displayMath: [['$$', '$$'], ['\[', '\]']],
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true,
                 processEnvironments: true,
                 tags: 'ams'
@@ -299,7 +299,7 @@ df_samples_mean.head()</code></pre>
 
 <p>We can also calculate a <strong>95% confidence interval (CI)</strong> for the sample means, which represents the range where we expect <strong>95% of sample means to lie</strong>:</p>
 
-<p>$$<br>\text{CI}_{95\%} = \bar{x} \pm 1.96 \cdot \frac{s}{\sqrt{n}}<br>$$</p>
+<div class="math-display">$$\text{CI}_{95\%} = \bar{x} \pm 1.96 \cdot \frac{s}{\sqrt{n}}$$</div>
 
 <p>This interval gives us a sense of <strong>uncertainty</strong> around the estimated population mean.</p>
 
@@ -386,11 +386,11 @@ class="responsive-image">
 
 <p>We now introduce a new term: the <strong>standard error (SE)</strong> — a measure of the statistical accuracy of an estimate. It is calculated by dividing the standard deviation of the single sample by the square root of its size:</p>
 
-<p>$$<br>SE = \frac{s}{\sqrt{n}}<br>$$</p>
+<div class="math-display">$$SE = \frac{s}{\sqrt{n}}$$</div>
 
 <p>Using the standard error, we can compute the <strong>95% confidence interval</strong> for the estimated mean:</p>
 
-<p>$$<br>\text{CI}_{95\%} = \bar{x} \pm 1.96 \cdot SE<br>$$</p>
+<div class="math-display">$$\text{CI}_{95\%} = \bar{x} \pm 1.96 \cdot SE$$</div>
 
 <blockquote>Note: The factor 1.96 comes from the 68-95-99.7 rule of the standard normal distribution, where approximately 95% of data points lie within 1.96 standard deviations from the mean.</blockquote>
 
@@ -769,15 +769,15 @@ class="responsive-image">
 
 <ul class="markdown-list"><li>Difference in means:</li></ul>
 
-<p>$$<br>\Delta = \bar{x}_1 - \bar{x}_2<br>$$</p>
+<div class="math-display">$$\Delta = \bar{x}_1 - \bar{x}_2$$</div>
 
 <ul class="markdown-list"><li>Standard error of the difference:</li></ul>
 
-<p>$$<br>SE_\Delta = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}<br>$$</p>
+<div class="math-display">$$SE_\Delta = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$</div>
 
 <ul class="markdown-list"><li>Test statistic:</li></ul>
 
-<p>$$<br>\text{t-statistic} = \frac{\Delta}{SE_\Delta}<br>$$</p>
+<div class="math-display">$$\text{t-statistic} = \frac{\Delta}{SE_\Delta}$$</div>
 
 <ol class="markdown-list"><li><strong>Decision</strong></li></ol>
 
@@ -1037,11 +1037,11 @@ class="responsive-image">
 
 <ul class="markdown-list"><li><strong>Pooled proportion:</strong></li></ul>
 
-<p>$$<br>p = \frac{x_1 + x_2}{n_1 + n_2}<br>$$</p>
+<div class="math-display">$$p = \frac{x_1 + x_2}{n_1 + n_2}$$</div>
 
 <ul class="markdown-list"><li><strong>Test statistic:</strong></li></ul>
 
-<p>$$<br>z = \frac{p_1 - p_2}{\sqrt{p(1-p)\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}<br>$$</p>
+<div class="math-display">$$z = \frac{p_1 - p_2}{\sqrt{p(1-p)\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}$$</div>
 
 <div class="code-block-wrapper">
                         <div class="code-block-header">

@@ -159,6 +159,140 @@
     opacity: 1;
 }
 
+.project-card:only-child {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.project-preview {
+    position: relative;
+    min-height: 350px;
+    overflow: hidden;
+    color: #203c32;
+    background: #f6f7f2;
+    border-right: 1px solid var(--border-color);
+}
+
+.project-preview-fallback {
+    height: 100%;
+    padding: 1.5rem;
+}
+
+.project-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.project-preview-mark {
+    display: grid;
+    width: 1.7rem;
+    height: 1.7rem;
+    place-items: center;
+    color: #e2c461;
+    background: #203c32;
+    border-radius: 0.4rem;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+}
+
+.project-preview-brand {
+    font-family: Georgia, serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+}
+
+.project-preview-signin {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.project-preview-eyebrow {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid #c8d8d0;
+    border-radius: 999px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.project-preview-headline {
+    max-width: 18ch;
+    margin: 0.8rem 0;
+    font-family: Georgia, serif;
+    font-size: clamp(1.5rem, 2.7vw, 2.25rem);
+    line-height: 1.1;
+}
+
+.project-preview-description {
+    max-width: 38ch;
+    color: #5a6c64;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.project-preview-button {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.65rem 1rem;
+    color: #fff;
+    background: #203c32;
+    border-radius: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.project-preview-session {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 1.4rem;
+    padding: 1rem;
+    color: #f7f8f3;
+    background: #203c32;
+    border-radius: 0.8rem;
+}
+
+.project-preview-session span {
+    color: #e2c461;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.project-preview-session strong {
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.project-preview iframe {
+    position: absolute;
+    inset: 0;
+    width: 200%;
+    height: 200%;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.5);
+    transform-origin: top left;
+}
+
+.project-preview.is-live iframe {
+    opacity: 1;
+}
+
+.project-preview-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
 .project-card .post-content {
     min-height: 100%;
 }

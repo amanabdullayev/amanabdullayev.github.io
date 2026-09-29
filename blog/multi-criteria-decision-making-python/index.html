@@ -49,8 +49,8 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\(', '\)']],
-                displayMath: [['$$', '$$'], ['\[', '\]']],
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true,
                 processEnvironments: true,
                 tags: 'ams'
@@ -287,7 +287,7 @@ dm</code></pre>
 
 <p>Now that our decision matrix is ready, we can use our preferred algorithm to rank the alternatives. For simplicity, let’s start with the <strong>Weighted Sum Model</strong> (WSM).</p>
 
-<p>---</p>
+<hr>
 
 <h3>Quick Intro to Weighted Sum Model</h3>
 
@@ -297,7 +297,7 @@ dm</code></pre>
 
 <p>Overall, the Weighted Sum Model is popular due to its ease of use and straightforward implementation, making it a good starting point for multi-criteria decision-making.</p>
 
-<p>---</p>
+<hr>
 
 <div class="code-block-wrapper">
                         <div class="code-block-header">
@@ -360,7 +360,12 @@ df_ws_ranks = ws_pipe.evaluate(dm).to_series().to_frame(&quot;Weigthet Sum Rank&
 df_wp_ranks = wp_pipe.evaluate(dm).to_series().to_frame(&quot;Weighted Product Rank&quot;)
 df_tp_ranks = tp_pipe.evaluate(dm).to_series().to_frame(&quot;TOPSIS Rank&quot;)
 
-<p>df_final = pd.concat([df_ws_ranks, df_wp_ranks, df_tp_ranks], axis=1)<br>df_final = df_final.merge(df_phones, left_index=True, right_index=True)<br>df_final = df_final.sort_values(&quot;Weigthet Sum Rank&quot;)<br>df_final</code></pre><br>                        </div><br>                    </div></p>
+df_final = pd.concat([df_ws_ranks, df_wp_ranks, df_tp_ranks], axis=1)
+df_final = df_final.merge(df_phones, left_index=True, right_index=True)
+df_final = df_final.sort_values(&quot;Weigthet Sum Rank&quot;)
+df_final</code></pre>
+                        </div>
+                    </div>
 
 <table class="markdown-table"><tr><th></th><th><strong>Weigthet Sum Rank</strong></th><th><strong>Weighted Product Rank</strong></th><th><strong>TOPSIS Rank</strong></th><th><strong>Price (EUR)</strong></th><th><strong>Weight (Gram)</strong></th><th><strong>Battery Life (Hour)</strong></th><th><strong>Storage (GB)</strong></th><th><strong>RAM (GB)</strong></th></tr><tr><td><strong>Phone</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Xiaomi 14</td><td>1</td><td>1</td><td>1</td><td>700</td><td>193</td><td>12.0</td><td>512</td><td>12</td></tr><tr><td>Samsung Galaxy S24</td><td>2</td><td>2</td><td>2</td><td>611</td><td>168</td><td>12.0</td><td>128</td><td>8</td></tr><tr><td>Apple iPhone 15</td><td>3</td><td>3</td><td>3</td><td>700</td><td>171</td><td>13.5</td><td>128</td><td>6</td></tr><tr><td>Google Pixel 9</td><td>4</td><td>4</td><td>4</td><td>830</td><td>198</td><td>13.0</td><td>128</td><td>12</td></tr></table>
 

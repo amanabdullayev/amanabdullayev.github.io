@@ -17,23 +17,27 @@ class NodeMarkdownProcessor {
                 lang: (lang || '').toLowerCase().trim(),
                 code: code.replace(/^\n+|\n+$/g, '')
             });
-            return `\n__CODE_BLOCK_${codeBlockIndex++}__\n`;
+            return `\n\n__CODE_BLOCK_${codeBlockIndex++}__\n\n`;
         });
 
         // Protect LaTeX equations
         const mathEquations = [];
         let mathIndex = 0;
         
-        // Protect display math ($$...$$) first - these are block equations
-        // Only match $$...$$ with no whitespace after opening $$ or before closing $$
-        content = content.replace(/\$\$([^\s][\s\S]*?[^\s])\$\$/g, (match, equation) => {
-            mathEquations.push(match);
-            return `\n<!--MATHJAX_DISPLAY_${mathIndex++}-->\n`;
+        // Keep display equations out of table and paragraph processing.
+        content = content.replace(/\$\$([\s\S]*?)\$\$/g, (match, equation) => {
+            mathEquations.push(`$$${equation.trim()}$$`);
+            return `\n\n<!--MATHJAX_DISPLAY_${mathIndex++}-->\n\n`;
         });
-        
-        // Protect inline math ($...$) with exact pattern matching
-        // Only match $...$ with no whitespace after opening $ or before closing $
-        content = content.replace(/\$([^\s$][^\$]*?[^\s$])\$/g, (match, equation) => {
+
+        // Some older posts use a single dollar sign on each line for display math.
+        content = content.replace(/^\$[ \t]*\n([\s\S]*?)\n\$[ \t]*$/gm, (match, equation) => {
+            mathEquations.push(`$$${equation.trim()}$$`);
+            return `\n\n<!--MATHJAX_DISPLAY_${mathIndex++}-->\n\n`;
+        });
+
+        content = content.replace(/\$([^\n$]+?)\$/g, (match, equation) => {
+            if (equation.trim() !== equation) return match;
             // Skip if it's a currency symbol like $50 or 50$ with a number only
             if (/^\d+(\.\d+)?$/.test(equation)) {
                 return match;
@@ -66,6 +70,7 @@ class NodeMarkdownProcessor {
             .replace(/^### (.*$)/gim, '<h3>$1</h3>')
             .replace(/^## (.*$)/gim, '<h2>$1</h2>')
             .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+            .replace(/^---+$/gm, '<hr>')
             
             // Bold and Italic
             .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
@@ -94,7 +99,10 @@ class NodeMarkdownProcessor {
         // Process blockquotes
         html = this.processBlockquotes(html);
         
-        // Restore code blocks BEFORE processing paragraphs
+        // Process paragraphs while code is still represented by placeholders.
+        html = this.processParagraphs(html);
+
+        // Restore code blocks after paragraph processing so code stays verbatim.
         codeBlocks.forEach((block, index) => {
             const langClass = block.lang ? ` class="language-${block.lang}"` : '';
             const langAttribute = block.lang ? ` data-language="${block.lang}"` : '';
@@ -104,7 +112,7 @@ class NodeMarkdownProcessor {
             
             // Only add toggle functionality for code blocks that are more than 10 lines
             if (codeLength > 10) {
-                html = html.replace(`__CODE_BLOCK_${index}__`, 
+                html = html.replace(`__CODE_BLOCK_${index}__`, () =>
                     `<div class="code-block-wrapper">
                         <div class="code-block-header">
                             <span class="code-block-language">${displayLang}</span>
@@ -115,7 +123,7 @@ class NodeMarkdownProcessor {
                         </div>
                     </div>`);
             } else {
-                html = html.replace(`__CODE_BLOCK_${index}__`, 
+                html = html.replace(`__CODE_BLOCK_${index}__`, () =>
                     `<div class="code-block-wrapper">
                         <div class="code-block-header">
                             <span class="code-block-language">${displayLang}</span>
@@ -127,12 +135,9 @@ class NodeMarkdownProcessor {
             }
         });
         
-        // Process paragraphs (after code blocks are restored)
-        html = this.processParagraphs(html);
-        
         // Restore inline code
         inlineCodes.forEach((code, index) => {
-            html = html.replace(`__INLINE_CODE_${index}__`, `<code class="inline-code">${this.escapeHtml(code)}</code>`);
+            html = html.replace(`__INLINE_CODE_${index}__`, () => `<code class="inline-code">${this.escapeHtml(code)}</code>`);
         });
 
         // Restore math equations (preserve as-is for MathJax) - do this LAST
@@ -141,7 +146,7 @@ class NodeMarkdownProcessor {
             if (html.indexOf(`<!--MATHJAX_DISPLAY_${index}-->`) !== -1) {
                 html = html.replace(
                     `<!--MATHJAX_DISPLAY_${index}-->`, 
-                    `<div class="math-display">${equation}</div>`
+                    () => `<div class="math-display">${equation}</div>`
                 );
             }
             
@@ -149,7 +154,7 @@ class NodeMarkdownProcessor {
             if (html.indexOf(`<!--MATHJAX_INLINE_${index}-->`) !== -1) {
                 html = html.replace(
                     `<!--MATHJAX_INLINE_${index}-->`, 
-                    `<span class="math-inline">${equation}</span>`
+                    () => `<span class="math-inline">${equation}</span>`
                 );
             }
         });
@@ -196,7 +201,7 @@ class NodeMarkdownProcessor {
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
             
-            if (line.includes('|') && line.split('|').length > 2) {
+            if (/^\|.*\|$/.test(line) && line.split('|').length > 2) {
                 if (!inTable) {
                     inTable = true;
                     tableRows = [];
@@ -338,7 +343,7 @@ class NodeMarkdownProcessor {
                 if (!block) return '';
                 
                 // Don't wrap headers, tables, lists, blockquotes, images, code blocks, or placeholders in paragraphs
-                if (block.match(/^<(h[1-6]|table|[uo]l|blockquote|figure|pre|div)/)) {
+                if (block.match(/^<(h[1-6]|hr|table|[uo]l|blockquote|figure|pre|div)/)) {
                     return block;
                 }
                 
@@ -518,8 +523,8 @@ function createBlogPostTemplate(post, renderedContent) {
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
+                displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
                 processEscapes: true,
                 processEnvironments: true,
                 tags: 'ams'

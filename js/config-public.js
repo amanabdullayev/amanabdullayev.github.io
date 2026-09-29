@@ -36,9 +36,16 @@ const CONFIG = {
             title: "Halypa",
             description: "A personal AI tutor for self-directed learners. You answer a short intake interview, get a tailored syllabus, then learn through Socratic sessions with mastery tracking, spaced review (FSRS), and a capstone project once you've covered enough ground.",
             tags: ["TypeScript", "Next.js", "Supabase", "AI", "Education"],
-            url: "https://halypa.vercel.app/",
+            url: "https://halypa.app/",
             status: "Active · 2026",
             coverImage: null,
+            previewUrl: "https://halypa.app/",
+            preview: {
+                eyebrow: "Personal AI Tutor",
+                headline: "Learn anything, deeply, at your own pace.",
+                description: "A syllabus built around what you know, taught through Socratic conversation.",
+                session: "The logic of probability"
+            },
             audience: "Self-directed learners",
             role: "Product concept, learning design, and implementation"
         }

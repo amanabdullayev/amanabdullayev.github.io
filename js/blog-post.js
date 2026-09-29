@@ -31,8 +31,6 @@ class BlogPostPage {
                         block.style.transform = 'translateZ(0)';
                     });
                     
-                    // Initialize code block toggles after syntax highlighting with longer delay for stability
-                    setTimeout(() => this.initializeCodeBlockToggles(), 200);
                 } catch (error) {
                     console.warn('Prism highlighting failed:', error);
                     this.applyFallbackCodeStyling();
@@ -113,6 +111,9 @@ class BlogPostPage {
         console.log(`Found ${toggleButtons.length} toggle buttons`);
         
         toggleButtons.forEach(button => {
+            if (button.dataset.toggleInitialized === 'true') return;
+            button.dataset.toggleInitialized = 'true';
+
             // Add click event listener
             button.addEventListener('click', () => {
                 // Get the parent wrapper

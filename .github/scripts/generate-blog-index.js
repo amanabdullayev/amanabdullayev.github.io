@@ -7,7 +7,8 @@ async function generateBlogIndex() {
     console.log('Generating blog posts index from markdown files...');
     
     const blogPostsDir = path.join(__dirname, '../../blog-posts');
-    const files = fs.readdirSync(blogPostsDir).filter(file => file.endsWith('.md'));
+    const files = fs.readdirSync(blogPostsDir)
+      .filter(file => file.endsWith('.md') && file !== '00_blog_template.md');
     
     const blogPosts = [];
     

@@ -49,8 +49,8 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\(', '\)']],
-                displayMath: [['$$', '$$'], ['\[', '\]']],
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true,
                 processEnvironments: true,
                 tags: 'ams'
@@ -144,7 +144,7 @@
 
 <p>The formula for Bayesian statistics is:</p>
 
-<p>$$<br><table class="markdown-table"><tr><th>E) = \frac{P(E</th></tr></table><br>$$</p>
+<div class="math-display">$$P(H|E) = \frac{P(E|H) \cdot P(H)}{P(E)}$$</div>
 
 <p>Where:</p>
 
@@ -182,9 +182,17 @@
                         <div class="code-block-container collapsed" style="display: none;">
                             <pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
 
-<p>number_of_visitors = 100<br>website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)</p>
+number_of_visitors = 100
+website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)
 
-<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre><br>                        </div><br>                    </div></p>
+&gt;&gt;&gt;&gt; output:
+array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre>
+                        </div>
+                    </div>
 
 <p>In the above code, I intentionally hide the probability argument of Bernoulli's random variable generation with the <code class="inline-code">real_conversion_rate</code> variable, since we are going to estimate it. (read until the end if you want to see the value 🙃)</p>
 
@@ -200,11 +208,19 @@
 # Count the unique values in the numpy array
 unique, counts = np.unique(website_visitors, return_counts=True)
 
-<p># Print the unique values and their counts<br>for u, c in zip(unique, counts):<br>    print(f&quot;{u}: {c}&quot;)<br>  <br>&gt;&gt;&gt;&gt;output:<br>0: 86<br>1: 14</code></pre><br>                        </div><br>                    </div></p>
+# Print the unique values and their counts
+for u, c in zip(unique, counts):
+    print(f&quot;{u}: {c}&quot;)
+  
+&gt;&gt;&gt;&gt;output:
+0: 86
+1: 14</code></pre>
+                        </div>
+                    </div>
 
 <p>In this case, 14 people out of 100 made a purchase. If you apply the Frequentist approach, your conversion rate would be:</p>
 
-<p>$$<br>Conversion\:rate = \frac{Made\: Purchase}{All\:visitors} = \frac{14}{100}=0.14 \: or \:14\%<br>$$</p>
+<div class="math-display">$$Conversion\:rate = \frac{Made\: Purchase}{All\:visitors} = \frac{14}{100}=0.14 \: or \:14\%$$</div>
 
 <p>Remember that with the Bayesian approach, we start with a prior belief (an initial assumption about the conversion rate). Then, we use the data (evidence) to update our belief about the conversion rate (posterior).</p>
 
@@ -272,7 +288,11 @@ posterior_q5, posterior_q95 = posterior.interval(0.9)
 print(f&quot;Posterior mean: {posterior_mean}&quot;)
 print(f&quot;Posterior 90% credible interval: ({posterior_q5:.3f}, {posterior_q95:.3f})&quot;)
 
-<p>&gt;&gt;&gt;&gt;output:<br>Posterior mean: 0.147<br>Posterior 90% credible interval: (0.094, 0.208)</code></pre><br>                        </div><br>                    </div></p>
+&gt;&gt;&gt;&gt;output:
+Posterior mean: 0.147
+Posterior 90% credible interval: (0.094, 0.208)</code></pre>
+                        </div>
+                    </div>
 
 <p>In the Bayesian approach, we consider an entire distribution for our conversion rate, unlike the Frequentist approach, where we only have a single point (14%). This allows us to make a more probabilistic decision by considering, for example, a 90% interval where the real conversion rate might be.</p>
 
@@ -288,11 +308,19 @@ print(f&quot;Posterior 90% credible interval: ({posterior_q5:.3f}, {posterior_q9
                         <div class="code-block-container collapsed" style="display: none;">
                             <pre class="code-block language-python" data-language="python"><code class="language-python">from scipy import stats
 
-<p>**real_conversion_rate = 0.1**</p>
+**real_conversion_rate = 0.1**
 
-<p>number_of_visitors = 100<br>website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)</p>
+number_of_visitors = 100
+website_visitors = stats.bernoulli.rvs(p=real_conversion_rate, size=number_of_visitors)
 
-<p>&gt;&gt;&gt;&gt; output:<br>array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,<br>       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,<br>       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,<br>       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre><br>                        </div><br>                    </div></p>
+&gt;&gt;&gt;&gt; output:
+array([0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0])</code></pre>
+                        </div>
+                    </div>
 
 <h2>Conclusion</h2>
 
