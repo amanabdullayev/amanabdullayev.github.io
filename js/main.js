@@ -204,13 +204,23 @@ class Portfolio {
     // Initialize theme with a simple, direct approach
     initSimpleTheme() {
         const savedTheme = localStorage.getItem('theme');
-        const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        const theme = savedTheme || preferredTheme;
+        const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const preferredTheme = colorScheme.matches ? 'dark' : 'light';
+        const theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : preferredTheme;
         
         document.documentElement.setAttribute('data-theme', theme);
         this.updateThemeIcons(theme);
         this.updateManifestThemeColor(theme);
         this.setupSimpleThemeListeners();
+
+        colorScheme.addEventListener('change', (event) => {
+            if (localStorage.getItem('theme') === 'dark' || localStorage.getItem('theme') === 'light') return;
+
+            const preferredTheme = event.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', preferredTheme);
+            this.updateThemeIcons(preferredTheme);
+            this.updateManifestThemeColor(preferredTheme);
+        });
     }
     
     setupSimpleThemeListeners() {

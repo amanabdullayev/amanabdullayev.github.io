@@ -47,6 +47,30 @@
     --bg-code: #1e1e1e;
 }
 
+/* Match the browser preference before JavaScript sets the initial theme. */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        color-scheme: dark;
+        --bg-primary: #1e1c19;
+        --bg-secondary: #282521;
+        --bg-subtle: #34302b;
+        --text-primary: #f6f0e8;
+        --text-secondary: #d0c8bd;
+        --text-muted: #a69d91;
+        --accent-primary: #df9676;
+        --accent-hover: #efad90;
+        --accent-secondary: #efad90;
+        --accent-soft: #4a3026;
+        --accent-primary-rgb: 223, 150, 118;
+        --border-color: #49433c;
+        --border-light: #3a3530;
+        --shadow-color: rgba(0, 0, 0, 0.18);
+        --shadow-hover: rgba(0, 0, 0, 0.28);
+        --focus-ring: rgba(223, 150, 118, 0.35);
+        --bg-code: #1e1e1e;
+    }
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
