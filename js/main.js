@@ -203,23 +203,22 @@ class Portfolio {
 
     // Initialize theme with a simple, direct approach
     initSimpleTheme() {
-        const savedTheme = localStorage.getItem('theme');
+        // Discard preferences saved by earlier versions of the site.
+        try {
+            localStorage.removeItem('theme');
+        } catch (error) {
+            // The theme still works when browser storage is unavailable.
+        }
+
+        this.manualThemeSelected = false;
         const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        const preferredTheme = colorScheme.matches ? 'dark' : 'light';
-        const theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : preferredTheme;
-        
-        document.documentElement.setAttribute('data-theme', theme);
-        this.updateThemeIcons(theme);
-        this.updateManifestThemeColor(theme);
+        this.applyTheme(colorScheme.matches ? 'dark' : 'light');
         this.setupSimpleThemeListeners();
 
         colorScheme.addEventListener('change', (event) => {
-            if (localStorage.getItem('theme') === 'dark' || localStorage.getItem('theme') === 'light') return;
-
-            const preferredTheme = event.matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', preferredTheme);
-            this.updateThemeIcons(preferredTheme);
-            this.updateManifestThemeColor(preferredTheme);
+            if (!this.manualThemeSelected) {
+                this.applyTheme(event.matches ? 'dark' : 'light');
+            }
         });
     }
     
@@ -237,16 +236,15 @@ class Portfolio {
     simpleToggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        // Update DOM and localStorage
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        
-        // Update button icons
-        this.updateThemeIcons(newTheme);
-        
-        // Update manifest theme color
-        this.updateManifestThemeColor(newTheme);
+
+        this.manualThemeSelected = true;
+        this.applyTheme(newTheme);
+    }
+
+    applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        this.updateThemeIcons(theme);
+        this.updateManifestThemeColor(theme);
     }
     
     updateThemeIcons(theme) {
@@ -272,17 +270,8 @@ class Portfolio {
 
     // Set theme and update UI (kept for backward compatibility)
     setTheme(theme) {
-        // Set theme attribute on document
-        document.documentElement.setAttribute('data-theme', theme);
-        
-        // Save to localStorage
-        localStorage.setItem('theme', theme);
-        
-        // Update theme toggle buttons
-        this.updateThemeIcons(theme);
-        
-        // Update manifest theme color
-        this.updateManifestThemeColor(theme);
+        this.manualThemeSelected = true;
+        this.applyTheme(theme);
     }
 
     // Update theme toggle button icons (kept for backward compatibility)
